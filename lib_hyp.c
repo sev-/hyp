@@ -1,10 +1,13 @@
 /*
- * $Id: lib_hyp.c,v 1.7 1995/06/13 14:18:40 sev Exp $
+ * $Id: lib_hyp.c,v 1.8 1995/06/21 08:55:22 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: lib_hyp.c,v $
- * Revision 1.7  1995/06/13 14:18:40  sev
+ * Revision 1.8  1995/06/21 08:55:22  sev
+ * added PROGRESS definition
+ *
+ * Revision 1.7  1995/06/13  14:18:40  sev
  * All windows type changed to WPTR
  *
  * Revision 1.6  1995/03/30  13:52:39  sev
@@ -26,7 +29,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: lib_hyp.c,v 1.7 1995/06/13 14:18:40 sev Exp $";
+static char rcsid[] = "$Id: lib_hyp.c,v 1.8 1995/06/21 08:55:22 sev Exp $";
 
 /*
  * Файл lib_hyp.c Запорожье 1992.
@@ -37,7 +40,10 @@ static char rcsid[] = "$Id: lib_hyp.c,v 1.7 1995/06/13 14:18:40 sev Exp $";
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+#if PROGRESS
 #include <signal.h>
+#endif
 
 /*----------------------------------------------------------------------*/
 /* функция возвращает offset в файле начала сегмента                    */
@@ -222,15 +228,20 @@ int help_msg()			  /* функция вызывается по F1 */
 char template[] = "/tmp/hypXXXXXX";
 int temporaryfile;
 
+#if PROGRESS
 long loadfilesize;
 void printprogress (), nullfunc ();
+#endif
 
 FILE *datfopen(fname, mode)
 char *fname, *mode;
 {
   FILE *in;
+
+#if PROGRESS  
   long fsize[4];
   extern long bytes_out;
+#endif
 
   if(template[10] == 'X')
     mktemp(&template);
@@ -239,6 +250,7 @@ char *fname, *mode;
     return (FILE *)NULL;
   if(fgetc(in) == 0x1f && fgetc(in) == 0x8b)	/* if gzipped */
   {
+#if PROGRESS
     fseek (in, -4, SEEK_END);
     fsize[0] = getc (in);
     fsize[1] = getc (in);
@@ -246,15 +258,20 @@ char *fname, *mode;
     fsize[3] = getc (in);
     loadfilesize = fsize[0] | (fsize[1] << 8) | (fsize[2] << 16) |
 			(fsize[3] << 24);
+#endif
     fclose(in);
+#if PROGRESS
     bytes_out = 0;
     printprogress ();
+#endif
     gunzip(fname, template);
+#if PROGRESS
     woff ();
     atsay(22, 0, "    ");
     at (0, 0);
     won ();
     signal(SIGALRM, *nullfunc);
+#endif
     temporaryfile = 1;
     return(fopen(template, mode));
   }
@@ -273,6 +290,7 @@ FILE *file;
     remove(template);
 }
 
+#if PROGRESS
 void printprogress()
 {
   extern long bytes_out;
@@ -293,3 +311,4 @@ void printprogress()
 }
 
 void nullfunc () {}
+#endif

@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.h,v 1.6 1995/06/13 14:18:40 sev Exp $
+ * $Id: hyp.h,v 1.7 1995/06/21 08:55:22 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.h,v $
- * Revision 1.6  1995/06/13 14:18:40  sev
+ * Revision 1.7  1995/06/21 08:55:22  sev
+ * added PROGRESS definition
+ *
+ * Revision 1.6  1995/06/13  14:18:40  sev
  * All windows type changed to WPTR
  *
  * Revision 1.5  1994/11/12  19:20:53  sev
@@ -22,6 +25,8 @@
  * 
  */
 
+#define PROGRESS 0	/* progress indicator */
+ 
 #define VCKEY_DEFS
 #define N_STACK		50	  /* глубина стека                */
 #define N		23	  /* Размер       окна            */

@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.c,v 1.9 1995/06/13 14:18:40 sev Exp $
+ * $Id: hyp.c,v 1.10 1995/06/21 08:55:22 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.c,v $
- * Revision 1.9  1995/06/13 14:18:40  sev
+ * Revision 1.10  1995/06/21 08:55:22  sev
+ * added PROGRESS definition
+ *
+ * Revision 1.9  1995/06/13  14:18:40  sev
  * All windows type changed to WPTR
  *
  * Revision 1.8  1995/03/30  13:52:39  sev
@@ -34,7 +37,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: hyp.c,v 1.9 1995/06/13 14:18:40 sev Exp $";
+static char rcsid[] = "$Id: hyp.c,v 1.10 1995/06/21 08:55:22 sev Exp $";
 
 /*
  * Файл hyp.c Запорожье 1993-1995.
@@ -97,7 +100,7 @@ char *argv[];
 
   if (argc < 2)
   {
-    puts("Просмотрщик гипертекста. Версия 2.4\n\n\
+    puts("Просмотрщик гипертекста. Версия 2.4.1\n\n\
  Использование:\n\t\thyp file\n");
     exit(1);
   }
