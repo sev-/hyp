@@ -1,10 +1,14 @@
 /*
- *  $Id: blocks.c,v 1.2 1993/03/28 17:56:17 sev Exp $
+ *  $Id: blocks.c,v 1.3 1993/03/29 12:06:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: blocks.c,v $
- * Revision 1.2  1993/03/28 17:56:17  sev
+ * Revision 1.3  1993/03/29 12:06:38  sev
+ * Эта глупая штука не хочет работать из-за двух закоментаренных
+ * строк ф функции инициализации
+ *
+ * Revision 1.2  1993/03/28  17:56:17  sev
  * *** empty log message ***
  *
  * Revision 1.1  1993/03/20  14:27:27  sev
@@ -20,6 +24,8 @@
 
 COUNT edstartcut()
 {
+  static TEXT cutname[] = "cutbuf";
+  
   cutbuf = (VCEDBUF *)vcalloc(1, sizeof(VCEDBUF *), vcdebug);
 
   if((cutbuf->bfdnum = dbmsxopn(-1,sizeof(VCEDLINE) + cutbuf->bflinelen,
@@ -28,6 +34,10 @@ COUNT edstartcut()
      askmsg("Editor Error","Can't alloc cut buffer",0);
      return 0;
   }
+  cutbuf->bfname = cutname;
+/*  cutbuf->bfbuffer = NULLTEXT;
+  cutbuf->bfchange = 0;
+*/  cutbuf->bfperm = 0;
   cutbuf->bflinelen = vcedval.linlen;
   cutbuf->bffline = (DBDP)0;
   cutbuf->bfbline = (DBDP)0;
@@ -53,7 +63,8 @@ VCED *vced;
   {
     line = vcedgline(vced->edbuffer, vced->edaline);
     vcedaline(cutbuf, line->ltext, line->lused);
-*/    vcedaline(cutbuf, "second", 6);
+*/
+  vcedaline(cutbuf, "string", 7);
 
   vced->edaline = (DBDP)0;
   vced->edupval = VCEDUPDALL;
