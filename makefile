@@ -1,8 +1,11 @@
 #
-#  $Id: makefile,v 1.7 1993/06/08 12:10:31 sev Exp $
+#  $Id: makefile,v 1.8 1993/08/18 11:44:08 sev Exp $
 #
 # $Log: makefile,v $
-# Revision 1.7  1993/06/08 12:10:31  sev
+# Revision 1.8  1993/08/18 11:44:08  sev
+# Новый файл copy.c
+#
+# Revision 1.7  1993/06/08  12:10:31  sev
 # Вот теперь этот глюк действительно убран
 #
 # Revision 1.6  1993/05/28  10:51:07  sev
@@ -30,7 +33,7 @@ CFLAGS = -Ox
 
 CC = rcc
 
-OBJS =  drivesel.o edaskdir.o edback.o edconf.o\
+OBJS =  copy.o drivesel.o edaskdir.o edback.o edconf.o\
 	edconinf.o eddelcon.o eddelendl.o eddellin.o eddir.o eddisp.o\
 	edend.o edexec.o edsvf.o edfnd.o edftostr.o\
 	edhelp.o edhmark.o edhypend.o edinscon.o edinsline.o\

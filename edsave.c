@@ -1,10 +1,13 @@
 /*
- *  $Id: edsave.c,v 1.2 1993/06/08 12:10:31 sev Exp $
+ *  $Id: edsave.c,v 1.3 1993/08/18 11:44:08 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edsave.c,v $
- * Revision 1.2  1993/06/08 12:10:31  sev
+ * Revision 1.3  1993/08/18 11:44:08  sev
+ * Теперь на экране отображается копирование файлов
+ *
+ * Revision 1.2  1993/06/08  12:10:31  sev
  * Вот теперь этот глюк действительно убран
  *
  * Revision 1.1  1993/05/24  15:14:24  sev
@@ -60,12 +63,9 @@ VCEDBUF *edbuf;             /* Edit buffer                          */
 	  sprintf(directory, "%s/diffs/zakon/%s", tmp1, edbuf->bfname);
 	  if((save = fopen(directory, "r")) == (FILE *)NULL)
 	  {
-	    strcpy(buf, "cp ");
-	    strcat(buf, genback(edbuf));
-	    strcat(buf, " ");
-	    strcat(buf, directory);
-	    system(buf);
 	    fclose(save);
+	    strcpy(buf, genback(edbuf));
+	    filecopy(buf, directory);
 	  }
 	}                               /*                          */
 	}        
