@@ -1,45 +1,38 @@
 /*
- *  $Id: edit.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edit.c,v 1.2 1993/04/20 16:04:12 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edit.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/20 16:04:12  sev
+ * a
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
- * Revision 4.5  1993/04/06  13:40:54  kas
- * *** empty log message ***
- *
- * Revision 4.4  1993/04/05  16:01:33  kas
- * *** empty log message ***
- *
- * Revision 4.3  1993/04/01  14:10:29  kas
- * *** empty log message ***
- *
- * Revision 4.2  1993/03/27  12:08:16  kas
- * *** empty log message ***
- *
- * Revision 4.1  1993/03/25  11:01:23  kas
- * *** empty log message ***
- *
- * Revision 1.3  1993/03/23  13:10:22  kas
- * *** empty log message ***
- *
- * Revision 1.2  1993/03/13  12:07:21  sev
- * Исправлены ошибки в delsels, убран ПФ4 и ПФ3
- *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
  *
  */
 
-static char rcsid[]="$Id: edit.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
-
 #include "vced.h"
-/*********************************************************************/
-/*   Основная функция редактора 				     */
-/*********************************************************************/
+
+/****************************************************************************/
+/*          Основная функция редактора                                      */
+/****************************************************************************/
 
 COUNT medit(vced)
 VCED *vced;                  /* Pointer to edit structure            */

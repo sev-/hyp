@@ -1,31 +1,32 @@
 /*
- *  $Id: edaskdir.c,v 1.2 1993/04/10 13:52:22 sev Exp $
+ *  $Id: edaskdir.c,v 1.3 1993/04/20 16:04:12 sev Exp $
  *
- * ---------------------------------------------------------- 
+ * ---------------------------------------------------------------------------
  *
  * $Log: edaskdir.c,v $
- * Revision 1.2  1993/04/10 13:52:22  sev
- * Изменена структура справочника
+ * Revision 1.3  1993/04/20 16:04:12  sev
+ * *** empty log message ***
  *
- * Revision 1.1  1993/04/06  14:14:07  sev
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
- * Revision 1.4  1993/04/01  14:10:29  kas
- * *** empty log message ***
- *
- * Revision 1.3  1993/03/27  12:08:16  kas
- * *** empty log message ***
- *
- * Revision 1.2  1993/03/15  13:47:31  sev
- * Полностью заменены функции работы со справочником. Теперь он текстовый
- *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
  *
  */
-
-static char rcsid[]="$Id: edaskdir.c,v 1.2 1993/04/10 13:52:22 sev Exp $";
 
 #define VCGET_DEFS
 
@@ -64,7 +65,7 @@ int len_seg;
   if(key==ESC)
   {
     erase();
-    atsay(3,3,"Блок не отмечен. Нажмите любую клавишу...");
+    atsay(3,3,"Сегмент не отмечен. Нажмите любую клавишу...");
     getone();
     wclose(w_);
     return(0);

@@ -1,41 +1,29 @@
 /*
  *
- * $Id: wrkselset.c,v 1.2 1993/04/10 13:52:22 sev Exp $
+ * $Id: wrkselset.c,v 1.3 1993/04/20 16:04:12 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: wrkselset.c,v $
- * Revision 1.2  1993/04/10 13:52:22  sev
- * Изменена структура справочника
+ * Revision 1.3  1993/04/20 16:04:12  sev
+ * a
  *
- * Revision 1.1  1993/04/06  14:14:07  sev
- * Initial revision
- *
- * Revision 1.9  1993/04/01  14:10:29  kas
+ * Revision 1.4  1993/04/19  16:36:31  kas
  * *** empty log message ***
  *
- * Revision 1.8  1993/03/31  07:26:09  kas
- * delete selsetio
+ * Revision 1.3  1993/04/15  07:21:41  kas
+ * *** empty log message ***
  *
- * Revision 1.7  1993/03/29  11:28:20  kas
- * add function initselset
+ * Revision 1.3  1993/04/15  07:21:41  kas
+ * *** empty log message ***
  *
- * Revision 1.6  1993/03/13  11:24:39  kas
- * I/O SELSET : putselset & getselset
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
  *
- * Revision 1.5  1993/03/12  06:26:53  kas
- * O'key
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
- * Revision 1.4  1993/03/12  06:08:21  kas
- * testing lstselset
- *
- * Revision 1.3  1993/03/11  16:42:15  kas
- * Not working delselset
- *
- * Revision 1.2  1993/03/11  13:41:12  kas
- * add new proc lstsel
- *
- * Revision 1.1  1993/03/10  09:31:34  kas
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
  *
@@ -406,8 +394,10 @@ TEXT *value;
   new->iprev->inext = (SELSET *)NULL;	/* А мы не добавляли */
   new->iprev = prev;
   new->inext = next;
-  new->iprev->inext = new;
-  new->inext->iprev = new;
+  if(new->iprev)
+    new->iprev->inext = new;
+  if(new->inext)
+    new->inext->iprev = new;
 
   return new;
 }

@@ -1,22 +1,28 @@
 /*
- *  $Id: edsvf.c,v 1.2 1993/04/10 13:52:22 sev Exp $
+ *  $Id: edsvf.c,v 1.3 1993/04/20 16:04:12 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edsvf.c,v $
- * Revision 1.2  1993/04/10 13:52:22  sev
- * Изменена структура справочника
+ * Revision 1.3  1993/04/20 16:04:12  sev
+ * a
  *
- * Revision 1.1  1993/04/06  14:14:07  sev
- * Initial revision
- *
- * Revision 1.2  1993/04/05  16:08:05  kas
+ * Revision 1.3  1993/04/15  15:05:51  kas
  * *** empty log message ***
  *
- * Revision 1.1  1993/04/03  14:31:33  sev
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
- * Revision 1.1  1993/04/01  14:10:29  kas
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
  *
@@ -198,3 +204,14 @@ VCED *vced;
 }
   
 /* ------------------------------------------------------------------------ */
+
+trimstring(s)
+char *s;
+{
+  char *b;
+
+  b = s + strlen(s);
+  while(--b >= s && (*b == ' ' || *b == '\t' || *b == '\n'
+			|| *b == vcedval.softret || *b == vcedval.hardret))
+    *b = 0;
+}

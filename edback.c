@@ -1,21 +1,40 @@
-/**
-*
-*   Vitamin C Multi-User version 1.1
-*   Copyright (c) 1985-1990
-*   Creative Programming Consultants, Inc.
-*   P.O. Box 112097
-*   Carrollton, Texas  75006
-*   (214) 416-6447
-*   ALL RIGHTS RESERVED
-*   Last Modification: .4 on 8/31/90 at 21:50:15
-*
-*   Name            vcedback.c - to file
-*                                   
-*   Description     Make backup of original file
-*
-*   Return Value    Returns O.K.
-*                                   
-**/
+/*
+ *  $Id: edback.c,v 1.2 1993/04/20 16:04:12 sev Exp $
+ *
+ * ---------------------------------------------------------------------------
+ *
+ *  $Log: edback.c,v $
+ *  Revision 1.2  1993/04/20 16:04:12  sev
+ *  *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
+ *
+ *
+ * ---------------------------------------------------------------------------
+ *
+ *   Name            vcedback.c - to file
+ *
+ *   Description     Make backup of original file
+ *
+ *   Return Value    Returns O.K.
+ *
+*/
 
 #include <vcstdio.h>
 #include <vcdbms.h>

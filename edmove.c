@@ -1,30 +1,32 @@
 /*
- *  $Id: edmove.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edmove.c,v 1.2 1993/04/20 16:04:12 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edmove.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/20 16:04:12  sev
+ * a
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
- * Revision 1.4  1993/04/01  14:10:29  kas
- * *** empty log message ***
- *
- * Revision 1.3  1993/03/27  12:08:16  kas
- * *** empty log message ***
- *
- * Revision 1.2  1993/03/14  11:39:19  sev
- * Исправлена ошибка в отметке поля. Полностью работающая версия
- * В файле vcопределение DEFSEG - добавление окна сегментов
- *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
  *
  */
-
-static char rcsid[]="$Id: edmove.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
-
 
 #include "vced.h"
 
@@ -50,6 +52,8 @@ VCED *vced;                         /* Pointer to edit structure            */
     return(0);
   return 1;  
 }                                               /* ------------------------ */
+
+/* ------------------------------------------------------------------------ */
 
 COUNT edmvright(vced)
 VCED *vced;                         /* Pointer to edit structure            */

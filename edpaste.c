@@ -1,146 +1,86 @@
 /*
- *  $Id: edpaste.c,v 1.3 1993/04/10 13:52:22 sev Exp $
+ *  $Id: edpaste.c,v 1.4 1993/04/20 16:04:12 sev Exp $
  *
- * ---------------------------------------------------------- 
+ * ---------------------------------------------------------------------------
  *
  * $Log: edpaste.c,v $
- * Revision 1.3  1993/04/10 13:52:22  sev
- * Изменена структура справочника
+ * Revision 1.4  1993/04/20 16:04:12  sev
+ * a
  *
- * Revision 1.2  1993/04/08  10:37:38  sev
+ * Revision 1.5  1993/04/19  16:36:31  kas
  * *** empty log message ***
  *
- * Revision 1.1  1993/04/06  14:14:07  sev
+ * Revision 1.4  1993/04/15  07:21:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.4  1993/04/15  07:21:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  09:21:13  kas
+ * Удален вызов privmsg
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
- *
- * Revision 1.3  1993/03/25  12:22:15  kas
- * *** empty log message ***
- *
- * Revision 1.2  1993/03/14  11:39:19  sev
- * Исправлена ошибка в отметке поля. Полностью работающая версия
- * В файле vcопределение DEFSEG - добавление окна сегментов
- *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
  *
  *
  */
 
-static char rcsid[]="$Id: edpaste.c,v 1.3 1993/04/10 13:52:22 sev Exp $";
-
-
-#define WIND 1
-#define DIR_  0
-
 #include "vced.h"
 
-/* int flag_helpline;           */
+/* ------------------------------------------------------------------------ */
 
 COUNT edpaste(vced)
 VCED *vced;
 {
-  int ret;
-  VCEDLINE *cline;
-  int col_str;
-  int i=0;
-  int flag_is=0;
-  char *strchr();
 
-  if(stat_hyp==PRIV_SEGWDO)
-    return(0);
-  if(vced->edcline == (DBDP)0)	      /* If not on real line	  */
-     vcedmkreal(vced);		      /* Make the current loc real*/
-  cline=vcedmline(vced->edbuffer,vced->edcline);
-  edsetfta(vced, vced->edcline, cline,from,to,stat_);
-  col_str=vced->edcchar;
+	VCEDLINE *cline;
+	int col_str;
+	int i=0;
+	int flag_is=0;
+	char *strchr();
 
-  while( from[i]!=-1)
-  {
-    if(col_str >= from[i] && col_str <= to[i] )
-    {
-      flag_is=1;
-      break;
-    }
-    i++;
-  }
-  if(flag_is==1)
-  {
-    ret=ask_msg("Место привязки",2);
-    switch(ret)
-    {
-    case   WIND:
+	if(stat_hyp==PRIV_SEGWDO)
+		return(0);
+	if(vced->edcline == (DBDP)0)            /* If not on real line      */
+		vcedmkreal(vced);               /* Make the current loc real*/
+	cline=vcedmline(vced->edbuffer,vced->edcline);
+	edsetfta(vced, vced->edcline, cline,from,to,stat_);
+	col_str=vced->edcchar;
 
-      stat_hyp=PRIV_SEGWDO;
-      strcpy(privyz.file_par,vced->edbuffer->bfname);
-      privyz.line=vced->edcline;
-      privyz.cchar=vced->edcchar;
-      watsay(vced->edswptr,0,1,"    <УПР-w> - привязка из окна сегментов.  <УПР-o> - привязка от поля.		  ");
-      vced->edsline=2;
-      break;
-    case   DIR_:
-
-      if(eddir(vced)==0)
-	ask_msg("Привязка не произведена.",0);
-      else
-      {
-	ed_del_conc(vced);
-	ed_ins_conc(vced,vced->edcline,from[i],to[i],privyz.name_seg,privyz.name_file,1);
-	add_refer(privyz.name_seg);
-	if(putselset(dir_file, "w", dirr))
+	while( from[i]!=-1)
 	{
-	  vcend(CLOSE);
-	  execlp("clear","clear",(char *)NULL);
-	  printf("Не могу записать в файл %s\n", dir_file);
-	  exit(1);
+		if(col_str >= from[i] && col_str <= to[i] )
+		{
+			flag_is=1;
+			break;
+		}
+		i++;
 	}
-	ask_msg("Привязка произведена успешно.",0);
-      }
-      break;
-    default:
-      stat_hyp=ED;
-      break;
-
-    }
-  }
-  else
-    ask_msg("Установите курсор на поле.",0);
-  return GOOD;
+	if(flag_is==1)
+	{
+		if(eddir(vced)==0)
+			ask_msg("Привязка не произведена.",0);
+		else
+		{
+			ed_del_conc(vced);
+			ed_ins_conc(vced,vced->edcline,from[i],to[i],privyz.name_seg,privyz.name_file,1);
+			add_refer(privyz.name_seg, 1);
+			if(putselset(dir_file, "w", dirr))
+			{
+				vcend(CLOSE);
+				execlp("clear","clear",(char *)NULL);
+				printf("Не могу записать в файл %s\n", dir_file);
+				exit(1);
+			}
+			ask_msg("Привязка произведена успешно.",0);
+		}
+	}
+	else
+		ask_msg("Установите курсор на поле.",0);
+	return GOOD;
 }
 
-COUNT privmsg(vced)
-VCED *vced;
-{
-  VCEDLINE *cline;
-  int col_str;
-  int i=0;
-  char *strchr();
-
-  if(stat_exec==PRIV_NO)
-  {
-    ask_msg("Привязка не произведена.",0);
-    stat_hyp=ED;
-    vced->edsline=1;
-    return(0);
-  }
-
-  cline=vcedmline(vced->edbuffer,privyz.line);
-  edsetfta(vced, privyz.line, cline,from,to,stat_);
-  col_str=privyz.cchar;
-
-  while( from[i]!=-1)
-  {
-    if(col_str >= from[i] && col_str <= to[i] )
-      break;
-    i++;
-  }
-
-  if(stat_exec==PRIV_YES)
-  {
-    ed_del_conc(vced);
-    ed_ins_conc(vced,privyz.line,from[i],to[i],privyz.name_seg,privyz.name_file,1);
-    ask_msg("Привязка произведена успешно.",0);
-  }
-  vced->edsline=1;
-  stat_hyp=ED;
-  return GOOD;
-}
+/* ------------------------------------------------------------------------ */

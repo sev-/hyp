@@ -1,35 +1,32 @@
 /*
- *  $Id: edhypend.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edhypend.c,v 1.2 1993/04/20 16:04:12 sev Exp $
  *
- * ---------------------------------------------------------- 
+ * ---------------------------------------------------------------------------
  *
  * $Log: edhypend.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/20 16:04:12  sev
+ * a
+ *
+ * Revision 1.4  1993/04/19  16:36:31  kas
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
- * Revision 3.3  1993/03/31  07:26:09  kas
- * compile call from vcsystem
- *
- * Revision 3.2  1993/03/27  12:08:16  kas
- * *** empty log message ***
- *
- * Revision 3.1  1993/03/24  16:39:49  kas
- * ..
- *
- * Revision 1.3  1993/03/23  13:10:22  kas
- * *** empty log message ***
- *
- * Revision 1.2  1993/03/14  11:39:19  sev
- * Исправлена ошибка в отметке поля. Полностью работающая версия
- * В файле vcопределение DEFSEG - добавление окна сегментов
- *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
  *
  */
-
-static char rcsid[]="$Id: edhypend.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
 
 #include "vced.h"
 
@@ -71,8 +68,8 @@ COUNT edshow()
 	 ask_msg(tmp2, 0);
 	 return(0);
        }
-  sprintf(tmp2, "hyp %s\n", tmp1);
-  vcsystem(tmp2,1," Press any key ");
+  sprintf(tmp2, "view %s\n", tmp1);
+  vcsystem(tmp2,1,NULL);
 
   return GOOD;
 }

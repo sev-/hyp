@@ -1,38 +1,38 @@
 /*
- *  $Id: drivesel.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: drivesel.c,v 1.2 1993/04/20 16:04:12 sev Exp $
  *
- * ---------------------------------------------------------- 
+ * ---------------------------------------------------------------------------
  *
  * $Log: drivesel.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/20 16:04:12  sev
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
- * Revision 4.3  1993/04/05  16:01:33  kas
- * *** empty log message ***
- *
- * Revision 4.2  1993/03/27  12:08:16  kas
- * Убрал перемаргивание
- *
- * Revision 4.1  1993/03/25  11:01:23  kas
- * *** empty log message ***
- *
- * Revision 3.1  1993/03/24  16:39:49  kas
- * *** empty log message ***
- *
- * Revision 1.2  1993/03/17  15:53:58  sev
- * Всего навсего добавил vced.h
- *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
  *
  */
 
-static char rcsid[]="$Id: drivesel.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
-
 #define PGSIZE	15
 
 #include "vced.h"
+
+/* ------------------ Display and selection from SELSET ------------------- */
 
 int   drivesel(lst,disp,val,header)
 SELSET	 *lst;
@@ -111,7 +111,6 @@ TEXT *header;
       break;
 
     case CUR_DOWN:
-
 
       if( cnt+1 > nbr )
 	bell();

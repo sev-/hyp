@@ -1,40 +1,30 @@
 /*
- *  $Id: edinitstr.h,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edinitstr.h,v 1.2 1993/04/20 16:04:12 sev Exp $
  *
- * ---------------------------------------------------------- 
+ * --------------------------------------------------------------------------
  *
  * $Log: edinitstr.h,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/20 16:04:12  sev
+ * a
+ *
+ * Revision 1.4  1993/04/19  16:36:31  kas
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
  * Initial revision
  *
- * Revision 4.2  1993/03/27  12:08:16  kas
- * *** empty log message ***
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
- * Revision 4.1  1993/03/25  11:01:23  kas
- * *** empty log message ***
- *
- * Revision 3.1  1993/03/24  16:39:49  kas
- * ..
- *
- * Revision 1.5  1993/03/17  16:34:20  sev
- * Заменил константу, теперь перелистывание при стрелочках на пять строк
- * , а не на одну, что удобно на терминалах.
- *
- * Revision 1.4  1993/03/17  15:53:58  sev
- * Была большая беда с отметкой страницы. Виновата измененная строка
- * количества символов в строке (там был буфер меньшей длины и вылетало
- * segmentation violation или bus error. Теперь если проблемы этого
- * плана, то в файле vced.h есть MAXLENSTR. Вот ее и надо ставитьь.
- *
- * Revision 1.3  1993/03/15  10:55:59  sev
- * Увеличен размер строки до 1024 байт. Переключатель насчет
- * special characters (он последний) лучше не трогать (печальная картина)
- *
- * Revision 1.2  1993/03/13  12:07:21  sev
- * Исправлены ошибки в delsels, убран ПФ4 и ПФ3
- *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
  *
  */
 
@@ -63,17 +53,17 @@ VCEDCMD vcedcmds[] =
    (TEXT *)"Страница вниз.                      ",PGDN,vcedpgdn,
    (TEXT *)"Страница вверх.                     ",PGUP,vcedpgup,
 
-   (TEXT *)"Новый файл.                         ",NEW_FILE,ednewf,
-   (TEXT *)"Следующий файл.                     ",NEXT_FILE,ednextf,
-   (TEXT *)"Запись файла.                       ",SAVE_BUF,edsavef,
-   (TEXT *)"Удалить текущий файл из окна.       ",DEL_FILE,eddelf,
-   (TEXT *)"Cписок файлов  в редакторе          ",LISTWDO,edlistwdo,
-   (TEXT *)"Cписок файлов  в каталоге           ",FILES,edfiles,
+   (TEXT *)"Новый файл.                     F12 ",NEW_FILE,ednewf,
+   (TEXT *)"Следующий файл.                 F14 ",NEXT_FILE,ednextf,
+   (TEXT *)"Запись файла.                   F16 ",SAVE_BUF,edsavef,
+   (TEXT *)"Удалить текущий файл из окна.   F15 ",DEL_FILE,eddelf,
+   (TEXT *)"Cписок файлов  в редакторе      F11 ",LISTWDO,edlistwdo,
+   (TEXT *)"Cписок файлов  в каталоге       F13 ",FILES,edfiles,
 
    (TEXT *)"Отметить поле.                  F6  ",POLE,edhmark,
    (TEXT *)"Привязать поле.                 F8  ",PASTE,edpaste,
    (TEXT *)"Удалить поле.                   F7  ",DEL_POLE,ed_del_conc,
-   (TEXT *)"Информация о поле.                  ",INF_CONC,edinf,
+   (TEXT *)"Информация о поле.              ^-O ",INF_CONC,edinf,
    (TEXT *)"Справочник.                     F10 ",DIR_SEG,edir,
 
    (TEXT *)"Отметить сегмент.               F9  ",SEGM,edvmark,

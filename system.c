@@ -1,22 +1,32 @@
 /*
- *  $Id: system.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: system.c,v 1.2 1993/04/20 16:04:12 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: system.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
- * Initial revision
+ * Revision 1.2  1993/04/20 16:04:12  sev
+ * a
  *
- * Revision 1.2  1993/03/27  12:08:16  kas
+ * Revision 1.3  1993/04/15  15:05:51  kas
  * *** empty log message ***
  *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/13  13:50:41  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
+ *
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
  *
  */
-
-static char rcsid[]="$Id: system.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
 
 /**
 *

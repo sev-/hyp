@@ -1,36 +1,29 @@
 /*
- *  $Id: edstruct.h,v 1.2 1993/04/08 10:37:38 sev Exp $
+ *  $Id: edstruct.h,v 1.3 1993/04/20 16:04:12 sev Exp $
  *
- * ---------------------------------------------------------- 
+ * ---------------------------------------------------------------------------
  *
  * $Log: edstruct.h,v $
- * Revision 1.2  1993/04/08 10:37:38  sev
- * drawseg deleted
+ * Revision 1.3  1993/04/20 16:04:12  sev
+ * a
  *
- * Revision 1.1  1993/04/06  14:14:07  sev
- * Initial revision
- *
- * Revision 3.2  1993/04/01  14:10:29  kas
+ * Revision 1.3  1993/04/15  15:05:51  kas
  * *** empty log message ***
  *
- * Revision 3.1  1993/03/24  16:39:49  kas
- * ..
+ * Revision 1.3  1993/04/15  15:05:51  kas
+ * *** empty log message ***
  *
- * Revision 1.4  1993/03/17  15:53:58  sev
- * Немного длиннее строка, выводимая вместо ^L и выглядит намного лучше
+ * Revision 1.2  1993/04/13  09:21:13  kas
+ * *** empty log message ***
  *
- * Revision 1.3  1993/03/15  13:47:31  sev
- * Полностью заменены функции работы со справочником. Теперь он текстовый
+ * Revision 1.2  1993/04/13  09:21:13  kas
+ * *** empty log message ***
  *
- * Revision 1.2  1993/03/13  12:07:21  sev
- * Исправлены ошибки в delsels, убран ПФ4 и ПФ3
+ * Revision 1.1  1993/04/12  15:13:06  kas
+ * Initial revision
  *
- * Revision 1.1  1993/03/12  15:44:23  sev
- * Init
  *
  */
-
-
 
 typedef struct
     {                       /* ------------------------------------ */
@@ -129,18 +122,8 @@ struct  {
 	      char name_seg[NAME_LEN];
 	}privyz;
 
-/*struct draw       {
-		       COUNT segs[SEGOFLINE];
-		       COUNT draw_name[NAME_LEN];
-		       char name[SEGOFLINE][NAME_LEN];
-		       DBDP beg_seg[SEGOFLINE];
-		       DBDP end_seg[SEGOFLINE];
-		       LONG crow_end[SEGOFLINE];
-		       LONG crow_beg[SEGOFLINE];
-		};
-*/
-SELSET *dirr;
-SELSET *listwdo;
+SELSET *dirr;                               /* Справочник сегментов     */
+SELSET *listwdo;                            /* Список файлов редактора  */
 
 struct VCEDWDO
 {                                           /* ------------------------ */
@@ -165,8 +148,7 @@ struct VCEDFILE
 	COUNT vcedfachr;                    /* Anchor character         */
 	COUNT vcedfoff;                     /* File offset              */
 	COUNT vcedcolseg;                   /* Number segments          */
-/*	struct draw drawseg;
-*/	TEXT   mesg[80];
+	TEXT   mesg[80];
 };
 
-char dir_file[80];                         /* имя dir - файла с расширением */
+char dir_file[80];     /* имя файла, содержащего справочник сегментов   */
