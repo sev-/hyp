@@ -1,10 +1,13 @@
 /*
- *  $Id: hyp.c,v 1.3 1993/03/14 18:04:21 sev Exp $
+ *  $Id: hyp.c,v 1.4 1993/04/22 15:33:35 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: hyp.c,v $
- * Revision 1.3  1993/03/14 18:04:21  sev
+ * Revision 1.4  1993/04/22 15:33:35  sev
+ * Добавлена еще одна функция - запись сегмента в файл
+ *
+ * Revision 1.3  1993/03/14  18:04:21  sev
  * Замечена маленькая ошибка, но если бы эта строка выполнилась,
  * то диагностическое сообщение было бы неправильно
  *
@@ -17,7 +20,7 @@
  *
 */
 
-static char rcsid[]="$Id: hyp.c,v 1.3 1993/03/14 18:04:21 sev Exp $";
+static char rcsid[]="$Id: hyp.c,v 1.4 1993/04/22 15:33:35 sev Exp $";
 
 /*
 	Файл hyp.c
@@ -307,6 +310,11 @@ char *argv[];
           break;
         case BACKWARD_SEARCH_KEY:	/* backward search */
           backward_search(infile);
+          strcpy(path_file, current_file);
+          more = 0;
+          break;
+        case PRINT_SEGMENT:		/* print current segment */
+          print_segment(infile);
           strcpy(path_file, current_file);
           more = 0;
           break;

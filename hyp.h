@@ -1,10 +1,13 @@
 /*
- *  $Id: hyp.h,v 1.3 1993/03/05 17:05:33 sev Exp $
+ *  $Id: hyp.h,v 1.4 1993/04/22 15:33:35 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: hyp.h,v $
- * Revision 1.3  1993/03/05 17:05:33  sev
+ * Revision 1.4  1993/04/22 15:33:35  sev
+ * Добавлена еще одна функция - запись сегмента в файл
+ *
+ * Revision 1.3  1993/03/05  17:05:33  sev
  * теперь перелистывание страниц по сегментам
  *
  * Revision 1.2  1993/03/04  10:52:15  sev
@@ -40,7 +43,7 @@
 #define	HELP_KEY		F1
 #define	FORWARD_SEARCH_KEY	'/'
 #define	BACKWARD_SEARCH_KEY	'?'
-
+#define PRINT_SEGMENT		F4
 
 char adress[40];	/*  адрес сегмента в активном поле */
 char path_file[PATH];	/*     имя  файла  в активном поле */
@@ -79,3 +82,4 @@ void show_finded();
 void backward_search();
 void find_begin_seg();
 void find_end_seg();
+void print_segment();
