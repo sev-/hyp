@@ -1,10 +1,13 @@
 /*
- *  $Id: mted.h,v 1.1 1993/03/17 13:01:34 sev Exp $
+ *  $Id: mted.h,v 1.2 1993/03/20 14:27:27 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: mted.h,v $
- * Revision 1.1  1993/03/17 13:01:34  sev
+ * Revision 1.2  1993/03/20 14:27:27  sev
+ * Добавлен cutbuf - буффер отмеченных блоков
+ *
+ * Revision 1.1  1993/03/17  13:01:34  sev
  * Initial revision
  *
  * Revision 1.2  1993/03/15  15:16:32  kas
@@ -38,3 +41,5 @@
 #include <vced.h>
 
 #include "edkey.h"
+
+VCEDBUF *cutbuf;

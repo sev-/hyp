@@ -1,11 +1,14 @@
 /*
- *  $Id: mted.c,v 1.5 1993/03/19 16:18:38 sev Exp $
+ *  $Id: mted.c,v 1.6 1993/03/20 14:27:27 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  *  $Log: mted.c,v $
- *  Revision 1.5  1993/03/19 16:18:38  sev
- *  Delete some bugs
+ *  Revision 1.6  1993/03/20 14:27:27  sev
+ *  Новая функция, которая отводит буфер под блоки
+ *
+ * Revision 1.5  1993/03/19  16:18:38  sev
+ * Delete some bugs
  *
  * Revision 1.4  1993/03/17  13:01:34  sev
  * Добавлен mted.h
@@ -62,6 +65,7 @@ TEXT **argv;                            /* Command line arg.        */
         if(vcedaskfil() == spkey.abort) /* If escape entered        */
             {                           /*                          */
             vcend(CLOSE);               /* Close windows            */
+	    execlp("clear","clear",(char *)NULL);
             exit(0);                    /* Leave editor             */
             }                           /*                          */
         if(isblank(vceddfil))           /* If entered blank         */
@@ -82,6 +86,7 @@ TEXT **argv;                            /* Command line arg.        */
 
     vcedfbuf = vcedload(vceddfil,NULLTEXT,VCEDFFIL);
     vcedw    = vcedopen(1,0,20,78,vceddfil,-1,VCEDSTATUS,vcedfbuf,-1,-1,wptr);
+    edstartcut();
     vcedit(vcedw);                      /*                          */
 
     vcend(CLOSE);                       /* Quit Vitamin C           */

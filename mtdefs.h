@@ -1,10 +1,13 @@
 /*
- *  $Id: mtdefs.h,v 1.3 1993/03/19 17:48:53 sev Exp $
+ *  $Id: mtdefs.h,v 1.4 1993/03/20 14:27:27 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: mtdefs.h,v $
- * Revision 1.3  1993/03/19 17:48:53  sev
+ * Revision 1.4  1993/03/20 14:27:27  sev
+ * Добавил заголовки новых функций
+ *
+ * Revision 1.3  1993/03/19  17:48:53  sev
  * Добавлена функция начала отметки блока. Отлично работает
  *
  * Revision 1.2  1993/03/19  16:18:38  sev
@@ -44,6 +47,10 @@ COUNT edmenu();
 /* ------------------------------------------------------------------------ */
 
 COUNT begin_mark();
+COUNT copy_block();
+COUNT cut_block();
+COUNT paste_block();
+COUNT mtedstat();
 
 /* ------------------------------------------------------------------------ */
 
@@ -86,6 +93,10 @@ VCEDCMD vcedcmds[] =
     (TEXT *)"mark page",       3,vcedmkpg,      /* УПР c  - Mark page       */
 /* ------------------------------------------------------------------------ */
     (TEXT *)"begin mark",   5004,begin_mark,	/* F6     - Begin mark reg  */ 
+    (TEXT *)"copy block",   5005,copy_block,	/* F7     - Copy marked block*/ 
+    (TEXT *)"cut block",    5006,cut_block,	/* F8     - Cut marked block*/ 
+    (TEXT *)"paste block",  5007,paste_block,	/* F9     - Paste block     */ 
+    (TEXT *)"editor's stat",5014,mtedstat,	/* F15    - Editor's status */ 
 /* ------------------------------------------------------------------------ */
     NULLTEXT,                  0,(PFI)0,
     };
