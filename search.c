@@ -1,10 +1,13 @@
 /*
- *  $Id: search.c,v 1.2 1993/03/05 17:04:23 sev Exp $
+ *  $Id: search.c,v 1.3 1993/03/05 17:29:01 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: search.c,v $
- * Revision 1.2  1993/03/05 17:04:23  sev
+ * Revision 1.3  1993/03/05 17:29:01  sev
+ * теперь и поиск работает по сегментам.
+ *
+ * Revision 1.2  1993/03/05  17:04:23  sev
  * теперь перелистывание страниц по сегментам
  *
  * Revision 1.1  1993/03/04  09:51:10  sev
@@ -13,7 +16,7 @@
  *
 */
 
-static char rcsid[]="$Id: search.c,v 1.2 1993/03/05 17:04:23 sev Exp $";
+static char rcsid[]="$Id: search.c,v 1.3 1993/03/05 17:29:01 sev Exp $";
 
 #include "hyp.h"
 
@@ -26,9 +29,7 @@ FILE *file;
   long old_position;
   int more = 1;
   int errorwind;
-  char end[80];
 
-  sprintf(end, "\033)%s", current_seg);
   old_position = end_super;
   end_super = atol(buf_pg[col_str]+1);
   read_screen(file, end_super);
@@ -36,6 +37,8 @@ FILE *file;
     end_super = old_position = 0;
   else
     old_position = end_super;
+
+  pg_open = pg_close = 0;
 
   if(!edit_string(10, 10, 70, 256, old_pattern, " Поиск вперед ", ATTR_B, ATTR_F))
   	return;
@@ -45,20 +48,15 @@ FILE *file;
   {
     if(!(more = read_screen(file, end_super)))
       continue;
+    if(pg_open == pg_close)
+      stop = 1;
+
     for(i = 0; i < more; i++)
-    {
-      if(strstr(buf_pg[i], end) != (char *)NULL)
-      {
-        more = 0;
-        stop = 1;
-        break;
-      }
       if(find(buf_pg[i], old_pattern))
       {
         stop = 1;
         break;
       }
-    }
     if(!stop)
       position = end_super;
   }
@@ -104,24 +102,26 @@ FILE *file;
   if(!edit_string(10, 10, 70, 256, old_pattern, " Поиск назад ", ATTR_B, ATTR_F))
   	return;
 
+  pg_open = 0;
+  pg_close = 1;
+
   position = end_super;
-  while(!stop&&more)
+  while(!stop && more)
   {
     more = read_screen(file, end_super);
-    for(i = 0; i < more; i++)
+
+    if(pg_open == pg_close)
     {
-      if(strstr(buf_pg[i], beg) != (char *)NULL)
-      {
-        more = 0;
-        stop = 1;
-        break;
-      }
+      stop = 1;
+      _open--;
+    }
+
+    for(i = 0; i < more; i++)
       if(find(buf_pg[i], old_pattern))
       {
         stop = 1;
         break;
       }
-    }
     if(!stop)
     {
       position = end_super = atol(buf_pg[more]+1);
