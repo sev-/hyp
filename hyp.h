@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.h,v 1.7 1995/06/21 08:55:22 sev Exp $
+ * $Id: hyp.h,v 1.8 1995/12/05 15:01:48 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.h,v $
- * Revision 1.7  1995/06/21 08:55:22  sev
+ * Revision 1.8  1995/12/05 15:01:48  sev
+ * I tryed to add "pri file" command, but failed
+ *
+ * Revision 1.7  1995/06/21  08:55:22  sev
  * added PROGRESS definition
  *
  * Revision 1.6  1995/06/13  14:18:40  sev
@@ -52,6 +55,8 @@
 #define	FORWARD_SEARCH_KEY	'/'
 #define	BACKWARD_SEARCH_KEY	'?'
 #define PRINT_SEGMENT		F4
+#define PRI_SEGMENT		F3
+#define QUIT_KEY		'q'
 
 char adress[40];		  /* адрес сегмента в активном поле */
 char path_file[PATH];		  /* имя  файла  в активном поле */
@@ -60,6 +65,7 @@ char buf_pg[N][BUF];		  /* буфер для одной страницы       *
 char *chr;
 char *help_string;		  /* строка в нижней части экрана */
 char old_pattern[260];		  /* старый шаблон поиска		 */
+char current_file_name[1024];
 
 long end_super;			  /* offset в файле конца	 текущей страницы */
 int pg_open, pg_close;		  /* количество { и } в странице            */
@@ -91,6 +97,7 @@ void show_finded();
 void backward_search();
 void find_begin_seg();
 void find_end_seg();
-void print_segment();
+void write_segment();
+void pri_segment();
 FILE *datfopen();		  /* my fopen function */
 void datfclose();		  /* my fclose function */

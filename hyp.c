@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.c,v 1.10 1995/06/21 08:55:22 sev Exp $
+ * $Id: hyp.c,v 1.11 1995/12/05 15:01:48 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.c,v $
- * Revision 1.10  1995/06/21 08:55:22  sev
+ * Revision 1.11  1995/12/05 15:01:48  sev
+ * I tryed to add "pri file" command, but failed
+ *
+ * Revision 1.10  1995/06/21  08:55:22  sev
  * added PROGRESS definition
  *
  * Revision 1.9  1995/06/13  14:18:40  sev
@@ -37,7 +40,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: hyp.c,v 1.10 1995/06/21 08:55:22 sev Exp $";
+static char rcsid[] = "$Id: hyp.c,v 1.11 1995/12/05 15:01:48 sev Exp $";
 
 /*
  * Файл hyp.c Запорожье 1993-1995.
@@ -100,7 +103,7 @@ char *argv[];
 
   if (argc < 2)
   {
-    puts("Просмотрщик гипертекста. Версия 2.4.1\n\n\
+    puts("Просмотрщик гипертекста. Версия 2.4.2\n\n\
  Использование:\n\t\thyp file\n");
     exit(1);
   }
@@ -332,7 +335,12 @@ char *argv[];
 	  more = 0;
 	  break;
 	case PRINT_SEGMENT:	  /* print current segment */
-	  print_segment(infile);
+	  write_segment(infile);
+	  strcpy(path_file, current_file);
+	  more = 0;
+	  break;
+/*	case PRI_SEGMENT:	/* use pri for printing */
+	  pri_segment(current_file_name);
 	  strcpy(path_file, current_file);
 	  more = 0;
 	  break;
@@ -392,7 +400,7 @@ char *argv[];
 	  home = 1;
 	  more = 0;
 	  break;
-	case 'q':
+	case QUIT_KEY:
 	case 'Q':
 	case 'я':
 	case 'Я':

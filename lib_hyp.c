@@ -1,10 +1,13 @@
 /*
- * $Id: lib_hyp.c,v 1.8 1995/06/21 08:55:22 sev Exp $
+ * $Id: lib_hyp.c,v 1.9 1995/12/05 15:01:48 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: lib_hyp.c,v $
- * Revision 1.8  1995/06/21 08:55:22  sev
+ * Revision 1.9  1995/12/05 15:01:48  sev
+ * I tryed to add "pri file" command, but failed
+ *
+ * Revision 1.8  1995/06/21  08:55:22  sev
  * added PROGRESS definition
  *
  * Revision 1.7  1995/06/13  14:18:40  sev
@@ -29,7 +32,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: lib_hyp.c,v 1.8 1995/06/21 08:55:22 sev Exp $";
+static char rcsid[] = "$Id: lib_hyp.c,v 1.9 1995/12/05 15:01:48 sev Exp $";
 
 /*
  * Файл lib_hyp.c Запорожье 1992.
@@ -144,6 +147,7 @@ char *help_sm_wind[] =
   "ВНТ - в конец.                 ",
   "/   - поиск вперед.            ",
   "?   - поиск назад.             ",
+/*  "ПФ3 - печать текущего сегмента.", */
   "ПФ4 - запись текущего сегмента.",
   "q   - выход.                   "
 };
@@ -158,6 +162,7 @@ char *help_ws_wind[] =
   "Select     - в конец.                 ",
   "/          - поиск вперед.            ",
   "?          - поиск назад.             ",
+/*  "PF3        - печать текущего сегмента.", */
   "PF4        - запись текущего сегмента.",
   "q          - выход.                   "
 };
@@ -172,6 +177,7 @@ char *help_ansi_wind[] =
   "End    - в конец.                 ",
   "/      - поиск вперед.            ",
   "?      - поиск назад.             ",
+/*  "F3     - печать текущего сегмента.", */
   "F4     - запись текущего сегмента.",
   "q      - выход.                   "
 };
@@ -273,8 +279,10 @@ char *fname, *mode;
     signal(SIGALRM, *nullfunc);
 #endif
     temporaryfile = 1;
+    strcpy (current_file_name, template);
     return(fopen(template, mode));
   }
+  strcpy (current_file_name, fname);
   temporaryfile = 0;
   rewind(in);
 

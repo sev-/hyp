@@ -1,10 +1,13 @@
 /*
- * $Id: print_seg.c,v 1.2 1994/11/12 19:20:53 sev Exp $
+ * $Id: print_seg.c,v 1.3 1995/12/05 15:01:48 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: print_seg.c,v $
- * Revision 1.2  1994/11/12 19:20:53  sev
+ * Revision 1.3  1995/12/05 15:01:48  sev
+ * I tryed to add "pri file" command, but failed
+ *
+ * Revision 1.2  1994/11/12  19:20:53  sev
  * Indented and added gzip
  * Revision 1.1  1994/03/05  21:56:56  sev Initial
  * revision
@@ -21,7 +24,7 @@
 
 #include "hyp.h"
 
-void print_segment(infile)
+void write_segment(infile)
 char *infile;
 {
   char name[80];
@@ -77,4 +80,14 @@ char *infile;
   fclose(outfile);
 
   ask_msg("Файл записан успешно", 0);
+}
+
+void pri_segment(infile)
+char *infile;
+{
+  char s[80];
+
+  sprintf (s, "clear;pri %s;clear", infile);
+
+  system (s);
 }
