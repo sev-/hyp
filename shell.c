@@ -1,10 +1,13 @@
 /*
- *  $Id: shell.c,v 1.3 1993/09/28 16:25:40 sev Exp $
+ *  $Id: shell.c,v 1.4 1994/07/11 12:31:07 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: shell.c,v $
- * Revision 1.3  1993/09/28 16:25:40  sev
+ * Revision 1.4  1994/07/11 12:31:07  sev
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/09/28  16:25:40  sev
  * *** empty log message ***
  *
  * Revision 1.2  1993/09/28  12:58:34  sev
@@ -17,9 +20,19 @@
  */
  
 #include "shell.h"
+#include <sys/utsname.h>
 
 main()
 {
+/*  struct utsname unam;
+
+  uname(&unam);
+  if(strcmp(unam.sysname, "givi"))
+  {
+    puts("Only for givi!");
+    exit(1);
+  }
+*/
   vcstart(0);
 
   need_update = 0;
@@ -36,9 +49,7 @@ void view()
   char disp[80], val[80];
   int key, stop = 0;
   WPTR win1, win2;
-  char name[80];
   char buf[120];
-  char *wrote;
 
   read_db();
 
@@ -53,38 +64,23 @@ void view()
       switch(val[0])
       {
 	case 'w':
-	  win2 = xdrivesel(clients, disp, val, " Список заказчиков ", &key,
-								9, 12);
-	  wclose(win2);
+	  write_files();
 	  break;
 	case 'n':
-	  name[0] = 0;
-	  if(edit_string(12, 10, 60, 65, name, " Введите имя зказчика ",
-							ATR_B, ATR_F))
-	  {
-	    wrote = select_wrote();
-	    addselitm(clients, name, wrote);
-	    need_update = 1;
-	  }
+	  new_client();
 	  break;
 	case 'k':
-	  win2 = xdrivesel(clients, disp, val, " Список заказчиков ", &key,
-								9, 12);
-	  wclose(win2);
-	  if(key != ESC &&
-		ask_msg("Вы действительно хотите удалить заказчика", disp, 1))
-	  {
-	    delselitm(clients, getselitm(clients, disp, val));
-	    need_update = 1;
-	  }
+	  kill_client();
 	  break;
 	case 'q':
 	  stop = 1;
 	  break;
-	case 's':	/* startpatch */
-	case 'e':	/* endpatcch */
-	  if(!passwd())
-	    bell();
+	case 's':	/* statistic */
+	  statist_client();
+	  break;
+	case 'c':	/* characteristics*/
+	  change_client();
+	  break;
       }
     wclose(win1);
   }
@@ -121,39 +117,90 @@ char *select_wrote()
   return val;
 }
 
-int passwd()
+void write_files()
+{
+  WPTR win;
+  char disp[80], val[80];
+  int key;
+  int mode, drive;
+  char tmp[80];
+
+  win = xdrivesel(clients, disp, val, " Список заказчиков ", &key, 9, 12);
+  wclose(win);
+  if(key != ESC)
+  {
+    mode = ask_msg("Выберите формат записи", "", 2);
+    drive = ask_msg("Выберите устройство", "", 3);
+  }
+  getdate(tmp);
+}
+
+
+void new_client()
+{
+  char name[70];
+  char tmp[80];
+
+  name[0] = 0;
+  if(edit_string(12, 10, 60, 65, name, " Введите имя зказчика ",
+							ATR_B, ATR_F))
+  {
+    sprintf(tmp, "%s %s", select_wrote(), "Нет");
+    addselitm(clients, name, tmp);
+    need_update = 1;
+  }
+}
+
+void kill_client()
+{
+  WPTR win;
+  int key;
+  char disp[80], val[80];
+  
+  win = xdrivesel(clients, disp, val, " Список заказчиков ", &key, 9, 12);
+  wclose(win);
+  if(key != ESC && ask_msg("Вы действительно хотите удалить заказчика",
+								disp, 1))
+  {
+    delselitm(clients, getselitm(clients, disp, val));
+    need_update = 1;
+  }
+}
+
+void statist_client()
 {
   WPTR w;
-  static char passwd[] = "e_cpaepesd";
-  int ok = 1;
-  int i;
+  int key;
+  char disp[80], val[80];
+  char tmp[40], tmpdate[40];
   
-
-  w = wxopen(9, 28, 11, 41, " Password ", BORDER+BD2+CUSTOM+ACTIVE+CURSOR,
-					0, 0);
-  vcputc(' ', ATR_F);
-  for(i = 9; ok && i != -2;)
-  {
-    if(getone() != passwd[i])
-    {
-      atsay(0, 0, "   ERROR  ");
-      sleep(1);
-      ok = 0;
-    }
-    if(ok)
-      vcputc('*', ATR_F);
-
-    if((i -= 2) == -1)
-      i = 8;
-  }
-
-  if(ok)
-  {
-    atsay(0, 0, "    OK     ");
-    sleep(1);
-  }
+  w = xdrivesel(clients, disp, val, " Список заказчиков ", &key, 9, 12);
   wclose(w);
 
-  return ok;
+  w = wxopen(10, 10, 20, 70, " Статистика клиента ",
+				BORDER+BD1+CUSTOM+ACTIVE+CURSOR, 0, 0);
+  atsay(1, 1, "Клиент: ");
+  say(disp);
+  sscanf(val, "%s %s", tmp, tmpdate);
+  atsay(2, 1, "Последняя дата обновления: ");
+  say(tmpdate);
+  atsay(3, 1, "Последний файл: ");
+  say(tmp);
+
+  atsay(15, 9, "Нажмите любую клавишу");
+  getone();
+  wclose(w);
+}
+
+void change_client()
+{
+  WPTR w;
+  int key;
+  char disp[80], val[80];
+
+  if(!passwd())
+    return;
+  w = xdrivesel(clients, disp, val, " Список заказчиков ", &key, 9, 12);
+  wclose(w);
 }
 
