@@ -1,10 +1,15 @@
 /*
- *  $Id: edstruct.h,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edstruct.h,v 1.4 1993/06/23 11:45:53 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edstruct.h,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/06/23 11:45:53  sev
+ * исправлена ошибка при привязке поля (неправильно отмечалось имя сегмента)
+ * Искал очччень долго. Оказалось - недостаточен размер имени файла в
+ * структуре privyz
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
@@ -118,7 +123,7 @@ struct  {
 	      DBDP line;
 	      COUNT cchar;
 	      char mesg[MES_LEN];
-	      char name_file[18];
+	      char name_file[NAME_LEN];
 	      char name_seg[NAME_LEN];
 	}privyz;
 

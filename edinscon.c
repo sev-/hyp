@@ -1,10 +1,15 @@
 /*
- *  $Id: edinscon.c,v 1.4 1993/05/04 11:17:14 sev Exp $
+ *  $Id: edinscon.c,v 1.5 1993/06/23 11:45:53 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edinscon.c,v $
- * Revision 1.4  1993/05/04 11:17:14  sev
+ * Revision 1.5  1993/06/23 11:45:53  sev
+ * исправлена ошибка при привязке поля (неправильно отмечалось имя сегмента)
+ * Искал очччень долго. Оказалось - недостаточен размер имени файла в
+ * структуре privyz
+ *
+ * Revision 1.4  1993/05/04  11:17:14  sev
  * *** empty log message ***
  *
  * Revision 1.3  1993/04/20  16:04:12  sev
@@ -56,7 +61,7 @@ COUNT mode;
 	char *strnvh();
 	COUNT i=0;
 	char seg_name[NAME_LEN];
-	char file_name[25];
+	char file_name[NAME_LEN];
 
 	if(mode==0)
 	{
