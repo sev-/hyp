@@ -1,10 +1,13 @@
 /*
- *  $Id: edpaste.c,v 1.2 1993/04/08 10:37:38 sev Exp $
+ *  $Id: edpaste.c,v 1.3 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edpaste.c,v $
- * Revision 1.2  1993/04/08 10:37:38  sev
+ * Revision 1.3  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.2  1993/04/08  10:37:38  sev
  * *** empty log message ***
  *
  * Revision 1.1  1993/04/06  14:14:07  sev
@@ -23,7 +26,7 @@
  *
  */
 
-static char rcsid[]="$Id: edpaste.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
+static char rcsid[]="$Id: edpaste.c,v 1.3 1993/04/10 13:52:22 sev Exp $";
 
 
 #define WIND 1
@@ -82,6 +85,14 @@ VCED *vced;
       {
 	ed_del_conc(vced);
 	ed_ins_conc(vced,vced->edcline,from[i],to[i],privyz.name_seg,privyz.name_file,1);
+	add_refer(privyz.name_seg);
+	if(putselset(dir_file, "w", dirr))
+	{
+	  vcend(CLOSE);
+	  execlp("clear","clear",(char *)NULL);
+	  printf("Не могу записать в файл %s\n", dir_file);
+	  exit(1);
+	}
 	ask_msg("Привязка произведена успешно.",0);
       }
       break;

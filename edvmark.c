@@ -1,10 +1,13 @@
 /*
- *  $Id: edvmark.c,v 1.2 1993/04/08 10:37:38 sev Exp $
+ *  $Id: edvmark.c,v 1.3 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edvmark.c,v $
- * Revision 1.2  1993/04/08 10:37:38  sev
+ * Revision 1.3  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.2  1993/04/08  10:37:38  sev
  * edsetfta changed
  *
  * Revision 1.1  1993/04/06  14:14:07  sev
@@ -25,7 +28,7 @@
  *
  */
 
-static char rcsid[]="$Id: edvmark.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
+static char rcsid[]="$Id: edvmark.c,v 1.3 1993/04/10 13:52:22 sev Exp $";
 
 
 #include <string.h>
@@ -82,11 +85,11 @@ VCED *vced;
   w=vced->edswptr;
   more=1;
 
-flagsegm = 1;
+  flagsegm = 1;
 
-vced->edaline = vced->edcline;
-vced->edachar = vced->edcchar;
-vced->edarow = vced->edcrow;
+  vced->edaline = vced->edcline;
+  vced->edachar = vced->edcchar;
+  vced->edarow = vced->edcrow;
 
   ungetone(SEGM);
   while(more)
@@ -99,13 +102,12 @@ vced->edarow = vced->edcrow;
 	end++;
       if( key==CUR_DOWN && col_mark > 1 && start>0 )
 	start--;
-      ed_vert_atr(wdo1,start,end,ATR_B);
     }
     vcedstatus(vced);
     vcedaddcur(vced);
     vced->edupval =0;
     key=getone();
-vced->edupval |=VCEDUPDALL;
+    vced->edupval |=VCEDUPDALL;
     switch(key)
     {
     case CUR_DOWN:
@@ -120,14 +122,12 @@ vced->edupval |=VCEDUPDALL;
       if(col_mark>=1)
       {
 	end=row;
-/*	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
-*/	col_mark++;
+	col_mark++;
       }
       else
       {
 	start=row;
-/*	selbar(wdo1,row-1,0,ATR_F,wcols(wdo1));
-*/	col_mark++;
+	col_mark++;
       }
       break;
 
@@ -143,14 +143,12 @@ vced->edupval |=VCEDUPDALL;
       if(col_mark<=1)
       {
 	start=row;
-/*	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
-*/	col_mark--;
+	col_mark--;
       }
       else
       {
 	end=row;
-/*	selbar(wdo1,row+1,0,ATR_F,wcols(wdo1));
-*/	col_mark--;
+	col_mark--;
       }
       break;
 
@@ -302,10 +300,11 @@ vced->edupval |=VCEDUPDALL;
 	cline=vcedgline(vced->edbuffer,vced->edcline);
 	prev=vcedgline(vced->edbuffer,cline->lprev);
 	next=vcedgline(vced->edbuffer,cline->lnext);
-	if(strchr(prev->ltext,'\014')!=NULL || vced->edcrow==0 )
+	if(strchr(prev->ltext,'\014')!=(char *)NULL || vced->edcrow==0 )
 	  up_dn=UP_TO_DN;
 	else
-	  if(strchr(next->ltext,'\014')!=NULL || strchr(prev->ltext,'\014')!=NULL)
+	  if(strchr(next->ltext,'\014')!=(char *)NULL ||
+				strchr(prev->ltext,'\014')!=(char *)NULL)
 	    up_dn=DN_TO_UP;
 	  else
 	  {
@@ -315,8 +314,7 @@ vced->edupval |=VCEDUPDALL;
 	    break;
 	  }
 	row=vced->edcrow-vced->edtrow;
-/*	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
-*/	start=end=row;
+	start=end=row;
 	up_crow=vced->edcrow;
 	up_line=vced->edcline;
 	mem_edtrow=vced->edtrow;
@@ -330,13 +328,13 @@ vced->edupval |=VCEDUPDALL;
       cline=vcedgline(vced->edbuffer,vced->edcline);
       prev=vcedgline(vced->edbuffer,cline->lprev);
       next=vcedgline(vced->edbuffer,cline->lnext);
-      if(up_dn==UP_TO_DN && strchr(next->ltext,'\014')==NULL && start!=end)
+      if(up_dn==UP_TO_DN && strchr(next->ltext,'\014')==(char *)NULL && start!=end)
       {
 	ask_msg("Конец отметки сегмента - до строки ----------... ",0);
 	flag_seg=1;
 	break;
       }
-      if(up_dn==DN_TO_UP && strchr(prev->ltext,'\014')==NULL && start!=end && vced->edcrow!=0)
+      if(up_dn==DN_TO_UP && strchr(prev->ltext,'\014')==(char *)NULL && start!=end && vced->edcrow!=0)
       {
 	ask_msg("Конец отметки сегмента - после строки ----------... ",0);
 	flag_seg=1;
@@ -363,26 +361,9 @@ vced->edupval |=VCEDUPDALL;
       }
       len_seg=dn_crow-up_crow;
       edprtbuf(vced);
-/*      i=0;
-      while(cfile->drawseg.segs[i]!=-1)
-      {
-	   i++;
-	   if(i==SEGOFLINE)
-	break;
-      }
-
-       if(i==SEGOFLINE)
-       {
-	ask_msg("Сегмент не отмечен.Количество сегментов больше допустимого.",0);
-	ungetone(ESC);
-	break;
-       }
-       cfile->drawseg.segs[i]=1;
-       cfile->drawseg.beg_seg[i]=up_line;
-       cfile->drawseg.crow_beg[i]=up_crow;
-*/       vcedempty(name_seg,NAME_LEN);
+       vcedempty(name_seg,NAME_LEN);
        strcpy(name_seg,vced->edbuffer->bfname);
-       if((ch=strchr(name_seg,'.'))!=NULL)
+       if((ch=strchr(name_seg,'.'))!=(char *)NULL)
 	   *ch='\0';
        sprintf(buf,"%s%d",name_seg,col_seg_of_file+1);
       if(ask_dir(vced,len_seg)==0)
@@ -408,28 +389,9 @@ vced->edupval |=VCEDUPDALL;
       break;
     }
   }
-vced->edaline = (DBDP)0;
-vced->edachar = -1;
-vced->edarow = -1;
-vced->edupval |= VCEDUPDALL;
-flagsegm = 0;
+  vced->edaline = (DBDP)0;
+  vced->edachar = -1;
+  vced->edarow = -1;
+  vced->edupval |= VCEDUPDALL;
+  flagsegm = 0;
 }
-
-/****************************************************************************/
-/*                         Функция маркирует область окна                   */
-/****************************************************************************/
-
-ed_vert_atr(w,start,end,atr)
-WPTR w;
-int start,end,atr;
-{
-  woff();
-  while(start <= end)
-  {
-/*    selbar(w,start,0,atr,wcols(w));
-*/    start++;
-  }
-  won();
-}
-
-/* ------------------------------------------------------------------------ */

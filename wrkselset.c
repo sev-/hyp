@@ -1,11 +1,14 @@
 /*
  *
- * $Id: wrkselset.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ * $Id: wrkselset.c,v 1.2 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: wrkselset.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.9  1993/04/01  14:10:29  kas
@@ -375,3 +378,36 @@ SELSET *initselset()
 	}
 
 /* ------------------------------------------------------------------------ */
+/**
+*
+*   Name            repselitm.c -- Replace a selection item
+*
+*   Description     Replacing selitm from selection set
+*                   
+*   Return Value    Returns NULL if error
+*
+**/
+
+SELSET *repselset(list, old, display, value)
+SELSET *list;
+SELSET *old;
+TEXT *display;
+TEXT *value;
+{
+  SELSET *prev, *next, *new;
+
+  prev = old->iprev;
+  next = old->inext;
+
+  if(delselitm(list, old) == (SELSET *)NULL)
+    return (SELSET *)NULL;
+
+  new = addselitm(list, display, value);
+  new->iprev->inext = (SELSET *)NULL;	/* А мы не добавляли */
+  new->iprev = prev;
+  new->inext = next;
+  new->iprev->inext = new;
+  new->inext->iprev = new;
+
+  return new;
+}

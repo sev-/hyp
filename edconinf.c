@@ -1,10 +1,13 @@
 /*
- *  $Id: edconinf.c,v 1.2 1993/04/08 10:37:38 sev Exp $
+ *  $Id: edconinf.c,v 1.3 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edconinf.c,v $
- * Revision 1.2  1993/04/08 10:37:38  sev
+ * Revision 1.3  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.2  1993/04/08  10:37:38  sev
  * edsetfta changed
  *
  * Revision 1.1  1993/04/06  14:14:07  sev
@@ -22,7 +25,7 @@
  *
  */
 
-static char rcsid[]="$Id: edconinf.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
+static char rcsid[]="$Id: edconinf.c,v 1.3 1993/04/10 13:52:22 sev Exp $";
 
 
 #include "vced.h"
@@ -127,6 +130,8 @@ VCED *vced;
 	{
 	       strcpy(privyz.mesg,sel->idisplay);
 	       strcpy(privyz.name_seg,sel->ivalue);
+	       if((ch=(TEXT *)strrchr(privyz.name_seg,'%')) != (TEXT *)NULL)
+	         *ch= '\0';	/* Отсекаем кол-во ссылок */
 	       strcpy(privyz.name_file,strchr(privyz.mesg,'(')+1);
 	       *(strchr(privyz.name_file,')'))='\0';
 	       strcpy(vceddfil,privyz.file_par);

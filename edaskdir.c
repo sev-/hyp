@@ -1,10 +1,13 @@
 /*
- *  $Id: edaskdir.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edaskdir.c,v 1.2 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edaskdir.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.4  1993/04/01  14:10:29  kas
@@ -22,17 +25,17 @@
  *
  */
 
-static char rcsid[]="$Id: edaskdir.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: edaskdir.c,v 1.2 1993/04/10 13:52:22 sev Exp $";
 
 #define VCGET_DEFS
 
 #include "vced.h"
 #include <string.h>
 
-/**********************************************************************/
-/*  Функция записывает в файл  *.dir  строку вида:		      */
-/*  "коментарий для катклога о сегменте  имя сегмента  длина сегмента */
-/**********************************************************************/
+/***************************************************************************/
+/*  Функция записывает в файл  *.dir  строку вида:		           */
+/*  "коментарий (имя сегмента) %длина сегмента|имя сегмента%кол-во ссылок" */
+/***************************************************************************/
 
 int ask_dir(vced,len_seg)
 VCED *vced;
@@ -71,7 +74,8 @@ int len_seg;
   strcpy(name,vced->edbuffer->bfname);
   if((ch=strchr(name,'.'))!=(char *)NULL)
     *ch='\0';
-  sprintf(name_seg,"%s%d",name,col_seg_of_file);
+  sprintf(name_seg,"%s%d%%0",name,col_seg_of_file);
+  /*                     ^^ - %кол-во ссылок на сегмент */
 
   sprintf(tmp1,"%s (%s) %%%d",mesg_of_seg,vced->edbuffer->bfname, len_seg);
 
@@ -80,6 +84,7 @@ int len_seg;
   if(putselset(dir_file, "w", dirr))
   {
     vcend(CLOSE);
+    execlp("clear","clear",(char *)NULL);
     printf("Не могу записать в файл %s\n", dir_file);
     exit(1);
   }

@@ -1,10 +1,13 @@
 /*
- *  $Id: edextfun.h,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edextfun.h,v 1.2 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edextfun.h,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 4.4  1993/04/01  14:10:29  kas
@@ -96,3 +99,14 @@ COUNT     edrefresh();
 WPTR      wopen();
 WPTR      wxopen();
 WPTR      wxxopen();
+SELSET   *aloselitm();
+SELSET   *addselitm();
+SELSET   *getselitm();
+SELSET   *delselitm();
+SELSET   *delselset();
+VOID 	  lstsel();
+int 	  putselset();
+int 	  getselset();
+SELSET   *initselset();
+int	  add_refer();
+SELSET 	 *repselset();

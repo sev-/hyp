@@ -1,10 +1,13 @@
 /*
- *  $Id: eddir.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: eddir.c,v 1.2 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: eddir.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.6  1993/04/01  14:10:29  kas
@@ -28,7 +31,7 @@
  *
  */
 
-static char rcsid[]="$Id: eddir.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: eddir.c,v 1.2 1993/04/10 13:52:22 sev Exp $";
 
 #include "vced.h"
 
@@ -101,6 +104,8 @@ VCED *vced;
       tmp= dirr;
       strcpy(header," Cправочник ");
       key=drivesel(tmp,privyz.mesg,privyz.name_seg,header);
+      if((ch=(char *)strrchr(privyz.name_seg,'%')) != (char *)NULL)
+        *ch='\0';	/* Отсекаем кол-во ссылок */
       strcpy(privyz.name_file,strchr(privyz.mesg,'(')+1);
       if((ch=strchr(privyz.name_file,')'))!=(char *)NULL)
 	*ch='\0';

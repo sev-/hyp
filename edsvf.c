@@ -1,10 +1,13 @@
 /*
- *  $Id: edsvf.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edsvf.c,v 1.2 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edsvf.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.2  1993/04/05  16:08:05  kas
@@ -173,9 +176,10 @@ VCED *vced;
 /* ------------------------------------------------------------------------ */
 
 COUNT numlinpage(vced)
+VCED *vced;
 {
   COUNT rows=0;
-  int rest = vced->edcrow;
+  LONG rest = vced->edcrow;
   VCEDLINE *line;
 
   if(vced->edcrow >= vced->edbuffer->bfnlines)

@@ -1,8 +1,11 @@
 #
-#  $Id: makefile,v 1.1 1993/04/06 14:14:07 sev Exp $
+#  $Id: makefile,v 1.2 1993/04/10 13:52:22 sev Exp $
 #
 # $Log: makefile,v $
-# Revision 1.1  1993/04/06 14:14:07  sev
+# Revision 1.2  1993/04/10 13:52:22  sev
+# Изменена структура справочника
+#
+# Revision 1.1  1993/04/06  14:14:07  sev
 # Initial revision
 #
 # Revision 4.3  1993/03/27  12:12:40  kas
@@ -35,13 +38,13 @@ CFLAGS = -Ot
 
 CC = rcc
 
-OBJS =  drivesel.o edaskdir.o edback.o edconf.o\
+OBJS =  addrefer.o drivesel.o edaskdir.o edback.o edconf.o\
 	edconinf.o eddelcon.o eddelendl.o eddellin.o eddir.o eddisp.o \
 	edend.o edexec.o edsvf.o  edfnd.o edftostr.o\
 	edhelp.o edhmark.o edhypend.o edinscon.o edinsline.o\
 	edinsseg.o edit.o editor.o edmarkpg.o \
 	edmesg.o edmove.o ednumseg.o edopen.o edpaste.o edprtb.o\
-	edprtl.o          edputch.o edsignal.o\
+	edprtl.o edputch.o edsignal.o\
 	edstat.o edsys.o edupda.o edvmark.o edwopen.o f_to_b.o loadfile.o\
 	system.o wrkselset.o match.o crtlstfl.o
 

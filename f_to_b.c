@@ -1,10 +1,13 @@
 /*
- *  $Id: f_to_b.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: f_to_b.c,v 1.2 1993/04/10 13:52:22 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: f_to_b.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/10 13:52:22  sev
+ * Изменена структура справочника
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.2  1993/03/27  12:08:16  kas
@@ -16,7 +19,7 @@
  *
  */
 
-static char rcsid[]="$Id: f_to_b.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: f_to_b.c,v 1.2 1993/04/10 13:52:22 sev Exp $";
 
 #include "vced.h"
 #include <sys/types.h>
@@ -34,7 +37,7 @@ VCEDBUF *edbuf;                     /* Edit buffer                          */
 
   if(stat(edbuf->bfname,&info))     /* Get permission                       */
     return(1);                      /* Error getting status                 */
-  if((tfptr = vcfopen(edbuf->bfname,VCF_R)) == (FILE *)0)
+  if((tfptr = vcfopen(edbuf->bfname,VCF_R)) == (FILE *)NULL)
     return(1);                      /* Error opening file                   */
   edbuf->bfperm = info.st_mode;     /* Save status of file                  */
   vcedempty(vcedfbuf,edbuf->bflinelen);/* Empty work buffer                 */
