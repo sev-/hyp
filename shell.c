@@ -1,10 +1,13 @@
 /*
- *  $Id: shell.c,v 1.2 1993/09/28 12:58:34 sev Exp $
+ *  $Id: shell.c,v 1.3 1993/09/28 16:25:40 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: shell.c,v $
- * Revision 1.2  1993/09/28 12:58:34  sev
+ * Revision 1.3  1993/09/28 16:25:40  sev
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/09/28  12:58:34  sev
  * Добавлена куча всего
  *
  * Revision 1.1  1993/09/14  16:45:50  sev
@@ -58,15 +61,18 @@ void view()
 	  name[0] = 0;
 	  if(edit_string(12, 10, 60, 65, name, " Введите имя зказчика ",
 							ATR_B, ATR_F))
-	  wrote = select_wrote();
-	  addselitm(clients, name, wrote);
-	  need_update = 1;
+	  {
+	    wrote = select_wrote();
+	    addselitm(clients, name, wrote);
+	    need_update = 1;
+	  }
 	  break;
 	case 'k':
 	  win2 = xdrivesel(clients, disp, val, " Список заказчиков ", &key,
 								9, 12);
 	  wclose(win2);
-	  if(ask_msg("Вы действительно хотите удалить заказчика", disp, 1))
+	  if(key != ESC &&
+		ask_msg("Вы действительно хотите удалить заказчика", disp, 1))
 	  {
 	    delselitm(clients, getselitm(clients, disp, val));
 	    need_update = 1;
