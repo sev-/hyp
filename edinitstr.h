@@ -1,10 +1,13 @@
 /*
- *  $Id: edinitstr.h,v 1.3 1993/04/22 13:23:26 sev Exp $
+ *  $Id: edinitstr.h,v 1.4 1993/07/07 12:12:47 sev Exp $
  *
  * --------------------------------------------------------------------------
  *
  * $Log: edinitstr.h,v $
- * Revision 1.3  1993/04/22 13:23:26  sev
+ * Revision 1.4  1993/07/07 12:12:47  sev
+ * теперь перелистывает через пять строк
+ *
+ * Revision 1.3  1993/04/22  13:23:26  sev
  * dir записывается один раз
  * \
  *
@@ -92,7 +95,7 @@ VCEDVAL vcedval =
 	(COUNT)'\t',            /* Tab character                        */
 	(COUNT)   176,          /* Tab space character                  */
 	(COUNT)   35,           /* Number to move when shifting left    */
-	(COUNT)   1,            /* Number to move when shifting up/down */
+	(COUNT)   5,            /* Number to move when shifting up/down */
 	(COUNT)   0,            /* Default Right Margin                 */
 	(COUNT)   0,            /* Default Left Margin                  */
 	(COUNT)   0,            /* Display control characters           */
