@@ -1,10 +1,13 @@
 /*
- *  $Id: edvmark.c,v 1.4 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edvmark.c,v 1.5 1993/07/10 08:28:31 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edvmark.c,v $
- * Revision 1.4  1993/04/20 16:04:12  sev
+ * Revision 1.5  1993/07/10 08:28:31  sev
+ * *** empty log message ***
+ *
+ * Revision 1.4  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
@@ -294,7 +297,7 @@ VCED *vced;
 			if(flag_seg)
 			{
 				if(vced->edcline == (DBDP)0)	    /* If not on real line	*/
-					vcedmkreal(vced);		     /* Make the current loc real*/
+					vcedmkreal(vced); /* Make the current loc real*/
 				cline=vcedgline(vced->edbuffer,vced->edcline);
 				prev=vcedgline(vced->edbuffer,cline->lprev);
 				next=vcedgline(vced->edbuffer,cline->lnext);

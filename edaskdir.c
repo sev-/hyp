@@ -1,10 +1,13 @@
 /*
- *  $Id: edaskdir.c,v 1.4 1993/04/22 13:23:26 sev Exp $
+ *  $Id: edaskdir.c,v 1.5 1993/07/10 08:28:31 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edaskdir.c,v $
- * Revision 1.4  1993/04/22 13:23:26  sev
+ * Revision 1.5  1993/07/10 08:28:31  sev
+ * *** empty log message ***
+ *
+ * Revision 1.4  1993/04/22  13:23:26  sev
  * dir записывается один раз
  * \
  *
@@ -55,6 +58,16 @@ int len_seg;
   int  key;
   char tmp1[256];
 
+  strcpy(name,vced->edbuffer->bfname);
+  if((ch=strchr(name,'.'))!=(char *)NULL)
+    *ch='\0';
+  sprintf(name_seg,"%s%d%%0",name,col_seg_of_file);
+  /*                     ^^ - %кол-во ссылок на сегмент */
+
+  strncat(name,
+"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                    NAME_LEN-strlen(name)-10);
+
   w_=wxxopen(8,9,14,71,NULL,ACTIVE+CURSOR+BORDER+BD2+SHADOW,0,0,0,32);
 
   empty(bb,40);
@@ -62,7 +75,7 @@ int len_seg;
   atsay(3,1,"[");
   atsay(3,41,"]");
 
-  xatget(3,2,bb,"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",isblank,
+  xatget(3,2,bb,name,isblank,
       NULLTEXT,NULLTEXT,ATR_F,ATR_F);
   key = readgets();
   trim(bb);
@@ -76,12 +89,6 @@ int len_seg;
   }
   strcpy(mesg_of_seg,bb);
   col_seg_of_file++;			    /* количество сегментов в файле */
-  strcpy(name,vced->edbuffer->bfname);
-  if((ch=strchr(name,'.'))!=(char *)NULL)
-    *ch='\0';
-  sprintf(name_seg,"%s%d%%0",name,col_seg_of_file);
-  /*                     ^^ - %кол-во ссылок на сегмент */
-
   sprintf(tmp1,"%s (%s) %%%d",mesg_of_seg,vced->edbuffer->bfname, len_seg);
 
   addselitm(dirr,tmp1,name_seg);
