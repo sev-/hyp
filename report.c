@@ -1,22 +1,21 @@
 /*
- *  $Id: report.c,v 1.1 1993/03/06 11:50:31 sev Exp $
+ *  $Id: report.c,v 1.2 1993/03/09 15:40:56 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: report.c,v $
- * Revision 1.1  1993/03/06 11:50:31  sev
+ * Revision 1.2  1993/03/09 15:40:56  sev
+ * Новый формат вывода в файл
+ * pathfile segname begline endline lineOfField colbeg colend where
+ * обработка вложенных сегментов
+ *
+ * Revision 1.1  1993/03/06  11:50:31  sev
  * Initial revision
  *
  *
  */
 
-static char rcsid[]="$Id: report.c,v 1.1 1993/03/06 11:50:31 sev Exp $";
-
-/* Last modification  27 Фев Сб  16:44:05 kiev 1993 */
-/*
-	Файл report.c
-	Запорожье 1993.
-*/
+static char rcsid[]="$Id: report.c,v 1.2 1993/03/09 15:40:56 sev Exp $";
 
 #include <stdio.h>
 
@@ -172,16 +171,19 @@ char *path;
 {
   FILE *in;
   FILE *out;
-  char  buf[1024];
-  char  tmp[PATHLEN];
-  long  position;
-  int   numstring;	/* номер строки */
-  int   numstring1;
+  char	buf[1024];
+  long	position;
+  int	numstring;	/* номер строки */
   char *where;
-  char  name[256];
-  int   x;
   char *p;
-  char  tmp1[256];
+  char	curr_file[256];	/* Имя текущего файла				*/
+  char	curr_seg[256];	/* Имя текущего сегмента			*/
+  int	beg_seg;	/* Первая строка начального сегмента		*/
+  int	end_seg;	/* Последняя строка				*/
+  int	first, last;	/* Начало и конец поля				*/
+  char	seg[256];	/* Имя сегмента, на который ссылается поле	*/
+  int	was;		/* Признак печати информации о сегменте		*/
+  int	level;		/* Уровень вложенности скобок			*/
 
   out = fopen(fileout, "w");
 
@@ -201,58 +203,75 @@ char *path;
 loop:
 
   if(path != (char *)NULL)	/* сделаем имя файла */
-    sprintf(tmp1, "%s/%s", path, current->path);
+    sprintf(curr_file, "%s/%s", path, current->path);
   else
-    strcpy(tmp1, current->path);
+    strcpy(curr_file, current->path);
 
-  fputs(tmp1, stdout);
+  fputs(curr_file, stdout);
   fputc('\n', stdout);
 
-  in = fopen(tmp1, "r");
-
-  fputs("Файл: ", out);
-  fputs(tmp1, out);	/* в файл */
-  fputc('\n', out);
+  in = fopen(curr_file, "r");
 
   numstring = 0;
+  was = 1;
 
   while(fgets(buf, 1024, in))	/* вывод в файл имен всех сегментов и полей */
   {
     position = ftell(in);
+
+    /* нет ли в этой строке начала сегмента ? */
+    if(where = find(buf, "\033("))	/* есть */
+    {
+      if(!was)	/* не записывали информацию о предыдущем сегменте */
+	fprintf(out, "%s\t%s\t%u\t%u\t-1\t-1\t-1\t\n", curr_file, curr_seg,
+			beg_seg, end_seg);
+
+      beg_seg = end_seg = numstring;
+
+      was = 0;	/* Полей не встречали */
+
+      strcpy(curr_seg, where);
+      p = (char *)strchr(curr_seg, '\n');
+      if(p)
+	*p = '\0';
+      p = (char *)strchr(curr_seg, '\r');
+      if(p)
+	*p = '\0';
+					/* ищем его конец */
+      level = 0;
+      do
+      {
+        if(find(buf, "\033)"))
+           level --;
+        if(find(buf, "\033("))
+           level ++;
+	end_seg ++;	/* считаем строки */
+      } while(level && fgets(buf, 1024, in));
+      end_seg --;
+
+      fseek(in, position, SEEK_SET);	/* станем на прежнее место */
+    }
+
     if(where = find(buf, "\033<"))	/* нашли начало поля */
     {
       /* структура поля : \033<dd;dd;segment;file>
  		,где segment - имя сегмента,
 		 file - имя файла, содержащего этот сегмент */
- 
-       sscanf(where, "%d-%d;%s", &x, &x, tmp);	/* существенно только имя */
-       sscanf((char *)strchr(tmp, ';'), ";%s", name);
-       p = (char *)strchr(name, '>');
+
+       was = 1;	/* Флаг (встретили поле) */
+
+       sscanf(where, "%d-%d;%s", &first, &last, seg);
+       p = (char *)strchr(seg, ';');
        *p = '\0';
-       p = (char *)strchr(tmp, ';');
-       *p = '\0';
-       sprintf(tmp1, "Поле: строка %u файл %s сегмент %s\n", numstring, name, tmp);
-       fputs(tmp1, out);	/* это в файл */
-    }
-    /* нет ли в этой строке начала сегмента ? */
-    if(where = find(buf, "\033("))	/* есть */
-    {
-      numstring1 = numstring;
-
-      strcpy(tmp, where);
-					/* ищем его конец */
-      while(!(where = find(buf, "\033)")) && fgets(buf, 1024, in))
-	numstring1 ++;	/* считаем строки */
-
-      sprintf(buf, "Сегмент: с %u по %u строку. Имя: %s", numstring, numstring1, tmp);
-      fputs(buf, out);
-
-      fseek(in, position, SEEK_SET);	/* станем на прежнее место */
+       fprintf(out, "%s\t%s\t%u\t%u\t%u\t%u\t%u\t%s\n", curr_file, curr_seg,
+			beg_seg, end_seg, numstring, first, last, seg);
     }
     numstring ++;
   }
 
-  fputs("Конец файла\n\n", out);
+  if(!was)	/* не записывали информацию о последнем сегменте */
+    fprintf(out, "%s\t%s\t%u\t%u\t-1\t-1\t-1\t\n", curr_file, curr_seg,
+			beg_seg, end_seg);
 
 loop1:
 
@@ -288,11 +307,11 @@ loop1:
     fclose(in);
 
     if(path != (char *)NULL)
-      sprintf(tmp1, "%s/%s", path, current->path);
+      sprintf(curr_file, "%s/%s", path, current->path);
     else
-      strcpy(tmp1, current->path);
+      strcpy(curr_file, current->path);
 
-    in = fopen(tmp1, "r");
+    in = fopen(curr_file, "r");
     fseek(in, current->position, SEEK_SET);
     goto loop1;		/* уже не будем смотреть его поля и сегменты */
   }
