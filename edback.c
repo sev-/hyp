@@ -1,11 +1,14 @@
 /*
- *  $Id: edback.c,v 1.3 1993/05/24 15:12:43 sev Exp $
+ *  $Id: edback.c,v 1.4 1993/06/08 12:10:31 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  *  $Log: edback.c,v $
- *  Revision 1.3  1993/05/24 15:12:43  sev
- *  Добавлена запись файлов в директорию сохранения
+ *  Revision 1.4  1993/06/08 12:10:31  sev
+ *  *** empty log message ***
+ *
+ * Revision 1.3  1993/05/24  15:12:43  sev
+ * Добавлена запись файлов в директорию сохранения
  *
  * Revision 1.2  1993/04/20  16:04:12  sev
  * *** empty log message ***
@@ -77,8 +80,7 @@ VCEDBUF *edbuf;             /* Edit buffer                          */
     else                                /*                          */
         strcpy(backname,edbuf->bfname); /* Copy file name           */
     trim(backname);                     /* Trim name                */
-
-    if(strlen(&backname[strrchr(backname, '/')]) > 10)
+    if(strlen(&backname[(TEXT *)strrchr(backname, '/')-backname]) > 10)
       backname[strlen(backname)-2] = '\0'; /* Обрезаем два последних символа */
     strcat(backname, ".b");
 

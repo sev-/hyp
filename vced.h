@@ -1,10 +1,13 @@
 /*
- *  $Id: vced.h,v 1.2 1993/04/20 16:04:12 sev Exp $
+ *  $Id: vced.h,v 1.3 1993/06/08 12:10:31 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: vced.h,v $
- * Revision 1.2  1993/04/20 16:04:12  sev
+ * Revision 1.3  1993/06/08 12:10:31  sev
+ * Вот теперь этот глюк действительно убран
+ *
+ * Revision 1.2  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
@@ -73,7 +76,7 @@
 #define ENDMARK         1234
 #define UNMARK          4321
 
-#define NAME_LEN          20
+#define NAME_LEN          80
 #define MES_LEN           60
 #define ALL_LEN sizeof(struct dir)
 

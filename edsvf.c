@@ -1,10 +1,13 @@
 /*
- *  $Id: edsvf.c,v 1.4 1993/04/22 13:23:26 sev Exp $
+ *  $Id: edsvf.c,v 1.5 1993/06/08 12:10:31 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edsvf.c,v $
- * Revision 1.4  1993/04/22 13:23:26  sev
+ * Revision 1.5  1993/06/08 12:10:31  sev
+ * Вот теперь этот глюк действительно убран
+ *
+ * Revision 1.4  1993/04/22  13:23:26  sev
  * dir записывается один раз
  * \
  *
@@ -212,7 +215,18 @@ char *s;
   char *b;
 
   b = s + strlen(s);
-  while(--b >= s && (*b == ' ' || *b == '\t' || *b == '\n'
+  while(--b >= s && (*b == ' ' || *b == '\t' || *b == '\n' || *b == '\r'
 			|| *b == vcedval.softret || *b == vcedval.hardret))
     *b = 0;
+}
+
+trimstring1(s)
+char *s;
+{
+  char *b;
+
+  trimstring(s);
+  b = s + strlen(s);
+  *b++ = '\n';
+  *b = 0;
 }

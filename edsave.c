@@ -1,10 +1,13 @@
 /*
- *  $Id: edsave.c,v 1.1 1993/05/24 15:14:24 sev Exp $
+ *  $Id: edsave.c,v 1.2 1993/06/08 12:10:31 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edsave.c,v $
- * Revision 1.1  1993/05/24 15:14:24  sev
+ * Revision 1.2  1993/06/08 12:10:31  sev
+ * Вот теперь этот глюк действительно убран
+ *
+ * Revision 1.1  1993/05/24  15:14:24  sev
  * Initial revision
  *
  *
@@ -54,7 +57,7 @@ VCEDBUF *edbuf;             /* Edit buffer                          */
         edbuf->bfchange = vcedtofil(edbuf); /* Write to file        */
 	if((tmp1 = (char *)getenv("HOMEZAKON")) != (char *)NULL)
 	{
-	  sprintf(directory, "%s/diffs/%s", tmp1, edbuf->bfname);
+	  sprintf(directory, "%s/diffs/zakon/%s", tmp1, edbuf->bfname);
 	  if((save = fopen(directory, "r")) == (FILE *)NULL)
 	  {
 	    strcpy(buf, "cp ");

@@ -1,10 +1,13 @@
 /*
- *  $Id: f_to_b.c,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: f_to_b.c,v 1.4 1993/06/08 12:10:31 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: f_to_b.c,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/06/08 12:10:31  sev
+ * Вот теперь этот глюк действительно убран
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
@@ -50,6 +53,7 @@ VCEDBUF *edbuf;                     /* Edit buffer                          */
   vcedempty(vcedfbuf,edbuf->bflinelen);/* Empty work buffer                 */
   while(fgets(vcedfbuf,edbuf->bflinelen,tfptr) != (char *)0)
   {
+    trimstring1(vcedfbuf);
     len = strlen(vcedfbuf);         /* Get length of line                   */
     mptr = vcedfbuf + len - 1;      /* Point to end of line                 */
     if(*mptr == '\n')               /* If new line character                */
