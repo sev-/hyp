@@ -1,26 +1,25 @@
 /*
- *  $Id: search.c,v 1.4 1993/09/16 15:12:06 sev Exp $
- *
- * ---------------------------------------------------------- 
- *
+ * $Id: search.c,v 1.5 1994/11/12 19:20:53 sev Exp $
+ * 
+ * ----------------------------------------------------------
+ * 
  * $Log: search.c,v $
- * Revision 1.4  1993/09/16 15:12:06  sev
- * Убрал весьма крутой глюк в forward_serch (странно искал тексты, встре
- * чающиеся больше одного раза)
- *
- * Revision 1.3  1993/03/05  17:29:01  sev
- * теперь и поиск работает по сегментам.
- *
- * Revision 1.2  1993/03/05  17:04:23  sev
- * теперь перелистывание страниц по сегментам
- *
- * Revision 1.1  1993/03/04  09:51:10  sev
- * Initial revision
- *
- *
-*/
+ * Revision 1.5  1994/11/12 19:20:53  sev
+ * Indented and added gzip
+ * Revision 1.4  1993/09/16  15:12:06  sev Убрал весьма крутой глюк
+ * orward_serch (странно искал тексты, встре чающиеся больше одного раза)
+ * 
+ * Revision 1.3  1993/03/05  17:29:01  sev теперь и поиск работает по сегментам.
+ * 
+ * Revision 1.2  1993/03/05  17:04:23  sev теперь перелистывание страниц по сегментам
+ * 
+ * 
+ * Revision 1.1  1993/03/04  09:51:10  sev Initial revision
+ * 
+ * 
+ */
 
-static char rcsid[]="$Id: search.c,v 1.4 1993/09/16 15:12:06 sev Exp $";
+static char rcsid[] = "$Id: search.c,v 1.5 1994/11/12 19:20:53 sev Exp $";
 
 #include "hyp.h"
 
@@ -35,41 +34,41 @@ FILE *file;
   int errorwind;
 
   old_position = end_super;
-  end_super = atol(buf_pg[col_str]+1);
+  end_super = atol(buf_pg[col_str] + 1);
   read_screen(file, end_super);
-  if(old_position == end_super)
+  if (old_position == end_super)
     end_super = old_position = 0;
   else
     old_position = end_super;
 
-  pg_open = (end_super == 0)? 0 : 1;
+  pg_open = (end_super == 0) ? 0 : 1;
   pg_close = 0;
 
-  if(!edit_string(10, 10, 70, 256, old_pattern, " Поиск вперед ", ATTR_B, ATTR_F))
-  	return;
+  if (!edit_string(10, 10, 70, 256, old_pattern, " Поиск вперед ", ATTR_B, ATTR_F))
+    return;
 
   position = end_super;
-  while(!stop&&more)
+  while (!stop && more)
   {
-    if(!(more = read_screen(file, end_super)))
+    if (!(more = read_screen(file, end_super)))
       continue;
-    if(pg_open == pg_close)
+    if (pg_open == pg_close)
       stop = 2;
 
-    for(i = 0; i < more; i++)
-      if(find(buf_pg[i], old_pattern))
+    for (i = 0; i < more; i++)
+      if (find(buf_pg[i], old_pattern))
       {
-        stop = 1;
-        break;
+	stop = 1;
+	break;
       }
-    if(!stop)
+    if (!stop)
       position = end_super;
   }
-  if(stop == 2)
+  if (stop == 2)
   {
     end_super = old_position;
-    errorwind = wxopen(10, 30, 12, 50, (char *)NULL,ACTIVE+NOADJ+CURTAIN+BORDER+BD2, 0, 0);
-    atsay(0,5,"Не найден");
+    errorwind = wxopen(10, 30, 12, 50, (char *) NULL, ACTIVE + NOADJ + CURTAIN + BORDER + BD2, 0, 0);
+    atsay(0, 5, "Не найден");
     getone();
     wclose(errorwind);
   }
@@ -85,7 +84,7 @@ FILE *file;
 {
   int stop = 0;
   int i;
-  int flag=0;
+  int flag = 0;
   long position;
   long old_position;
   int more = 1;
@@ -94,9 +93,9 @@ FILE *file;
 
   sprintf(beg, "\033(%s", current_seg);
   old_position = end_super;
-  end_super = atol(buf_pg[col_str]+1);
+  end_super = atol(buf_pg[col_str] + 1);
   read_screen(file, end_super);
-  if(old_position == end_super)
+  if (old_position == end_super)
   {
     end_super = old_position = 0;
     flag = 1;
@@ -104,44 +103,44 @@ FILE *file;
   else
     old_position = end_super;
 
-  if(!edit_string(10, 10, 70, 256, old_pattern, " Поиск назад ", ATTR_B, ATTR_F))
-  	return;
+  if (!edit_string(10, 10, 70, 256, old_pattern, " Поиск назад ", ATTR_B, ATTR_F))
+    return;
 
   pg_open = 0;
   pg_close = 1;
 
   position = end_super;
-  while(!stop && more)
+  while (!stop && more)
   {
     more = read_screen(file, end_super);
 
-    if(pg_open == pg_close)
+    if (pg_open == pg_close)
     {
       stop = 1;
       _open--;
     }
 
-    for(i = 0; i < more; i++)
-      if(find(buf_pg[i], old_pattern))
+    for (i = 0; i < more; i++)
+      if (find(buf_pg[i], old_pattern))
       {
-        stop = 1;
-        break;
+	stop = 1;
+	break;
       }
-    if(!stop)
+    if (!stop)
     {
-      position = end_super = atol(buf_pg[more]+1);
-      if(position == 0)
-        if(flag)
-          more = 0;
-        else
-          flag = 1;
+      position = end_super = atol(buf_pg[more] + 1);
+      if (position == 0)
+	if (flag)
+	  more = 0;
+	else
+	  flag = 1;
     }
   }
-  if(!more)
+  if (!more)
   {
     end_super = old_position;
-    errorwind = wxopen(10, 30, 12, 50, (char *)NULL,ACTIVE+NOADJ+CURTAIN+BORDER+BD2, 0, 0);
-    atsay(0,5,"Не найден");
+    errorwind = wxopen(10, 30, 12, 50, (char *) NULL, ACTIVE + NOADJ + CURTAIN + BORDER + BD2, 0, 0);
+    atsay(0, 5, "Не найден");
     getone();
     wclose(errorwind);
   }
@@ -160,12 +159,12 @@ char *pattern;
 
   p = pattern;
 
-  while(*p && *str && *str != '\033')
+  while (*p && *str && *str != '\033')
   {
-    if(*str++ != *p++)
+    if (*str++ != *p++)
       p = pattern;
   }
-  if(!*p)
+  if (!*p)
     return str;
   else
     return 0;
@@ -177,18 +176,18 @@ int more;
 {
   int j;
   char *finded;
-    
+
   woff();
   erase();
   print_pg(more, 0, 0, wdo1);
-  xatsay(22, 40 - strlen(help_string)/2, help_string, ATTR_B);
-  for(j = line; j < more; j++)
+  xatsay(22, 40 - strlen(help_string) / 2, help_string, ATTR_B);
+  for (j = line; j < more; j++)
   {
     finded = buf_pg[j];
-    while((finded = find(finded, old_pattern))!=(char *)NULL)
-      xatsay(j, (int)(finded-buf_pg[j])-strlen(old_pattern), old_pattern, ATTR_F+vc.blink);
+    while ((finded = find(finded, old_pattern)) != (char *) NULL)
+      xatsay(j, (int) (finded - buf_pg[j]) - strlen(old_pattern), old_pattern, ATTR_F + vc.blink);
   }
-  at(23,0);
+  at(23, 0);
   won();
   getone();
 }

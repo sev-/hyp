@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.7 1994/03/05 21:56:56 sev Exp $
+#  $Id: makefile,v 1.8 1994/11/12 19:20:53 sev Exp $
 #
 #
 #  $Log: makefile,v $
-#  Revision 1.7  1994/03/05 21:56:56  sev
-#  o
+#  Revision 1.8  1994/11/12 19:20:53  sev
+#  Indented and added gzip
+#
+# Revision 1.7  1994/03/05  21:56:56  sev
+# o
 #
 # Revision 1.6  1993/09/16  15:12:06  sev
 # Добавлен \
@@ -25,13 +28,18 @@
 # Initial revision
 #
 #
-CFLAGS		= -Ox
+CFLAGS	   = -O
 
-OFILES		= edit_str.o hyp.o lib_hyp.o print_seg.o print_pg.o search.o
+OFILES	   = edit_str.o gunzip.o hyp.o lib_hyp.o print_seg.o print_pg.o search.o
 
-hyp:		$(OFILES)
-	 	rcc $(CFLAGS) -o hyp $(OFILES) -lvc
+hyp:	   $(OFILES)
+	   gcc $(CFLAGS) -o hyp $(OFILES) -lvc
 .c.o:
-	 	rcc $(CFLAGS) -c -I /usr/vcmu/include $<
+	   gcc $(CFLAGS) -c $<
 
-$(OFILES):	hyp.h
+$(OFILES): hyp.h
+
+clean:
+	/bin/rm *.[ob~]
+	strip hyp
+	ci *.[ch] makefile
