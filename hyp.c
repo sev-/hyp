@@ -1,10 +1,14 @@
 /*
- * $Id: hyp.c,v 1.6 1994/12/16 11:01:07 sev Exp $
+ * $Id: hyp.c,v 1.7 1995/01/12 12:24:01 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.c,v $
- * Revision 1.6  1994/12/16 11:01:07  sev
+ * Revision 1.7  1995/01/12 12:24:01  sev
+ * cd RCS
+ * gzip -9 *&
+ *
+ * Revision 1.6  1994/12/16  11:01:07  sev
  * changes for network
  *
  * Revision 1.5  1994/11/12  19:20:53  sev
@@ -24,7 +28,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: hyp.c,v 1.6 1994/12/16 11:01:07 sev Exp $";
+static char rcsid[] = "$Id: hyp.c,v 1.7 1995/01/12 12:24:01 sev Exp $";
 
 /*
  * Файл hyp.c Запорожье 1993.
@@ -379,6 +383,9 @@ char *argv[];
 	  more = 0;
 	  break;
 	case 'q':
+	case 'Q':
+	case 'я':
+	case 'Я':
 	  if (!ask_msg("Вы уверены что хотите выйти из ГИПЕРТЕКСТA ?.", 1))
 	    break;
 	  datfclose(infile);

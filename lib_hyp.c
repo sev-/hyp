@@ -1,10 +1,13 @@
 /*
- * $Id: lib_hyp.c,v 1.4 1994/12/16 11:01:07 sev Exp $
+ * $Id: lib_hyp.c,v 1.5 1995/01/12 12:24:01 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: lib_hyp.c,v $
- * Revision 1.4  1994/12/16 11:01:07  sev
+ * Revision 1.5  1995/01/12 12:24:01  sev
+ * changed help
+ *
+ * Revision 1.4  1994/12/16  11:01:07  sev
  * changes for network
  *
  * Revision 1.3  1994/11/12  19:20:53  sev
@@ -17,7 +20,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: lib_hyp.c,v 1.4 1994/12/16 11:01:07 sev Exp $";
+static char rcsid[] = "$Id: lib_hyp.c,v 1.5 1995/01/12 12:24:01 sev Exp $";
 
 /*
  * Файл lib_hyp.c Запорожье 1992.
@@ -128,7 +131,7 @@ char *help_sm_wind[] =
   "/   - поиск вперед.            ",
   "?   - поиск назад.             ",
   "ПФ4 - запись текущего сегмента.",
-  "AP2 - выход.                   "
+  "q   - выход.                   "
 };
 
 char help_ws[] = " PF1 - помощь ";
