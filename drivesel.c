@@ -1,10 +1,13 @@
 /*
- *  $Id: drivesel.c,v 1.1 1993/09/14 16:45:50 sev Exp $
+ *  $Id: drivesel.c,v 1.2 1993/09/28 12:58:34 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: drivesel.c,v $
- * Revision 1.1  1993/09/14 16:45:50  sev
+ * Revision 1.2  1993/09/28 12:58:34  sev
+ * Удалена лишняя функция
+ *
+ * Revision 1.1  1993/09/14  16:45:50  sev
  * Initial revision
  *
  *
@@ -16,11 +19,13 @@
 
 /* ------------------ Display and selection from SELSET ------------------- */
 
-int   drivesel(lst,disp,val,header)
+WPTR xdrivesel(lst,disp,val,header, keypress_, x, y)
 SELSET	 *lst;
 TEXT *disp;
 TEXT *val;
 TEXT *header;
+int *keypress_;
+int x, y;
 {
   SELSET *itmptr,*head__,*tail;
   SELSET *picked;
@@ -31,14 +36,13 @@ TEXT *header;
   COUNT nbr=0;
   COUNT vert=0;
   COUNT bottom;
-  COUNT keypress_;
   COUNT cnt=1;
   WPTR w1;
 
   itmptr=lst->inext;
 
   if( itmptr == (SELSET *)0 )
-    return(ESC);
+    return (WPTR)(-1);
 
   width=strlen(header)+2;
   while(itmptr)
@@ -49,8 +53,7 @@ TEXT *header;
   }
   bottom=min(nbr,PGSIZE);
   vert=(nbr>PGSIZE)?nbr:0;
-  width+=5;
-  w1=wxxopen(2,2,3+bottom,width+3,header,
+  w1=wxxopen(x,y,x+1+bottom,width+y+1,header,
 	     BORDER+BD2+SCROLL+SHADOW,vert,0,0,32);
 
   tail=head__=itmptr=lst->inext;
@@ -74,9 +77,9 @@ TEXT *header;
   {
     if(cnt)
       selbar(w1,cnt-1,0,hi,width);
-    keypress_=getone();
+    *keypress_=getone();
 
-    switch(keypress_)
+    switch(*keypress_)
     {
     case CUR_UP:
 
@@ -165,11 +168,6 @@ TEXT *header;
       more = 0;
       break;
 
-    case DEL_KEY:
-
-      more = 0;
-      break;
-
     default:
       break;
 
@@ -177,6 +175,21 @@ TEXT *header;
   }
   strcpy(disp,picked->idisplay);
   strcpy(val,picked->ivalue);
-  wclose(w1);
-  return(keypress_);
+
+  return w1;
+}
+
+int   drivesel(lst,disp,val,header)
+SELSET	 *lst;
+TEXT *disp;
+TEXT *val;
+TEXT *header;
+{
+  WPTR win;
+  int key;
+
+  win = xdrivesel(lst, disp, val, header, &key, 2, 2);
+
+  wclose(win);
+  return key;
 }
