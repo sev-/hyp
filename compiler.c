@@ -1,16 +1,19 @@
 /*
- *  $Id: compiler.c,v 1.1 1993/03/01 16:00:44 sev Exp $
+ *  $Id: compiler.c,v 1.2 1993/05/24 13:40:10 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: compiler.c,v $
- * Revision 1.1  1993/03/01 16:00:44  sev
+ * Revision 1.2  1993/05/24 13:40:10  sev
+ * Добавлен новый ключ -f - компиляция только одного файла
+ *
+ * Revision 1.1  1993/03/01  16:00:44  sev
  * Initial revision
  *
  *
  */
 
-static char rcsid[]="$Id: compiler.c,v 1.1 1993/03/01 16:00:44 sev Exp $";
+static char rcsid[]="$Id: compiler.c,v 1.2 1993/05/24 13:40:10 sev Exp $";
 
 /*
 	Файл compiler.c
@@ -72,8 +75,25 @@ char **argv;
   if(argc<2)         /*      Если нет входных параметров     */
   {
     puts("Компилятор гипертекста. Версия 1.1\n\n\
- Использование:\n\t\tcompiler file\n");
+ Использование:\n\t\tcompiler [-f] file\n");
     exit(0);          /*             Выход в DOS              */
+  }
+
+  if(!strcmp(argv[1], "-f"))
+  {
+    if( (current_file = fopen(argv[2],"r+")) == (FILE *)NULL )
+    {
+      printf(" Не могу открыть файл %s\n",argv[2]);
+      exit(1);
+    }
+
+    printf("Компилируется файл : %s",path_file);
+    fseek(current_file,0l,SEEK_SET);
+    compile(&current_file);
+    printf("\rОткомпилирован файл : %s\n",path_file);
+    fclose(current_file);
+
+    exit(0);
   }
 
   if((in_file_config=fopen(argv[1],"r+"))==(FILE *)NULL)
