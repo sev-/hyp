@@ -1,16 +1,19 @@
 /*
- *  $Id: system.c,v 1.1 1993/03/04 07:42:47 kas Exp $
+ *  $Id: system.c,v 1.2 1993/03/12 11:41:38 kas Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: system.c,v $
- * Revision 1.1  1993/03/04 07:42:47  kas
+ * Revision 1.2  1993/03/12 11:41:38  kas
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/03/04  07:42:47  kas
  * Initial revision
  *
  *
 */
 
-static char rcsid[]="$Id: system.c,v 1.1 1993/03/04 07:42:47 kas Exp $";
+static char rcsid[]="$Id: system.c,v 1.2 1993/03/12 11:41:38 kas Exp $";
 
 /**
 *
@@ -82,8 +85,8 @@ TEXT *msg;                  /* Pause and print this message (askmsg)*/
     return(retval);                     /* Return the value         */
     }                                   /* ------------------------ */
 
-/* Более безопасная версия system
-	источник - The UNIX Programming Environment  B. Kernigan & Rob Pike */
+/*           Более безопасная версия system                                 */
+/*      The UNIX Programming Environment  B. Kernigan & Rob Pike            */
 
 #include <signal.h>
 #include <stdio.h>
