@@ -1,10 +1,13 @@
 /*
- * $Id: lib_hyp.c,v 1.3 1994/11/12 19:20:53 sev Exp $
+ * $Id: lib_hyp.c,v 1.4 1994/12/16 11:01:07 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: lib_hyp.c,v $
- * Revision 1.3  1994/11/12 19:20:53  sev
+ * Revision 1.4  1994/12/16 11:01:07  sev
+ * changes for network
+ *
+ * Revision 1.3  1994/11/12  19:20:53  sev
  * Indented and added gzip
  * Revision 1.2  1993/04/22  15:33:35  sev Добавлена еще одна запись сегмента в файл
  * 
@@ -14,7 +17,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: lib_hyp.c,v 1.3 1994/11/12 19:20:53 sev Exp $";
+static char rcsid[] = "$Id: lib_hyp.c,v 1.4 1994/12/16 11:01:07 sev Exp $";
 
 /*
  * Файл lib_hyp.c Запорожье 1992.
@@ -104,7 +107,7 @@ int mode;
 	  case RET:
 	    more = 0;
 	    break;
-	  case ESC:
+	  case 'q':
 	    more = 0;
 	    y_n = 0;
 	    break;
@@ -139,7 +142,7 @@ char *help_ws_wind[] =
   "/          - поиск вперед.            ",
   "?          - поиск назад.             ",
   "PF4        - запись текущего сегмента.",
-  "ESC        - выход.                   "
+  "q          - выход.                   "
 };
 
 char help_ansi[] = " F1  - помощь ";
@@ -153,7 +156,7 @@ char *help_ansi_wind[] =
   "/      - поиск вперед.            ",
   "?      - поиск назад.             ",
   "F4     - запись текущего сегмента.",
-  "ESC    - выход.                   "
+  "q      - выход.                   "
 };
 
 char *help_string;		  /* строка в нижней части экрана */

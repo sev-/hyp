@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.c,v 1.5 1994/11/12 19:20:53 sev Exp $
+ * $Id: hyp.c,v 1.6 1994/12/16 11:01:07 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.c,v $
- * Revision 1.5  1994/11/12 19:20:53  sev
+ * Revision 1.6  1994/12/16 11:01:07  sev
+ * changes for network
+ *
+ * Revision 1.5  1994/11/12  19:20:53  sev
  * Indented and added gzip
  * Revision 1.4  1993/04/22  15:33:35  sev Добавлена еще одна
  *  запись сегмента в файл
@@ -21,7 +24,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: hyp.c,v 1.5 1994/11/12 19:20:53 sev Exp $";
+static char rcsid[] = "$Id: hyp.c,v 1.6 1994/12/16 11:01:07 sev Exp $";
 
 /*
  * Файл hyp.c Запорожье 1993.
@@ -143,6 +146,7 @@ char *argv[];
   end_super = fpos(infile, beg_adr, 0l);
 
   vcstart(CLRSCRN);
+  vckeyrdy = 0;
   wdo1 = wxopen(0, 0, 23, 79, (char *) NULL, ACTIVE + CURSOR + COOKED + NOADJ, 0, 0);
   init_help();
 
@@ -374,7 +378,7 @@ char *argv[];
 	  home = 1;
 	  more = 0;
 	  break;
-	case ESC:
+	case 'q':
 	  if (!ask_msg("Вы уверены что хотите выйти из ГИПЕРТЕКСТA ?.", 1))
 	    break;
 	  datfclose(infile);
