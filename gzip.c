@@ -57,10 +57,10 @@ char *ifile, *ofile;
   ALLOC(ush, tab_prefix1, 1L << (BITS - 1));
 #endif
 
-  ifd = fileno(in);
-  ofd = fileno(out);
   clear_bufs();
   zip(fileno(in), fileno(out));
+  fclose(in);
+  fclose(out);
 }
 
 /*
@@ -144,7 +144,7 @@ abort_gzip()
  * the zip file, storing first the length and its one's complement if
  * requested.
  * 
- * static char rcsid[] = "$Id: gzip.c,v 1.1 1994/11/12 19:16:13 sev Exp $";
+ * static char rcsid[] = "$Id: gzip.c,v 1.2 1994/11/15 14:40:06 sev Exp $";
  */
 
 /*
@@ -1169,7 +1169,7 @@ ulg deflate()
  * output the encoded block to the zip file. Returns the total compressed
  * length for the file so far.
  * 
- * static char rcsid[] = "$Id: gzip.c,v 1.1 1994/11/12 19:16:13 sev Exp $";
+ * static char rcsid[] = "$Id: gzip.c,v 1.2 1994/11/15 14:40:06 sev Exp $";
  */
 
 /*
@@ -2395,7 +2395,7 @@ local void set_file_type()
  * modify it under the terms of the GNU General Public License, see the file
  * COPYING.
  * 
- * static char rcsid[] = "$Id: gzip.c,v 1.1 1994/11/12 19:16:13 sev Exp $";
+ * static char rcsid[] = "$Id: gzip.c,v 1.2 1994/11/15 14:40:06 sev Exp $";
  */
 
 extern ulg crc_32_tab[];	  /* crc table, defined below */
@@ -2570,7 +2570,7 @@ ulg crc_32_tab[] =
  * and/or modify it under the terms of the GNU General Public License, see
  * the file COPYING.
  * 
- * static char rcsid[] = "$Id: gzip.c,v 1.1 1994/11/12 19:16:13 sev Exp $";
+ * static char rcsid[] = "$Id: gzip.c,v 1.2 1994/11/15 14:40:06 sev Exp $";
  */
 
 local ulg crc;			  /* crc on uncompressed file data */

@@ -1,10 +1,13 @@
 /*
- * $Id: compiler.c,v 1.10 1994/11/12 19:16:13 sev Exp $
+ * $Id: compiler.c,v 1.11 1994/11/15 14:40:06 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: compiler.c,v $
- * Revision 1.10  1994/11/12 19:16:13  sev
+ * Revision 1.11  1994/11/15 14:40:06  sev
+ * Some bugs hhave been deleted
+ *
+ * Revision 1.10  1994/11/12  19:16:13  sev
  * added gzip (may be some bugs)
  * Revision 1.9  1994/06/18  16:36:48  sev I was a stupid
  * idiot, when didn't delete a trace message
@@ -41,6 +44,8 @@ FILESTACK *current;
 int fail = 0;
 time_t last_modify;
 
+int NestLevel;
+
 void go_conf();
 void refer();
 void free_stack();
@@ -67,6 +72,7 @@ char **argv;
   {
     if (!strcmp(argv[carg], "-f"))
     {
+      NestLevel = 5;
       while (++carg < argc)
 	compile(argv[carg]);
       return 0;
@@ -148,8 +154,10 @@ char *path;			  /* путь к входному файлу	  */
   char *where;
   char curr_file[256];		  /* Имя текущего файла	 */
   struct stat times[1];
-  int gzipped = 0;
 
+  int gzipped;
+
+  NestLevel = -2;
   current = (FILESTACK *) malloc(sizeof(FILESTACK));
   current->previous = (FILESTACK *) NULL;
 
@@ -159,6 +167,8 @@ char *path;			  /* путь к входному файлу	  */
 
 loop:
 
+  NestLevel++;
+  gzipped = 0;
   if (path != (char *) NULL)	  /* сделаем имя файла */
     sprintf(curr_file, "%s/%s", path, current->path);
   else
@@ -166,15 +176,11 @@ loop:
 
   in = fopen(curr_file, "r");
   if(fgetc(in) == 0x1f && fgetc(in) == 0x8b)	/* if gzipped */
-  {
-    fclose(in);
     gzipped = 1;
-  }
   else
     rewind(in);
 
 loop1:
-
   if(!gzipped)
   {
     fseek(in, current->position, SEEK_SET);
@@ -187,7 +193,6 @@ loop1:
       if (newfile(current, where, path))	/* которой закончили */
       {
         fclose(in);
-        gzipped = 0;
         goto loop;		  /* откроем новый файл */
       }
       goto loop1;
@@ -211,12 +216,17 @@ loop1:
     }
   }	/* if(!gzipped) */
 
-  if (current->previous != (FILESTACK *) NULL)	/* перейдем к предыдущему, */
-  {				  /* если есть 		   */
-    fclose(in);
-    compile(curr_file);
+  if (gzipped || (!gzipped && current->previous != (FILESTACK *) NULL))
+  {	/* перейдем к предыдущему, если есть 		   */
+    FILESTACK *tmph;
 
-    current = current->previous;
+    fclose(in);
+    NestLevel--;
+      compile(curr_file);
+
+      tmph = current;
+      current = current->previous;
+      free(tmph);
 
     if (path != (char *) NULL)
       sprintf(curr_file, "%s/%s", path, current->path);
@@ -226,6 +236,7 @@ loop1:
     if ((in = fopen(curr_file, "r")) !=(FILE *) NULL)
     {
       fseek(in, current->position, SEEK_SET);
+      gzipped = 0; 
       goto loop1;
     }
   }
@@ -366,6 +377,8 @@ char *name;
   else
     rewind(in_file);
 
+  printf("Compiling file %s...\r", name);
+  fflush(stdout);
   while (fgets(string, BUF, in_file) != (char *) NULL)
   {
     if ((char *) strchr(string, '\014') == (char *) NULL)	/* Поиск символа    */
@@ -382,11 +395,12 @@ char *name;
     fseek(in_file, current_work, SEEK_SET);
   }
   fclose(in_file);
-
-  sprintf(tmpname, "%s..", name);
-  gzip(in_file, tmpname);
-  rename(tmpfile, in_file);
-
-  printf("Откомпилирован файл %s\n", name);
+  if(NestLevel)	/* glmenu is never compiled */
+  {
+    sprintf(tmpname, "%s..", name);
+    gzip(name, tmpname);
+    rename(tmpname, name);
+  }
+  printf("Compiling file %s...Done\n", name);
   return 1;
 }
