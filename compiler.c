@@ -1,10 +1,13 @@
 /*
- * $Id: compiler.c,v 1.11 1994/11/15 14:40:06 sev Exp $
+ * $Id: compiler.c,v 1.12 1994/11/18 17:59:22 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: compiler.c,v $
- * Revision 1.11  1994/11/15 14:40:06  sev
+ * Revision 1.12  1994/11/18 17:59:22  sev
+ * Deleted NestLevel
+ *
+ * Revision 1.11  1994/11/15  14:40:06  sev
  * Some bugs hhave been deleted
  *
  * Revision 1.10  1994/11/12  19:16:13  sev
@@ -44,8 +47,6 @@ FILESTACK *current;
 int fail = 0;
 time_t last_modify;
 
-int NestLevel;
-
 void go_conf();
 void refer();
 void free_stack();
@@ -72,7 +73,6 @@ char **argv;
   {
     if (!strcmp(argv[carg], "-f"))
     {
-      NestLevel = 5;
       while (++carg < argc)
 	compile(argv[carg]);
       return 0;
@@ -157,7 +157,6 @@ char *path;			  /* путь к входному файлу	  */
 
   int gzipped;
 
-  NestLevel = -2;
   current = (FILESTACK *) malloc(sizeof(FILESTACK));
   current->previous = (FILESTACK *) NULL;
 
@@ -167,7 +166,6 @@ char *path;			  /* путь к входному файлу	  */
 
 loop:
 
-  NestLevel++;
   gzipped = 0;
   if (path != (char *) NULL)	  /* сделаем имя файла */
     sprintf(curr_file, "%s/%s", path, current->path);
@@ -221,12 +219,11 @@ loop1:
     FILESTACK *tmph;
 
     fclose(in);
-    NestLevel--;
-      compile(curr_file);
+    compile(curr_file);
 
-      tmph = current;
-      current = current->previous;
-      free(tmph);
+    tmph = current;
+    current = current->previous;
+    free(tmph);
 
     if (path != (char *) NULL)
       sprintf(curr_file, "%s/%s", path, current->path);
@@ -395,7 +392,8 @@ char *name;
     fseek(in_file, current_work, SEEK_SET);
   }
   fclose(in_file);
-  if(NestLevel)	/* glmenu is never compiled */
+
+  if(strcmp(name, "glmenu.hyp"))	/* glmenu is never compiled */
   {
     sprintf(tmpname, "%s..", name);
     gzip(name, tmpname);
