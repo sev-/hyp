@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.c,v 1.11 1995/12/05 15:01:48 sev Exp $
+ * $Id: hyp.c,v 1.12 1995/12/25 11:46:14 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.c,v $
- * Revision 1.11  1995/12/05 15:01:48  sev
+ * Revision 1.12  1995/12/25 11:46:14  sev
+ * Added pri segment command
+ *
+ * Revision 1.11  1995/12/05  15:01:48  sev
  * I tryed to add "pri file" command, but failed
  *
  * Revision 1.10  1995/06/21  08:55:22  sev
@@ -40,7 +43,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: hyp.c,v 1.11 1995/12/05 15:01:48 sev Exp $";
+static char rcsid[] = "$Id: hyp.c,v 1.12 1995/12/25 11:46:14 sev Exp $";
 
 /*
  * Файл hyp.c Запорожье 1993-1995.
@@ -103,7 +106,7 @@ char *argv[];
 
   if (argc < 2)
   {
-    puts("Просмотрщик гипертекста. Версия 2.4.2\n\n\
+    puts("Просмотрщик гипертекста. Версия 2.5.0\n\n\
  Использование:\n\t\thyp file\n");
     exit(1);
   }
@@ -339,8 +342,8 @@ char *argv[];
 	  strcpy(path_file, current_file);
 	  more = 0;
 	  break;
-/*	case PRI_SEGMENT:	/* use pri for printing */
-	  pri_segment(current_file_name);
+	case PRI_SEGMENT:	/* use pri for printing */
+	  pri_segment(infile);
 	  strcpy(path_file, current_file);
 	  more = 0;
 	  break;

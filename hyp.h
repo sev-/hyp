@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.h,v 1.8 1995/12/05 15:01:48 sev Exp $
+ * $Id: hyp.h,v 1.9 1995/12/25 11:46:14 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.h,v $
- * Revision 1.8  1995/12/05 15:01:48  sev
+ * Revision 1.9  1995/12/25 11:46:14  sev
+ * Added pri segment command
+ *
+ * Revision 1.8  1995/12/05  15:01:48  sev
  * I tryed to add "pri file" command, but failed
  *
  * Revision 1.7  1995/06/21  08:55:22  sev
@@ -101,3 +104,4 @@ void write_segment();
 void pri_segment();
 FILE *datfopen();		  /* my fopen function */
 void datfclose();		  /* my fclose function */
+WPTR message();

@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.12 1995/03/30 13:52:39 sev Exp $
+#  $Id: makefile,v 1.13 1995/12/25 11:46:14 sev Exp $
 #
 #
 #  $Log: makefile,v $
-#  Revision 1.12  1995/03/30 13:52:39  sev
-#  Added progress indicator
+#  Revision 1.13  1995/12/25 11:46:14  sev
+#  Changed RCS file make
+#
+# Revision 1.12  1995/03/30  13:52:39  sev
+# Added progress indicator
 #
 # Revision 1.11  1995/03/24  16:22:11  sev
 # *** empty log message ***
@@ -61,9 +64,6 @@ clean:
 	co -l makefile
 	gzip -9 RCS/*
 
-$(CFILES) $(HFILES): RCS/hyp.c,v
-	co -l $(CFILES) $(HFILES)
-
-RCS/hyp.c,v:
-	gunzip RCS/*.gz
+$(CFILES) $(HFILES):
+	co -l $@,v
 
