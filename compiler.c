@@ -1,10 +1,13 @@
 /*
- * $Id: compiler.c,v 1.12 1994/11/18 17:59:22 sev Exp $
+ * $Id: compiler.c,v 1.13 1995/02/06 14:14:27 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: compiler.c,v $
- * Revision 1.12  1994/11/18 17:59:22  sev
+ * Revision 1.13  1995/02/06 14:14:27  sev
+ * added verbose message
+ *
+ * Revision 1.12  1994/11/18  17:59:22  sev
  * Deleted NestLevel
  *
  * Revision 1.11  1994/11/15  14:40:06  sev
@@ -357,6 +360,8 @@ char *name;
   FILE *in_file;
 
   char tmpname[1024];
+
+  extern long bytes_in, bytes_out;
   
   current_pg = 0;		  /* */
   previous_pg = 0;		  /* Инициализация переменных        */
@@ -399,6 +404,6 @@ char *name;
     gzip(name, tmpname);
     rename(tmpname, name);
   }
-  printf("Compiling file %s...Done\n", name);
+  printf("Compiling file %s...%03.5g%% Done\n", name, 100.0*bytes_out/bytes_in);
   return 1;
 }
