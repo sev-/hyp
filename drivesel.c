@@ -1,10 +1,13 @@
 /*
- *  $Id: drivesel.c,v 1.2 1993/04/20 16:04:12 sev Exp $
+ *  $Id: drivesel.c,v 1.3 1993/04/21 14:54:27 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: drivesel.c,v $
- * Revision 1.2  1993/04/20 16:04:12  sev
+ * Revision 1.3  1993/04/21 14:54:27  sev
+ * Есть клавиша УТ
+ *
+ * Revision 1.2  1993/04/20  16:04:12  sev
  * *** empty log message ***
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
@@ -193,6 +196,11 @@ TEXT *header;
       break;
 
     case RET:
+
+      more = 0;
+      break;
+
+    case DEL_KEY:
 
       more = 0;
       break;
