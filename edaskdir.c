@@ -1,10 +1,13 @@
 /*
- *  $Id: edaskdir.c,v 1.5 1993/07/10 08:28:31 sev Exp $
+ *  $Id: edaskdir.c,v 1.6 1993/08/18 11:48:36 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edaskdir.c,v $
- * Revision 1.5  1993/07/10 08:28:31  sev
+ * Revision 1.6  1993/08/18 11:48:36  sev
+ * *** empty log message ***
+ *
+ * Revision 1.5  1993/07/10  08:28:31  sev
  * *** empty log message ***
  *
  * Revision 1.4  1993/04/22  13:23:26  sev
@@ -50,7 +53,7 @@ VCED *vced;
 int len_seg;
 {
   WPTR w_;
-  char bb[40];
+  char bb[NAME_LEN];
   char mesg_of_seg[MES_LEN];
   char name[NAME_LEN];
   char name_seg[NAME_LEN];
@@ -61,22 +64,20 @@ int len_seg;
   strcpy(name,vced->edbuffer->bfname);
   if((ch=strchr(name,'.'))!=(char *)NULL)
     *ch='\0';
+  col_seg_of_file++;			    /* количество сегментов в файле */
   sprintf(name_seg,"%s%d%%0",name,col_seg_of_file);
   /*                     ^^ - %кол-во ссылок на сегмент */
 
-  strncat(name,
-"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    NAME_LEN-strlen(name)-10);
+  strcpy(bb,name);
 
   w_=wxxopen(8,9,14,71,NULL,ACTIVE+CURSOR+BORDER+BD2+SHADOW,0,0,0,32);
 
-  empty(bb,40);
   atsay(1,2,"Введите комментарий к сегменту");
   atsay(3,1,"[");
   atsay(3,41,"]");
 
-  xatget(3,2,bb,name,isblank,
-      NULLTEXT,NULLTEXT,ATR_F,ATR_F);
+  xatget(3,2,bb,"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",isblank, NULLTEXT,
+	NULLTEXT,ATR_F,ATR_F);
   key = readgets();
   trim(bb);
   if(key==ESC)
@@ -88,7 +89,6 @@ int len_seg;
     return(0);
   }
   strcpy(mesg_of_seg,bb);
-  col_seg_of_file++;			    /* количество сегментов в файле */
   sprintf(tmp1,"%s (%s) %%%d",mesg_of_seg,vced->edbuffer->bfname, len_seg);
 
   addselitm(dirr,tmp1,name_seg);
