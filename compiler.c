@@ -1,10 +1,13 @@
 /*
- *  $Id: compiler.c,v 1.7 1994/04/26 11:17:22 sev Exp $
+ *  $Id: compiler.c,v 1.8 1994/06/18 15:16:15 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: compiler.c,v $
- * Revision 1.7  1994/04/26 11:17:22  sev
+ * Revision 1.8  1994/06/18 15:16:15  sev
+ * Added date control (to avoid unnecessary compilation)
+ *
+ * Revision 1.7  1994/04/26  11:17:22  sev
  * Another bug...
  *
  * Revision 1.6  1994/04/26  11:12:08  sev
@@ -17,6 +20,8 @@
  */
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #define PATHLEN 256
 #define BUF	1024
@@ -31,6 +36,7 @@ typedef struct FILESTACK	/* стэк файлов */
 
 FILESTACK *current;
 int fail = 0;
+time_t last_modify;
 
 void	 go_conf();
 void	 refer();
@@ -48,7 +54,7 @@ char  **argv;
 
   if(argc < 2)
   {
-    puts("Компилятор гипертекста. Версия 2.0\n\n\
+    puts("Компилятор гипертекста. Версия 2.1\n\n\
  Использование:\n\t\tcompiler [-f] file\n");
     return 1;
   }
@@ -84,31 +90,48 @@ char *filename;
   FILE *curr_file;
   char *begin_file;
   char  path[PATHLEN];
+  char  str[2][80];
 
-  if((conf_file = fopen(filename, "r")) == (FILE *)NULL)
+  if((conf_file = fopen(filename, "r+")) == (FILE *)NULL)
   {
-    printf("Не могу открыть файл %s для чтения.\n", filename);
+    printf("Не могу открыть файл %s для чтения/записи.\n", filename);
     fail = 1;
     return;
   }
 
-  fgets(path, PATHLEN, conf_file);	/* берем имя файла */
+  fgets(str[0], PATHLEN, conf_file);	/* берем имя файла */
+  strcpy(path, str[0]);
 
   path[strlen(path)-1] = '\0';	/* убираем \n */
   if((curr_file = fopen(path, "r")) == (FILE *)NULL)
   {
-    printf("Неправильный файл %s.\n", filename);
+    printf("Нет имени файла в %s\n", filename);
     fclose(conf_file);
+    fail = 1;
     return;
   }
 
-  fclose(conf_file);
   fclose(curr_file);
 
+  fgets(str[1], 80, conf_file);	/* throw segment name */
+  if(fscanf(conf_file, "compiled at: %ld", &last_modify) != 1)
+  {
+    printf("Нет отметки времени в %s\n", filename);
+    fclose(conf_file);
+    fail = 1;
+    return;
+  }
+  fclose(conf_file);
+
+  printf("Last mod = %ld\n", last_modify);
   begin_file = (char *)strrchr(path, '/');	/* выделние пути и имени */
   *(begin_file ++) = '\0';
 
   refer(begin_file, path);
+
+  conf_file = fopen(filename, "w");
+  fprintf(conf_file, "%s%scompiled at: %ld\n", str[0], str[1], time(NULL));
+  fclose(conf_file);
 
   free_stack();
 }
@@ -122,6 +145,7 @@ char *path;				/* путь к входному файлу	  */
   long	position;
   char *where;
   char	curr_file[256];	/* Имя текущего файла	*/
+  struct stat times[1];
 
   current = (FILESTACK *)malloc(sizeof(FILESTACK));
   current->previous = (FILESTACK *)NULL;
@@ -137,7 +161,10 @@ loop:
   else
     strcpy(curr_file, current->path);
 
-  compile(curr_file);
+  stat(curr_file, times);
+  if(times->st_ctime > last_modify)
+    compile(curr_file);
+
   in = fopen(curr_file, "r");
 
 loop1:
