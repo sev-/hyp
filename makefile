@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.6 1993/09/16 15:12:06 sev Exp $
+#  $Id: makefile,v 1.7 1994/03/05 21:56:56 sev Exp $
 #
 #
 #  $Log: makefile,v $
-#  Revision 1.6  1993/09/16 15:12:06  sev
-#  Добавлен \
+#  Revision 1.7  1994/03/05 21:56:56  sev
+#  o
+#
+# Revision 1.6  1993/09/16  15:12:06  sev
+# Добавлен \
 #
 # Revision 1.5  1993/09/13  11:37:04  sev
 # Работаем в сети и без проблем (благодаря unix.c и getone.c)
@@ -24,8 +27,7 @@
 #
 CFLAGS		= -Ox
 
-OFILES		= edit_str.o hyp.o lib_hyp.o print_seg.o print_pg.o search.o\
-		getone.o unix.o
+OFILES		= edit_str.o hyp.o lib_hyp.o print_seg.o print_pg.o search.o
 
 hyp:		$(OFILES)
 	 	rcc $(CFLAGS) -o hyp $(OFILES) -lvc
