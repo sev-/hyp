@@ -1,10 +1,13 @@
 /*
- *  $Id: eddir.c,v 1.4 1993/04/29 12:38:47 sev Exp $
+ *  $Id: eddir.c,v 1.5 1993/05/04 11:17:14 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: eddir.c,v $
- * Revision 1.4  1993/04/29 12:38:47  sev
+ * Revision 1.5  1993/05/04 11:17:14  sev
+ * *** empty log message ***
+ *
+ * Revision 1.4  1993/04/29  12:38:47  sev
  * Работает удаление сегмента
  *
  * Revision 1.3  1993/04/20  16:04:12  sev
@@ -112,8 +115,6 @@ VCED *vced;
 	    key = RET;
 	    break;
 	  default:	/* Все в порядке */
-	    vcedpgdn(vced);
-	    vcedtof(vced);
 	    retval = 0;
 	}
         if((ch=(char *)strrchr(privyz.name_seg,'%')) != (char *)NULL)

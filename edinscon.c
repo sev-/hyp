@@ -1,10 +1,13 @@
 /*
- *  $Id: edinscon.c,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edinscon.c,v 1.4 1993/05/04 11:17:14 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edinscon.c,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/05/04 11:17:14  sev
+ * *** empty log message ***
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.4  1993/04/19  16:36:31  kas
@@ -29,7 +32,7 @@
  */
 
 #define SP_BAR \
-"                                                                                        "
+"                                                                                "
 
 #include "vced.h"
 
@@ -94,7 +97,8 @@ COUNT mode;
 				strcat(ptr,ins);
 			else
 			{
-				strncat(ptr,SP_BAR,80-cline->lused);
+				strncat(ptr,SP_BAR,(80-cline->lused)<0?1:
+							(80-cline->lused));
 				strcat(ptr,ins);
 			}
 		}

@@ -1,10 +1,13 @@
 /*
- *  $Id: eddelseg.c,v 1.2 1993/04/29 12:38:47 sev Exp $
+ *  $Id: eddelseg.c,v 1.3 1993/05/04 11:17:14 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: eddelseg.c,v $
- * Revision 1.2  1993/04/29 12:38:47  sev
+ * Revision 1.3  1993/05/04 11:17:14  sev
+ * *** empty log message ***
+ *
+ * Revision 1.2  1993/04/29  12:38:47  sev
  * Работает удаление сегмента
  *
  * Revision 1.1  1993/04/20  16:04:12  sev
@@ -22,9 +25,9 @@ char *value;
   int num;
   SELSET *tmp;
   char filename[80];
-  DBDP dline, dline1, edfind();
+  DBDP dline, edfind();
   VCEDLINE *line;
-  char buf[80];
+  char buf[80], tmp1[1024];
   char *strchr(), *strrchr();
 
   num = atoi(strrchr(value, '%')+1);
@@ -60,14 +63,32 @@ char *value;
       *ch = 0;
     if((dline = edfind(vced, buf)) != (DBDP)NULL)
     {
-      num = atoi(strrchr(tmp->idisplay, '%')+1)+2; /* Строк в сегменте + ^L */
+      line = vcedgline(vced->edbuffer, dline);
+
+      strcpy(tmp1, value);	/* Выделим имя сегмента */
+      if(ch = strrchr(tmp1, '%'))
+        *ch = 0;
+      sprintf(buf, "\033(%s", tmp1);
+
+      ch = strstr(line->ltext, buf);	/* Удалим скобку */
+      strcpy(tmp1, ch);
+      *ch = 0;
+      strcat(line->ltext, tmp1+strlen(buf));
+      trimstring(line->ltext);
+      vcedrline(vced->edbuffer,line,dline);
+      num = atoi(strrchr(tmp->idisplay, '%')+1)+1; /* Строк в сегменте */
       while(num--)
       {
 	line = vcedgline(vced->edbuffer, dline);
-	dline1 = line->lnext;
-	vceddline(vced->edbuffer, line->lprev, dline, line->lnext);
-	dline = dline1;
+	dline = line->lnext;
       }
+
+      ch = strstr(line->ltext, "\033)");	/* Удалим вторую скобку */
+      strcpy(tmp1, ch);
+      *ch = 0;
+      strcat(line->ltext, tmp1+2);
+      trimstring(line->ltext);
+      vcedrline(vced->edbuffer,line,dline);
     }
   }
   return 0;
