@@ -1,11 +1,14 @@
 /*
- *  $Id: mted.c,v 1.3 1993/03/15 14:58:47 sev Exp $
+ *  $Id: mted.c,v 1.4 1993/03/17 13:01:34 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  *  $Log: mted.c,v $
- *  Revision 1.3  1993/03/15 14:58:47  sev
- *  Опущено окно на одну строку
+ *  Revision 1.4  1993/03/17 13:01:34  sev
+ *  Добавлен mted.h
+ *
+ * Revision 1.3  1993/03/15  14:58:47  sev
+ * Опущено окно на одну строку
  *
  * Revision 1.2  1993/03/15  14:47:57  sev
  * Изменил структуру меню. По прежнему просто декорация.
@@ -24,7 +27,7 @@
 #include <vcdbms.h>
 #include <vced.h>
 
-#define DEFILE (TEXT *)"noname.file"
+#define DEFILE (TEXT *)"noname.hyp"
 
 TEXT vceddfil[40];                      /* Default file location    */
     
@@ -43,6 +46,7 @@ TEXT **argv;                            /* Command line arg.        */
     VCED *vcedw;                        /*    "        "            */
     WPTR wxopen();                      /*    "        "            */
     TEXT *vcalloc();                    /*    "        "            */
+    COUNT i;
 
 /* ---------------------------------------------------------------- */
 
@@ -64,16 +68,22 @@ TEXT **argv;                            /* Command line arg.        */
             strcpy(vceddfil,DEFILE);    /* Copy default file name   */
         }                               /*                          */
     else                                /*                          */
-        {                               /*                          */
 	 strcpy(vceddfil,argv[1]);
-        }                               /*                          */
+
+	i = strlen(vceddfil);
+	if(strcmp(vceddfil+ (i<5?0:i-4), ".hyp"))
+	{
+	   printf("\rПредупреждение: Файл %s не имеет расширения .hyp\r",
+					vceddfil);
+	   fflush(stdout);
+	}
 
 /* ---------------------------------------------------------------- */
 
     vcedfbuf = vcedload(vceddfil,NULLTEXT,VCEDFFIL);
     vcedw    = vcedopen(1,0,20,78,vceddfil,-1,VCEDSTATUS,vcedfbuf,-1,-1,wptr);
     vcedit(vcedw);                      /*                          */
-    vcedsave(vcedfbuf);
+
     vcend(CLOSE);                       /* Quit Vitamin C           */
     execlp("clear","clear",(char *)NULL);
     }                                   /* ------------------------ */

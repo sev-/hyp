@@ -1,10 +1,13 @@
 /*
- *  $Id: system.c,v 1.2 1993/03/12 11:41:38 kas Exp $
+ *  $Id: system.c,v 1.3 1993/03/17 13:01:34 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: system.c,v $
- * Revision 1.2  1993/03/12 11:41:38  kas
+ * Revision 1.3  1993/03/17 13:01:34  sev
+ * Добавлен mted.h
+ *
+ * Revision 1.2  1993/03/12  11:41:38  kas
  * *** empty log message ***
  *
  * Revision 1.1  1993/03/04  07:42:47  kas
@@ -13,27 +16,8 @@
  *
 */
 
-static char rcsid[]="$Id: system.c,v 1.2 1993/03/12 11:41:38 kas Exp $";
+static char rcsid[]="$Id: system.c,v 1.3 1993/03/17 13:01:34 sev Exp $";
 
-/**
-*
-*   Vitamin C Multi-User version 1.6
-*   Copyright (c) 1985-1990
-*   Creative Programming Consultants, Inc.
-*   P.O. Box 112097
-*   Carrollton, Texas  75006
-*   (214) 416-6447
-*   ALL RIGHTS RESERVED
-*   Last Modification: .5 on 9/2/90 at 14:29:39
-*
-*   Name            vcsystem - make system call
-*                                   
-*   Description     This function sets up Vitamin C
-*                   to make a system call.
-*
-*   Return Value    Returns what system returns
-*                                   
-**/
 
 #include <vcstdio.h>
 
