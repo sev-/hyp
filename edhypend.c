@@ -1,10 +1,13 @@
 /*
- *  $Id: edhypend.c,v 1.2 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edhypend.c,v 1.3 1993/04/29 12:38:47 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edhypend.c,v $
- * Revision 1.2  1993/04/20 16:04:12  sev
+ * Revision 1.3  1993/04/29 12:38:47  sev
+ * Работает удаление сегмента
+ *
+ * Revision 1.2  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.4  1993/04/19  16:36:31  kas
@@ -68,7 +71,7 @@ COUNT edshow()
 	 ask_msg(tmp2, 0);
 	 return(0);
        }
-  sprintf(tmp2, "view %s\n", tmp1);
+  sprintf(tmp2, "hyp %s\n", tmp1);
   vcsystem(tmp2,1,NULL);
 
   return GOOD;

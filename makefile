@@ -1,8 +1,11 @@
 #
-#  $Id: makefile,v 1.3 1993/04/20 16:04:12 sev Exp $
+#  $Id: makefile,v 1.4 1993/04/29 12:38:47 sev Exp $
 #
 # $Log: makefile,v $
-# Revision 1.3  1993/04/20 16:04:12  sev
+# Revision 1.4  1993/04/29 12:38:47  sev
+# Работает удаление сегмента
+#
+# Revision 1.3  1993/04/20  16:04:12  sev
 # a
 #
 # Revision 1.2  1993/04/13  09:21:13  kas
@@ -26,7 +29,7 @@ OBJS =  drivesel.o edaskdir.o edback.o edconf.o\
 	edmesg.o edmove.o ednumseg.o edopen.o edpaste.o edprtb.o\
 	edprtl.o edputch.o edsignal.o\
 	edstat.o edsys.o edupda.o edvmark.o edwopen.o f_to_b.o loadfile.o\
-	system.o wrkselset.o match.o crtlstfl.o addrefer.o
+	system.o wrkselset.o match.o crtlstfl.o addrefer.o eddelseg.o
 
 HFILES =	edextern.h	edextfun.h	edinitstr.h	edkey.h\
 		edstruct.h	vced.h

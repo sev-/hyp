@@ -1,10 +1,13 @@
 /*
- *  $Id: eddir.c,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: eddir.c,v 1.4 1993/04/29 12:38:47 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: eddir.c,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/04/29 12:38:47  sev
+ * Работает удаление сегмента
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * *** empty log message ***
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
@@ -96,15 +99,28 @@ VCED *vced;
   else
   {
 
-      tmp= dirr;
+      tmp = dirr;
       strcpy(header," Cправочник ");
       key=drivesel(tmp,privyz.mesg,privyz.name_seg,header);
-      if((ch=(char *)strrchr(privyz.name_seg,'%')) != (char *)NULL)
-        *ch='\0';	/* Отсекаем кол-во ссылок */
-      strcpy(privyz.name_file,strchr(privyz.mesg,'(')+1);
-      if((ch=strchr(privyz.name_file,')'))!=(char *)NULL)
-	*ch='\0';
-
+      if(key == DEL_KEY)
+        switch(eddelseg(vced, privyz.name_seg))
+        {
+          case -1:	/* есть ссылки */
+	    retval=0;
+	    break;
+	  case -2:	/* не текущий файл */
+	    key = RET;
+	    break;
+	  default:	/* Все в порядке */
+	    vcedpgdn(vced);
+	    vcedtof(vced);
+	    retval = 0;
+	}
+        if((ch=(char *)strrchr(privyz.name_seg,'%')) != (char *)NULL)
+          *ch='\0';	/* Отсекаем кол-во ссылок */
+        strcpy(privyz.name_file,strchr(privyz.mesg,'(')+1);
+        if((ch=strchr(privyz.name_file,')'))!=(char *)NULL)
+	  *ch='\0';
   }
 
   switch(key)
