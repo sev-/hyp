@@ -1,10 +1,13 @@
 /*
- *  $Id: mtdefs.h,v 1.2 1993/03/19 16:18:38 sev Exp $
+ *  $Id: mtdefs.h,v 1.3 1993/03/19 17:48:53 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: mtdefs.h,v $
- * Revision 1.2  1993/03/19 16:18:38  sev
+ * Revision 1.3  1993/03/19 17:48:53  sev
+ * Добавлена функция начала отметки блока. Отлично работает
+ *
+ * Revision 1.2  1993/03/19  16:18:38  sev
  * Delete some bugs
  *
  *
@@ -12,38 +15,42 @@
 
 #define VCEDVARS
 
-extern COUNT vcedmvleft();
-extern COUNT vcedmvright();
-extern COUNT vcedmvup();
-extern COUNT vcedmvdown();
-extern COUNT vcedexit();
-extern COUNT vcedprtbuf();
-extern COUNT vcedinstog();
-extern COUNT vcedbksp();
-extern COUNT vceddelete();
-extern COUNT vcedtol();
-extern COUNT vcedeol();
-extern COUNT vcedtogstat();
-extern COUNT vcedreturn();
-extern COUNT vcedabort();
-extern COUNT vcedhelp();
-extern COUNT vcedpgup();
-extern COUNT vcedpgdn();
-extern COUNT vcedtab();
-extern COUNT vcedbktab();
-extern COUNT vcedsbuf();
-extern COUNT vcedtof();
-extern COUNT vcedeof();
-extern COUNT vcedhome();
-extern COUNT vcedend();
-extern COUNT edmenu();
+COUNT vcedmvleft();
+COUNT vcedmvright();
+COUNT vcedmvup();
+COUNT vcedmvdown();
+COUNT vcedexit();
+COUNT vcedprtbuf();
+COUNT vcedinstog();
+COUNT vcedbksp();
+COUNT vceddelete();
+COUNT vcedtol();
+COUNT vcedeol();
+COUNT vcedtogstat();
+COUNT vcedreturn();
+COUNT vcedabort();
+COUNT vcedhelp();
+COUNT vcedpgup();
+COUNT vcedpgdn();
+COUNT vcedtab();
+COUNT vcedbktab();
+COUNT vcedsbuf();
+COUNT vcedtof();
+COUNT vcedeof();
+COUNT vcedhome();
+COUNT vcedend();
+COUNT edmenu();
 
 /* ------------------------------------------------------------------------ */
 
-extern COUNT vceddelln();
-extern COUNT vcedinsln();
-extern COUNT vceddeol();
-extern COUNT vcedmkpg();
+COUNT begin_mark();
+
+/* ------------------------------------------------------------------------ */
+
+COUNT vceddelln();
+COUNT vcedinsln();
+COUNT vceddeol();
+COUNT vcedmkpg();
 
 /* ------------------------------------------------------------------------ */
 
@@ -77,6 +84,8 @@ VCEDCMD vcedcmds[] =
     (TEXT *)"insert line",    22,vcedinsln,     /* УПР v  - Insert line     */
     (TEXT *)"delete eol",      5,vceddeol,      /* УПР e  - Delete end line */
     (TEXT *)"mark page",       3,vcedmkpg,      /* УПР c  - Mark page       */
+/* ------------------------------------------------------------------------ */
+    (TEXT *)"begin mark",   5004,begin_mark,	/* F6     - Begin mark reg  */ 
 /* ------------------------------------------------------------------------ */
     NULLTEXT,                  0,(PFI)0,
     };
