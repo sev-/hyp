@@ -1,10 +1,13 @@
 /*
- *  $Id: compiler.c,v 1.5 1993/06/08 12:09:42 sev Exp $
+ *  $Id: compiler.c,v 1.6 1994/04/26 11:12:08 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: compiler.c,v $
- * Revision 1.5  1993/06/08 12:09:42  sev
+ * Revision 1.6  1994/04/26 11:12:08  sev
+ * Added -f flag
+ *
+ * Revision 1.5  1993/06/08  12:09:42  sev
  * Полностью измененная программа
  *
  *
@@ -50,6 +53,13 @@ char  **argv;
   carg = 1;
   while(carg < argc)
   {
+    if(!strcmp(argv[carg], "-f"))
+    {
+      while(++carg < argc)
+        compile(argv[carg]);
+      return 0;
+    }
+      
     go_conf(argv[carg]);
     ++carg;
     if(fail)
