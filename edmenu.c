@@ -1,10 +1,13 @@
 /*
- *  $Id: edmenu.c,v 1.2 1993/03/14 17:23:04 sev Exp $
+ *  $Id: edmenu.c,v 1.3 1993/03/15 14:47:57 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edmenu.c,v $
- * Revision 1.2  1993/03/14 17:23:04  sev
+ * Revision 1.3  1993/03/15 14:47:57  sev
+ * Изменил структуру меню. По прежнему просто декорация.
+ *
+ * Revision 1.2  1993/03/14  17:23:04  sev
  * Добавлено меню (не нагружено)
  *
  * Revision 1.1  1993/03/14  12:32:14  kas
@@ -16,7 +19,7 @@
  *
 */
 
-static char rcsid[]="$Id: edmenu.c,v 1.2 1993/03/14 17:23:04 sev Exp $";
+static char rcsid[]="$Id: edmenu.c,v 1.3 1993/03/15 14:47:57 sev Exp $";
 
 #define VCM_DEFS            /* Include Menu Defines and structures      */
 #define VCGET_DEFS
@@ -70,10 +73,10 @@ VCED *vced;
 	/********************************************************************/
 
 	mainmenu  = menunew(0,0,NULLTEXT,"NO HELP","STDHORIZ");
-	filesmenu = menunew(2,0,NULL,"NO HELP","STDVERT");
-	textmenu  = menunew(2,10,NULL,"NO HELP","STDVERT");
-	segmenu   = menunew(2,19,NULL,"NO HELP","STDVERT");
-	polemenu  = menunew(2,32,NULL,"NO HELP","STDVERT");
+	filesmenu = menunew(1,0,NULL,"NO HELP","STDVERT");
+	textmenu  = menunew(1,8,NULL,"NO HELP","STDVERT");
+	segmenu   = menunew(1,17,NULL,"NO HELP","STDVERT");
+	polemenu  = menunew(1,27,NULL,"NO HELP","STDVERT");
 
 	cntrl_parm = STRPARM+SENDTXT+HIDE;
 	cntrl_escape = STRPARM+ESCAPE+SENDTXT+HIDE;
@@ -81,55 +84,57 @@ VCED *vced;
 	cntrl_pole=MENU;
 	cntrl_dir=STRPARM+ESCAPE+SENDTXT+HIDE;
 	cntrl_menu=MENU;
- 	cntrl_seg=MENU;
+ 	cntrl_seg= MENU;
 
 	/********************************************************************/
 	/**************************  Add Menu Items *************************/
 	/********************************************************************/
 
-	menuxitem(mainmenu,"  Файл  ",NULL,0,NULLFUNC,(TEXT *)filesmenu,
+	menuxitem(mainmenu," Файл ",NULL,0,NULLFUNC,(TEXT *)filesmenu,
 	    NULLTEXT,"NO HELP",cntrl_menu);
 	menuxitem(mainmenu," Текст ",NULL,0,NULLFUNC,(TEXT *)textmenu,
 	    NULLTEXT,"NO HELP",cntrl_menu);
 
-	menuxitem(mainmenu,"  Сегмент  ",NULL,0,NULLFUNC,(TEXT *)segmenu,
+	menuxitem(mainmenu," Сегмент ",NULL,0,NULLFUNC,(TEXT *)segmenu,
 	    NULLTEXT,"NO HELP",cntrl_seg);
-	menuxitem(mainmenu,"  Поле ",NULL,0,NULLFUNC,(TEXT *)polemenu,
+	menuxitem(mainmenu," Поле ",NULL,0,NULLFUNC,(TEXT *)polemenu,
 	    NULLTEXT,"NO HELP",cntrl_pole);
 	menuxitem(mainmenu," Cправочник ",NULL,0,NULLFUNC,(TEXT *)vced,
 	    NULLTEXT,"NO HELP",cntrl_dir);
-	menuxitem(mainmenu,"  Помощь  ",NULL,0,NULLFUNC,(TEXT *)vced,
-	    NULLTEXT,"NO HELP",cntrl_escape);
-	menuxitem(mainmenu,"  Выход  ",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(mainmenu,"                  ",NULL,0,NULLFUNC,(TEXT *)vced,
+	    NULLTEXT,"NO HELP",UNAVAILABLE);
+	menuxitem(mainmenu," Помощь ",NULL,0,NULLFUNC,(TEXT *)vced,
 	    NULLTEXT,"NO HELP",cntrl_escape);
 
 	/************************** Files Menu Items ************************/
 
-	menuxitem(filesmenu,"Загрузить новый файл       F12 ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+	menuxitem(filesmenu,"Открыть           ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
 		  "NO HELP",cntrl_escape);
-	menuxitem(filesmenu,"Список файлов              F11 ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+	menuxitem(filesmenu,"Закрыть           ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
 		  "NO HELP",cntrl_escape);
-	menuxitem(filesmenu,"Список файлов в каталоге   F13 ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+	menuxitem(filesmenu,"Сохранить         ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
 		  "NO HELP",cntrl_escape);
-	menuxitem(filesmenu,"Сохранить текущий файл     F16 ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
-		 "NO HELP",cntrl_escape);
-	menuxitem(filesmenu,"Удалить файл из окна       F15 ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
-		 "NO HELP",cntrl_escape);
-	menuxitem(filesmenu,"Переход к следующему файлу F14 ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+	menuxitem(filesmenu,"Сохранить...      ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
 		 "NO HELP",cntrl_escape);
 	menuxitem(filesmenu,NULLTEXT,NULL,0,NULLFUNC,NULL,NULL,
 		 "NO HELP",SEPARATOR);
-       	menuxitem(filesmenu,"Начальный  сегмент            ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+       	menuxitem(filesmenu,"Начальный сегмент ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
 		 "NO HELP",cntrl_parm);
-	menuxitem(filesmenu,"Компиляция                    ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+	menuxitem(filesmenu,"Компиляция        ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
 		 "NO HELP",cntrl_parm);
-	menuxitem(filesmenu,"Просмотр                      ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+	menuxitem(filesmenu,"Просмотр          ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+		 "NO HELP",cntrl_parm);
+	menuxitem(filesmenu,NULLTEXT,NULL,0,NULLFUNC,NULL,NULL,
+		 "NO HELP",SEPARATOR);
+       	menuxitem(filesmenu,"Выход             ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
+		 "NO HELP",cntrl_parm);
+       	menuxitem(filesmenu,"Временный выход   ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
 		 "NO HELP",cntrl_parm);
 
 	/*************************** SEG Menu Items ************************/
 
 	    menuxitem(segmenu,"Oтметить сегмент ",NULL,0,NULLFUNC,(TEXT *)vced,NULL,
-		  "NO HELP",UNAVAILABLE);
+		  "NO HELP",STRPARM+SENDTXT+ESCAPE);
 	    menuxitem(segmenu,NULLTEXT,NULL,0,NULLFUNC,NULL,NULL,
 		 "NO HELP",SEPARATOR);
 	    menuxitem(segmenu,"Конец отметки сегмента ",NULL,0,NULLFUNC,(TEXT *)vced,
@@ -139,38 +144,33 @@ VCED *vced;
 
 	/*************************** POLE Menu Items **********************/
 
-	menuxitem(polemenu,"Oтметить поле     F6 ",NULL,0,NULLFUNC,(TEXT *)vced,NULLTEXT,
+	menuxitem(polemenu,"Oтметить     ",NULL,0,NULLFUNC,(TEXT *)vced,NULLTEXT,
 	    "NO HELP",cntrl_escape);
-	menuxitem(polemenu,"Удалить поле      F7 ",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(polemenu,"Удалить      ",NULL,0,NULLFUNC,(TEXT *)vced,
 	    NULLTEXT,"NO HELP",cntrl_escape);
-	menuxitem(polemenu,"Привязать поле    F8 ",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(polemenu,"Привязать    ",NULL,0,NULLFUNC,(TEXT *)vced,
 	    NULLTEXT,"NO HELP",cntrl_escape);
-	menuxitem(polemenu,"Информация о поле УПР-o ",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(polemenu,"О поле       ",NULL,0,NULLFUNC,(TEXT *)vced,
 	    NULLTEXT,"NO HELP",cntrl_escape);
-    menuxitem(polemenu,NULLTEXT,NULL,0,NULLFUNC,NULL,NULL,
+	menuxitem(polemenu,NULLTEXT,NULL,0,NULLFUNC,NULL,NULL,
 		 "NO HELP",SEPARATOR);
-    menuxitem(polemenu,"Конец отметки поля",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(polemenu,"Конец отметки ",NULL,0,NULLFUNC,(TEXT *)vced,
 		      NULLTEXT,"NO HELP",STRPARM+SENDTXT+ESCAPE);
-    menuxitem(polemenu,"Oтмена поля",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(polemenu,"Oтменить      ",NULL,0,NULLFUNC,(TEXT *)vced,
 		      NULLTEXT,"NO HELP",STRPARM+SENDTXT+ESCAPE);
 
 	/*************************** TEXT Menu Items **********************/
 
-	menuxitem(textmenu,"Поиск строки      УПР-f ",NULL,0,NULLFUNC,(TEXT *)vced,NULLTEXT,
+	menuxitem(textmenu,"Поиск строки    ",NULL,0,NULLFUNC,(TEXT *)vced,NULLTEXT,
 	    "NO HELP",cntrl_escape);
-	menuxitem(textmenu,"Поиск с заменой   УПР-u ",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(textmenu,"Поиск с заменой ",NULL,0,NULLFUNC,(TEXT *)vced,
 	    NULLTEXT,"NO HELP",cntrl_escape);
-	menuxitem(textmenu,"Перейти на строку УПР-g ",NULL,0,NULLFUNC,(TEXT *)vced,
-	    NULLTEXT,"NO HELP",cntrl_escape);
-	menuxitem(textmenu,NULLTEXT,NULL,0,NULLFUNC,NULL,NULL,
-		 "NO HELP",SEPARATOR);
-	menuxitem(textmenu,"Команда системе   УПР-k ",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(textmenu,"На строку       ",NULL,0,NULLFUNC,(TEXT *)vced,
 	    NULLTEXT,"NO HELP",cntrl_escape);
 	menuxitem(textmenu,NULLTEXT,NULL,0,NULLFUNC,NULL,NULL,
 		 "NO HELP",SEPARATOR);
-	menuxitem(textmenu,"Рисование символов  F20 ",NULL,0,NULLFUNC,(TEXT *)vced,
+	menuxitem(textmenu,"Команда системе ",NULL,0,NULLFUNC,(TEXT *)vced,
 	    NULLTEXT,"NO HELP",cntrl_escape);
-
 
 	vcmhk4=vcmhf4;                  /* Setup hook function              */
 	vcmhk3=vcmhf3;                  /* Setup hook function              */

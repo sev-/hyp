@@ -1,11 +1,14 @@
 /*
- *  $Id: mted.c,v 1.1 1993/03/14 12:32:14 kas Exp $
+ *  $Id: mted.c,v 1.2 1993/03/15 14:47:57 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  *  $Log: mted.c,v $
- *  Revision 1.1  1993/03/14 12:32:14  kas
- *  Initial revision
+ *  Revision 1.2  1993/03/15 14:47:57  sev
+ *  Изменил структуру меню. По прежнему просто декорация.
+ *
+ * Revision 1.1  1993/03/14  12:32:14  kas
+ * Initial revision
  *
  * Revision 1.1  1993/03/13  16:49:17  kas
  * Initial revision
@@ -69,6 +72,7 @@ TEXT **argv;                            /* Command line arg.        */
     vcedit(vcedw);                      /*                          */
     vcedsave(vcedfbuf);
     vcend(CLOSE);                       /* Quit Vitamin C           */
+    execlp("clear","clear",(char *)NULL);
     }                                   /* ------------------------ */
 
 /* ---------------------------------------------------------------- */
