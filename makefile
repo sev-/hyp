@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.9 1995/03/24 16:16:10 sev Exp $
+#  $Id: makefile,v 1.10 1995/03/24 16:17:06 sev Exp $
 #
 #
 #  $Log: makefile,v $
-#  Revision 1.9  1995/03/24 16:16:10  sev
-#  added good RCS feature
+#  Revision 1.10  1995/03/24 16:17:06  sev
+#  Fixed a little bug with rm
+#
+# Revision 1.9  1995/03/24  16:16:10  sev
+# added good RCS feature
 #
 # Revision 1.8  1994/11/12  19:20:53  sev
 # Indented and added gzip
@@ -46,7 +49,7 @@ hyp:	   $(OFILES)
 $(OFILES): $(HFILES)
 
 clean:
-	/bin/rm *.[ob~]
+	/bin/rm -f *.[ob~]
 	strip hyp
 	ci $(CFILES) $(HFILES) makefile
 	co -l makefile
