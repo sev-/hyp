@@ -1,10 +1,13 @@
 /*
- *  $Id: blocks.c,v 1.1 1993/03/20 14:27:27 sev Exp $
+ *  $Id: blocks.c,v 1.2 1993/03/28 17:56:17 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: blocks.c,v $
- * Revision 1.1  1993/03/20 14:27:27  sev
+ * Revision 1.2  1993/03/28 17:56:17  sev
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/03/20  14:27:27  sev
  * Initial revision
  *
  * Revision 1.1  1993/03/19  17:48:53  sev
@@ -18,11 +21,6 @@
 COUNT edstartcut()
 {
   cutbuf = (VCEDBUF *)vcalloc(1, sizeof(VCEDBUF *), vcdebug);
-  cutbuf->bflinelen = vcedval.linlen;
-  cutbuf->bffline = (DBDP)0;
-  cutbuf->bfbline = (DBDP)0;
-  cutbuf->bfnlines = 0l;
-  cutbuf->bfctrl = VCEDFFIL;
 
   if((cutbuf->bfdnum = dbmsxopn(-1,sizeof(VCEDLINE) + cutbuf->bflinelen,
 	0,1,0,vcedval.pages,vcedval.slots)) == (DBP)0)
@@ -30,6 +28,11 @@ COUNT edstartcut()
      askmsg("Editor Error","Can't alloc cut buffer",0);
      return 0;
   }
+  cutbuf->bflinelen = vcedval.linlen;
+  cutbuf->bffline = (DBDP)0;
+  cutbuf->bfbline = (DBDP)0;
+  cutbuf->bfnlines = 0l;
+  cutbuf->bfctrl = VCEDFFIL;
 }
 
 COUNT begin_mark(vced)
@@ -43,6 +46,15 @@ VCED *vced;
 COUNT copy_block(vced)
 VCED *vced;
 {
+  DBDP i, lptr;
+  VCEDLINE *line;
+
+/*  for(i = vced->edaline; i <= vced->edcline; i++)
+  {
+    line = vcedgline(vced->edbuffer, vced->edaline);
+    vcedaline(cutbuf, line->ltext, line->lused);
+*/    vcedaline(cutbuf, "second", 6);
+
   vced->edaline = (DBDP)0;
   vced->edupval = VCEDUPDALL;
 }
@@ -55,5 +67,21 @@ VCED *vced;
 COUNT paste_block(vced)
 VCED *vced;
 {
-}
+  VCEDLINE *line;
+  DBDP prev, next;
+  int i;
 
+/*
+  line = vcedgline(vced->edbuffer, vced->edcline);
+  prev = line->lprev;
+  next = line->lnext;
+*/
+  line = vcedgline(cutbuf, 1);
+
+  for(i = 0; i < cutbuf->bfnlines; i++, prev ++, next ++)
+  {
+    vcedaline(vced->edbuffer, line->ltext, line->lused);
+    line = vcednline(cutbuf, line);
+  }    
+  vced->edupval = VCEDUPDALL;
+}
