@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.8 1994/11/12 19:20:53 sev Exp $
+#  $Id: makefile,v 1.9 1995/03/24 16:16:10 sev Exp $
 #
 #
 #  $Log: makefile,v $
-#  Revision 1.8  1994/11/12 19:20:53  sev
-#  Indented and added gzip
+#  Revision 1.9  1995/03/24 16:16:10  sev
+#  added good RCS feature
+#
+# Revision 1.8  1994/11/12  19:20:53  sev
+# Indented and added gzip
 #
 # Revision 1.7  1994/03/05  21:56:56  sev
 # o
@@ -28,18 +31,30 @@
 # Initial revision
 #
 #
-CFLAGS	   = -O
+CC = gcc
 
-OFILES	   = edit_str.o gunzip.o hyp.o lib_hyp.o print_seg.o print_pg.o search.o
+CFLAGS = -O
+
+CFILES = edit_str.c gunzip.c hyp.c lib_hyp.c print_seg.c print_pg.c search.c
+HFILES = hyp.h
+
+OFILES = edit_str.o gunzip.o hyp.o lib_hyp.o print_seg.o print_pg.o search.o
 
 hyp:	   $(OFILES)
 	   gcc $(CFLAGS) -o hyp $(OFILES) -lvc
-.c.o:
-	   gcc $(CFLAGS) -c $<
 
-$(OFILES): hyp.h
+$(OFILES): $(HFILES)
 
 clean:
 	/bin/rm *.[ob~]
 	strip hyp
-	ci *.[ch] makefile
+	ci $(CFILES) $(HFILES) makefile
+	co -l makefile
+	gzip -9 RCS/*
+
+$(CFILES) $(HFILES): RCS/hyp.c,v
+	co -l $(CFILES) $(HFILES)
+
+RCS/hyp.c,v:
+	gunzip RCS/*.gz
+
