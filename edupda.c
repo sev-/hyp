@@ -1,10 +1,13 @@
 /*
- *  $Id: edupda.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edupda.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edupda.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * edsetfta changed
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.2  1993/03/27  12:08:16  kas
@@ -16,7 +19,7 @@
  *
  */
 
-static char rcsid[]="$Id: edupda.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: edupda.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 
 #include <string.h>
@@ -53,7 +56,7 @@ VCED *vced;                         /* Pointer to edit structure            */
   (vced->edupval & VCEDUPDEOL) )       /* Update character to eol           */
   {
     lptr = vcedgline(vced->edbuffer,vced->edcline);
-    edsetfta(lptr,from,to,stat_);
+    edsetfta(vced, vced->edcline, lptr,from,to,stat_);
     edprtline(vced,vced->edcline,from,to,stat_);
   }                                 /*                                      */
   if(vced->edupval & VCEDUPDPCHAR)  /* Update previous char                 */

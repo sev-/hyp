@@ -1,10 +1,13 @@
 /*
- *  $Id: edinscon.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edinscon.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edinscon.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * edsetfta changed
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.2  1993/03/15  13:47:31  sev
@@ -16,7 +19,7 @@
  *
  */
 
-static char rcsid[]="$Id: edinscon.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: edinscon.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 
 #define SP_BAR "											"
@@ -68,7 +71,7 @@ COUNT mode;
     sprintf(ins,"\033<%2d-%2d;%s;%s>",start,end,seg_name,file_name);
 
   cline = vcedmline(vced->edbuffer,line);
-  edsetfta(cline,from,to,stat_);
+  edsetfta(vced, line, cline,from,to,stat_);
   ptr=(char *)cline->ltext;
 
   if( from[0] == -1 )

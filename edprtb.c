@@ -1,10 +1,13 @@
 /*
- *  $Id: edprtb.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edprtb.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edprtb.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * good mark segments. Maybe bugs
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.5  1993/04/05  16:01:33  kas
@@ -26,11 +29,13 @@
  *
  */
 
-static char rcsid[]="$Id: edprtb.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: edprtb.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 #include <math.h>
 #include <string.h>
 #include "vced.h"
+
+extern int flagsegm;
 
 /* ------------------------------------------------------------------------ */
 
@@ -49,7 +54,7 @@ VCED *vced;                         /* Pointer to edit structure            */
   edbuf = vced->edbuffer;                       /* Get buffer pointer       */
   wptr = vced->edwptr;                          /* Window to use            */
   depth = wrows(wptr);                          /* Get depth                */
-
+  
   woff();                                       /* Freeze output to screen  */
   werase(wptr,-1);                              /* Erase Window             */
   cdbdp = vced->edtline;                        /* Assign current dbase ptr */
@@ -60,7 +65,7 @@ VCED *vced;                         /* Pointer to edit structure            */
   (row < depth) )                               /*  and not at bottom       */
   {                                             /*                          */
 
-    edsetfta(lptr,from,to,stat_);               /* Find settings            */
+    edsetfta(vced, crow, lptr,from,to,stat_);               /* Find settings            */
     wat(wptr,row++,vced->edlmar);               /* Next row                 */
     if(strstr(lptr->ltext,"\014")!=0)
       watsay(wptr,row-1,0,"-----------------------------------------------------------------------------");
@@ -81,7 +86,9 @@ VCED *vced;                         /* Pointer to edit structure            */
 
 /* ------------------------------------------------------------------------ */
 
-VOID edsetfta(lptr,from,to,stat_)
+VOID edsetfta(vced, crow, lptr, from, to, stat_)
+VCED *vced;
+LONG crow;                  /* Current row evaluating               */
 VCEDLINE *lptr;
 COUNT from[];                       /* Начало поля                          */
 COUNT to[];                         /* Конец  поля                          */
@@ -116,6 +123,51 @@ COUNT stat_[];
     to[i]=atoi(to_);
     i++;
   }
+  if(flagsegm)
+  {
+    if(crow == vced->edcrow)            
+        {                               
+        if(vced->edarow < vced->edcrow) 
+            {                           
+            from[i] = 0;                  
+	    to[i] = vcedval.linlen;
+        stat_[i]=0;
+          }                           
+        else if(vced->edarow == vced->edcrow) 
+            {                           
+            from[i] = 0;
+	    to[i] = vcedval.linlen;
+        stat_[i]=0;
+            }                           
+        else                            
+            {                           
+	    from[i] = 0;
+            to[i] = vcedval.linlen;       
+        stat_[i]=0;
+            }                           
+        }                               
+    else if(crow == vced->edarow)       
+        {                               
+        if(vced->edcrow < vced->edarow) 
+            {                           
+            from[i] = 0;                  
+            to[i] = vced->edachar;        
+        stat_[i]=0;
+            }                           
+        else                            
+          {                           
+	    from[i] = 0;
+            to[i] = vcedval.linlen;       
+        stat_[i]=0;
+            }                           
+        }                               
+    else if(((crow > vced->edarow) && (crow < vced->edcrow)) ||
+            ((crow < vced->edarow) && (crow > vced->edcrow)) )
+        {                               
+        from[i] = 0;                      
+        to[i] = vcedval.linlen;           
+      stat_[i]=0;
+        }
+  }
 }
 
-/* ------------------------------------------------------------------------ */

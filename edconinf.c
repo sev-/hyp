@@ -1,10 +1,13 @@
 /*
- *  $Id: edconinf.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edconinf.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edconinf.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * edsetfta changed
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.3  1993/04/05  16:01:33  kas
@@ -19,7 +22,7 @@
  *
  */
 
-static char rcsid[]="$Id: edconinf.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: edconinf.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 
 #include "vced.h"
@@ -59,7 +62,7 @@ VCED *vced;
   if(vced->edcline == (DBDP)0)	      /* If not on real line	  */
      vcedmkreal(vced);		      /* Make the current loc real*/
   cline=vcedmline(vced->edbuffer,vced->edcline);
-  edsetfta(cline,from,to,stat_);
+  edsetfta(vced, vced->edcline, cline,from,to,stat_);
   col_str=vced->edcchar;
 
   while( from[i]!=-1)

@@ -1,10 +1,13 @@
 /*
- *  $Id: editor.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: editor.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: editor.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * drawseg removed
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.10  1993/04/05  16:01:33  kas
@@ -41,7 +44,7 @@
  *
  */
 
-static char rcsid[]="$Id: editor.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: editor.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 #include <ctype.h>
 #include <unistd.h>
@@ -247,8 +250,8 @@ TEXT **argv;                                    /* Command line arg.        */
       {
     strcpy(tmpfile1->mesg,privyz.mesg);
     edprtbuf(curwdo->vcedwvced);
-	  strcpy(cfile->drawseg.draw_name,privyz.name_seg);
-     }
+/*	  strcpy(cfile->drawseg.draw_name,privyz.name_seg);
+*/     }
 
       if(stat_hyp==PRIV_SEGWDO && (key_dir==SCRN_SEG || key_dir==INF_CONC))
 	     privmsg(curwdo->vcedwvced);

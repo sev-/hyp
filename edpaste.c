@@ -1,10 +1,13 @@
 /*
- *  $Id: edpaste.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edpaste.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edpaste.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.3  1993/03/25  12:22:15  kas
@@ -20,7 +23,7 @@
  *
  */
 
-static char rcsid[]="$Id: edpaste.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: edpaste.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 
 #define WIND 1
@@ -45,7 +48,7 @@ VCED *vced;
   if(vced->edcline == (DBDP)0)	      /* If not on real line	  */
      vcedmkreal(vced);		      /* Make the current loc real*/
   cline=vcedmline(vced->edbuffer,vced->edcline);
-  edsetfta(cline,from,to,stat_);
+  edsetfta(vced, vced->edcline, cline,from,to,stat_);
   col_str=vced->edcchar;
 
   while( from[i]!=-1)
@@ -110,7 +113,7 @@ VCED *vced;
   }
 
   cline=vcedmline(vced->edbuffer,privyz.line);
-  edsetfta(cline,from,to,stat_);
+  edsetfta(vced, privyz.line, cline,from,to,stat_);
   col_str=privyz.cchar;
 
   while( from[i]!=-1)

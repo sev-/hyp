@@ -1,10 +1,13 @@
 /*
- *  $Id: edstruct.h,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edstruct.h,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edstruct.h,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * drawseg deleted
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 3.2  1993/04/01  14:10:29  kas
@@ -126,7 +129,7 @@ struct  {
 	      char name_seg[NAME_LEN];
 	}privyz;
 
-struct draw       {
+/*struct draw       {
 		       COUNT segs[SEGOFLINE];
 		       COUNT draw_name[NAME_LEN];
 		       char name[SEGOFLINE][NAME_LEN];
@@ -135,6 +138,7 @@ struct draw       {
 		       LONG crow_end[SEGOFLINE];
 		       LONG crow_beg[SEGOFLINE];
 		};
+*/
 SELSET *dirr;
 SELSET *listwdo;
 
@@ -161,8 +165,8 @@ struct VCEDFILE
 	COUNT vcedfachr;                    /* Anchor character         */
 	COUNT vcedfoff;                     /* File offset              */
 	COUNT vcedcolseg;                   /* Number segments          */
-	struct draw drawseg;
-	TEXT   mesg[80];
+/*	struct draw drawseg;
+*/	TEXT   mesg[80];
 };
 
 char dir_file[80];                         /* имя dir - файла с расширением */

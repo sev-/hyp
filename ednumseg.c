@@ -1,10 +1,13 @@
 /*
- *  $Id: ednumseg.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: ednumseg.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: ednumseg.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * delete one bug with num_seg_of_file
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.5  1993/04/05  16:01:33  kas
@@ -25,7 +28,7 @@
  *
  */
 
-static char rcsid[]="$Id: ednumseg.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: ednumseg.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 #include "vced.h"
 
@@ -51,4 +54,5 @@ char *name_file;
       i++;
     tmp = tmp->inext;
   }
+  col_seg_of_file = i;
 }

@@ -1,10 +1,13 @@
 /*
- *  $Id: edhmark.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edhmark.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edhmark.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * edsetfta changed
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.4  1993/04/06  13:40:54  kas
@@ -22,7 +25,7 @@
  *
  */
 
-static char rcsid[]="$Id: edhmark.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: edhmark.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 #include "vced.h"
 
@@ -65,7 +68,7 @@ VCED *vced;
   ungetone(POLE);
   while(more)
   {
-    edsetfta(cline,from1,to1,stat_);
+    edsetfta(vced, vced->edcline, cline,from1,to1,stat_);
     in_corr=(col_str >= 1)?to_+1:from_-1;
 
     if(correct(in_corr,from1,to1)==0 && block !=1 )
@@ -121,7 +124,7 @@ VCED *vced;
       }
       break;
     case POLE:
-      edsetfta(cline,from1,to1,stat_);
+      edsetfta(vced, vced->edcline, cline,from1,to1,stat_);
       flag_str=(flag_str==0 || flag_str== -1)?1:0;
       if(flag_str)
       {

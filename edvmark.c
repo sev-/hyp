@@ -1,10 +1,13 @@
 /*
- *  $Id: edvmark.c,v 1.1 1993/04/06 14:14:07 sev Exp $
+ *  $Id: edvmark.c,v 1.2 1993/04/08 10:37:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edvmark.c,v $
- * Revision 1.1  1993/04/06 14:14:07  sev
+ * Revision 1.2  1993/04/08 10:37:38  sev
+ * edsetfta changed
+ *
+ * Revision 1.1  1993/04/06  14:14:07  sev
  * Initial revision
  *
  * Revision 1.4  1993/04/06  13:40:54  kas
@@ -22,12 +25,14 @@
  *
  */
 
-static char rcsid[]="$Id: edvmark.c,v 1.1 1993/04/06 14:14:07 sev Exp $";
+static char rcsid[]="$Id: edvmark.c,v 1.2 1993/04/08 10:37:38 sev Exp $";
 
 
 #include <string.h>
 #include <memory.h>
 #include "vced.h"
+
+int flagsegm = 0;
 
 #define UP_TO_DN 1
 #define DN_TO_UP 0
@@ -77,6 +82,12 @@ VCED *vced;
   w=vced->edswptr;
   more=1;
 
+flagsegm = 1;
+
+vced->edaline = vced->edcline;
+vced->edachar = vced->edcchar;
+vced->edarow = vced->edcrow;
+
   ungetone(SEGM);
   while(more)
   {
@@ -94,6 +105,7 @@ VCED *vced;
     vcedaddcur(vced);
     vced->edupval =0;
     key=getone();
+vced->edupval |=VCEDUPDALL;
     switch(key)
     {
     case CUR_DOWN:
@@ -108,14 +120,14 @@ VCED *vced;
       if(col_mark>=1)
       {
 	end=row;
-	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
-	col_mark++;
+/*	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
+*/	col_mark++;
       }
       else
       {
 	start=row;
-	selbar(wdo1,row-1,0,ATR_F,wcols(wdo1));
-	col_mark++;
+/*	selbar(wdo1,row-1,0,ATR_F,wcols(wdo1));
+*/	col_mark++;
       }
       break;
 
@@ -131,14 +143,14 @@ VCED *vced;
       if(col_mark<=1)
       {
 	start=row;
-	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
-	col_mark--;
+/*	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
+*/	col_mark--;
       }
       else
       {
 	end=row;
-	selbar(wdo1,row+1,0,ATR_F,wcols(wdo1));
-	col_mark--;
+/*	selbar(wdo1,row+1,0,ATR_F,wcols(wdo1));
+*/	col_mark--;
       }
       break;
 
@@ -303,8 +315,8 @@ VCED *vced;
 	    break;
 	  }
 	row=vced->edcrow-vced->edtrow;
-	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
-	start=end=row;
+/*	selbar(wdo1,row,0,ATR_B,wcols(wdo1));
+*/	start=end=row;
 	up_crow=vced->edcrow;
 	up_line=vced->edcline;
 	mem_edtrow=vced->edtrow;
@@ -351,7 +363,7 @@ VCED *vced;
       }
       len_seg=dn_crow-up_crow;
       edprtbuf(vced);
-      i=0;
+/*      i=0;
       while(cfile->drawseg.segs[i]!=-1)
       {
 	   i++;
@@ -368,17 +380,17 @@ VCED *vced;
        cfile->drawseg.segs[i]=1;
        cfile->drawseg.beg_seg[i]=up_line;
        cfile->drawseg.crow_beg[i]=up_crow;
-       vcedempty(name_seg,NAME_LEN);
+*/       vcedempty(name_seg,NAME_LEN);
        strcpy(name_seg,vced->edbuffer->bfname);
        if((ch=strchr(name_seg,'.'))!=NULL)
 	   *ch='\0';
-       sprintf(cfile->drawseg.name[i],"%s%d",name_seg,col_seg_of_file+1);
+       sprintf(buf,"%s%d",name_seg,col_seg_of_file+1);
       if(ask_dir(vced,len_seg)==0)
       {
 	ungetone(ESC);
 	break;
       }
-      inc_seg_str(vced,up_line,dn_line,len_seg,cfile->drawseg.name[i]);
+      inc_seg_str(vced,up_line,dn_line,len_seg,buf);
       vced->edupval = VCEDUPDALL;
       vced->edsline = 1;
       more=0;
@@ -396,6 +408,11 @@ VCED *vced;
       break;
     }
   }
+vced->edaline = (DBDP)0;
+vced->edachar = -1;
+vced->edarow = -1;
+vced->edupval |= VCEDUPDALL;
+flagsegm = 0;
 }
 
 /****************************************************************************/
@@ -409,8 +426,8 @@ int start,end,atr;
   woff();
   while(start <= end)
   {
-    selbar(w,start,0,atr,wcols(w));
-    start++;
+/*    selbar(w,start,0,atr,wcols(w));
+*/    start++;
   }
   won();
 }
