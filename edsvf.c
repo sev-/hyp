@@ -1,10 +1,14 @@
 /*
- *  $Id: edsvf.c,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edsvf.c,v 1.4 1993/04/22 13:23:26 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edsvf.c,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/04/22 13:23:26  sev
+ * dir записывается один раз
+ * \
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
@@ -150,9 +154,6 @@ void askdirfile()
 COUNT edir(vced)
 VCED *vced;
 {
-   dirr = delselset(dirr);
-   edftostr();
-
    vced->edkey[0]=DIR_SEG;
    return(0);
 }

@@ -1,10 +1,14 @@
 /*
- *  $Id: eddelcon.c,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: eddelcon.c,v 1.4 1993/04/22 13:23:26 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: eddelcon.c,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/04/22 13:23:26  sev
+ * dir записывается один раз
+ * \
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * *** empty log message ***
  *
  * Revision 1.4  1993/04/15  15:05:51  kas
@@ -114,13 +118,6 @@ VCED *vced;
 		ch=strchr(buf,';');
 		*ch='\0';
 		add_refer(buf, -1);
-		if(putselset(dir_file, "w", dirr))
-		{
-			vcend(CLOSE);
-			execlp("clear","clear",(char *)NULL);
-			printf("Не могу записать в файл %s\n", dir_file);
-			exit(1);
-		}
 
 		cline->lused=strlen(cline->ltext);
 		vcedrline(vced->edbuffer,cline,line);

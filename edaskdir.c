@@ -1,10 +1,14 @@
 /*
- *  $Id: edaskdir.c,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edaskdir.c,v 1.4 1993/04/22 13:23:26 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edaskdir.c,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/04/22 13:23:26  sev
+ * dir записывается один раз
+ * \
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * *** empty log message ***
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
@@ -81,14 +85,6 @@ int len_seg;
   sprintf(tmp1,"%s (%s) %%%d",mesg_of_seg,vced->edbuffer->bfname, len_seg);
 
   addselitm(dirr,tmp1,name_seg);
-
-  if(putselset(dir_file, "w", dirr))
-  {
-    vcend(CLOSE);
-    execlp("clear","clear",(char *)NULL);
-    printf("Не могу записать в файл %s\n", dir_file);
-    exit(1);
-  }
 
   wclose(w_);
 

@@ -1,10 +1,14 @@
 /*
- *  $Id: edpaste.c,v 1.4 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edpaste.c,v 1.5 1993/04/22 13:23:26 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edpaste.c,v $
- * Revision 1.4  1993/04/20 16:04:12  sev
+ * Revision 1.5  1993/04/22 13:23:26  sev
+ * dir записывается один раз
+ * \
+ *
+ * Revision 1.4  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.5  1993/04/19  16:36:31  kas
@@ -68,13 +72,6 @@ VCED *vced;
 			ed_del_conc(vced);
 			ed_ins_conc(vced,vced->edcline,from[i],to[i],privyz.name_seg,privyz.name_file,1);
 			add_refer(privyz.name_seg, 1);
-			if(putselset(dir_file, "w", dirr))
-			{
-				vcend(CLOSE);
-				execlp("clear","clear",(char *)NULL);
-				printf("Не могу записать в файл %s\n", dir_file);
-				exit(1);
-			}
 			ask_msg("Привязка произведена успешно.",0);
 		}
 	}

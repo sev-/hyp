@@ -1,10 +1,14 @@
 /*
- *  $Id: edinitstr.h,v 1.2 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edinitstr.h,v 1.3 1993/04/22 13:23:26 sev Exp $
  *
  * --------------------------------------------------------------------------
  *
  * $Log: edinitstr.h,v $
- * Revision 1.2  1993/04/20 16:04:12  sev
+ * Revision 1.3  1993/04/22 13:23:26  sev
+ * dir записывается один раз
+ * \
+ *
+ * Revision 1.2  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.4  1993/04/19  16:36:31  kas
@@ -55,7 +59,7 @@ VCEDCMD vcedcmds[] =
 
    (TEXT *)"Новый файл.                     F12 ",NEW_FILE,ednewf,
    (TEXT *)"Следующий файл.                 F14 ",NEXT_FILE,ednextf,
-   (TEXT *)"Запись файла.                   F16 ",SAVE_BUF,edsavef,
+/* (TEXT *)"Запись файла.                   F16 ",SAVE_BUF,edsavef, */
    (TEXT *)"Удалить текущий файл из окна.   F15 ",DEL_FILE,eddelf,
    (TEXT *)"Cписок файлов  в редакторе      F11 ",LISTWDO,edlistwdo,
    (TEXT *)"Cписок файлов  в каталоге       F13 ",FILES,edfiles,

@@ -1,10 +1,14 @@
 /*
- *  $Id: editor.c,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: editor.c,v 1.4 1993/04/22 13:23:26 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: editor.c,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/04/22 13:23:26  sev
+ * dir записывается один раз
+ * \
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.4  1993/04/19  16:36:31  kas
@@ -366,6 +370,13 @@ TEXT **argv;                                    /* Command line arg.        */
 				{
 				case 0:
 					curfile = vcedfiles;
+					if(putselset(dir_file, "w", dirr))
+					{
+						vcend(CLOSE);
+						execlp("clear","clear",(char *)NULL);
+						printf("Не могу записать в файл %s\n", dir_file);
+						exit(1);
+					}
 					while(curfile != (struct VCEDFILE *)0)
 					{
 						if(curfile->vcedfstat)
