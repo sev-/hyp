@@ -1,11 +1,14 @@
 /*
- *  $Id: mted.c,v 1.4 1993/03/17 13:01:34 sev Exp $
+ *  $Id: mted.c,v 1.5 1993/03/19 16:18:38 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  *  $Log: mted.c,v $
- *  Revision 1.4  1993/03/17 13:01:34  sev
- *  Добавлен mted.h
+ *  Revision 1.5  1993/03/19 16:18:38  sev
+ *  Delete some bugs
+ *
+ * Revision 1.4  1993/03/17  13:01:34  sev
+ * Добавлен mted.h
  *
  * Revision 1.3  1993/03/15  14:58:47  sev
  * Опущено окно на одну строку
@@ -22,10 +25,7 @@
  *
 */
 
-#define VCGET_DEFS
-#include <vcstdio.h>
-#include <vcdbms.h>
-#include <vced.h>
+#include "mted.h"
 
 #define DEFILE (TEXT *)"noname.hyp"
 

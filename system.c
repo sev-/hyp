@@ -1,10 +1,13 @@
 /*
- *  $Id: system.c,v 1.3 1993/03/17 13:01:34 sev Exp $
+ *  $Id: system.c,v 1.4 1993/03/19 16:18:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: system.c,v $
- * Revision 1.3  1993/03/17 13:01:34  sev
+ * Revision 1.4  1993/03/19 16:18:38  sev
+ * Delete some bugs
+ *
+ * Revision 1.3  1993/03/17  13:01:34  sev
  * Добавлен mted.h
  *
  * Revision 1.2  1993/03/12  11:41:38  kas
@@ -15,9 +18,6 @@
  *
  *
 */
-
-static char rcsid[]="$Id: system.c,v 1.3 1993/03/17 13:01:34 sev Exp $";
-
 
 #include <vcstdio.h>
 
@@ -79,7 +79,7 @@ system(s)
 char *s;
 {
   int status, pid, w, tty1;
-  int (*istat)(), (*qstat)();
+  void (*istat)(), (*qstat)();
   extern char *programme;
 
   fflush(stdout);

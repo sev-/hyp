@@ -1,11 +1,14 @@
-/* ---------------------------------------------------------------- */
-/**
-*
-*   Name            vcedcmds.c - vced command structure
-*                                   
-*   Description     Tced command structure
-*
-**/
+/*
+ *  $Id: mtdefs.h,v 1.2 1993/03/19 16:18:38 sev Exp $
+ *
+ * ---------------------------------------------------------- 
+ *
+ * $Log: mtdefs.h,v $
+ * Revision 1.2  1993/03/19 16:18:38  sev
+ * Delete some bugs
+ *
+ *
+ */
 
 #define VCEDVARS
 

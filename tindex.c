@@ -1,17 +1,18 @@
 /*
  *
- * $Id: tindex.c,v 1.1 1993/03/10 08:05:42 kas Exp $
+ * $Id: tindex.c,v 1.2 1993/03/19 16:18:38 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: tindex.c,v $
- * Revision 1.1  1993/03/10 08:05:42  kas
+ * Revision 1.2  1993/03/19 16:18:38  sev
+ * Delete some bugs
+ *
+ * Revision 1.1  1993/03/10  08:05:42  kas
  * Initial revision
  *
  *
 */
-
-static char rcsid[]="$Id: tindex.c,v 1.1 1993/03/10 08:05:42 kas Exp $";
 
 tindex(s,t)          /* return index of t in s, -1 if none                  */
 

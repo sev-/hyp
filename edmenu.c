@@ -1,10 +1,13 @@
 /*
- *  $Id: edmenu.c,v 1.3 1993/03/15 14:47:57 sev Exp $
+ *  $Id: edmenu.c,v 1.4 1993/03/19 16:18:38 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: edmenu.c,v $
- * Revision 1.3  1993/03/15 14:47:57  sev
+ * Revision 1.4  1993/03/19 16:18:38  sev
+ * Delete some bugs
+ *
+ * Revision 1.3  1993/03/15  14:47:57  sev
  * Изменил структуру меню. По прежнему просто декорация.
  *
  * Revision 1.2  1993/03/14  17:23:04  sev
@@ -19,13 +22,7 @@
  *
 */
 
-static char rcsid[]="$Id: edmenu.c,v 1.3 1993/03/15 14:47:57 sev Exp $";
-
-#define VCM_DEFS            /* Include Menu Defines and structures      */
-#define VCGET_DEFS
-#include <vcstdio.h>
-#include <vcdbms.h>
-#include <vced.h>
+#include "mted.h"
 
 /* ------------------------------------------------------------------------ */
 

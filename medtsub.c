@@ -1,11 +1,14 @@
 /*
- *  $Id: medtsub.c,v 1.2 1993/03/14 17:23:04 sev Exp $
+ *  $Id: medtsub.c,v 1.3 1993/03/19 16:18:38 sev Exp $
  *
  *  --------------------------------------------------------------------------
  *
  *  $Log: medtsub.c,v $
- *  Revision 1.2  1993/03/14 17:23:04  sev
- *  Добавлено меню (не нагружено)
+ *  Revision 1.3  1993/03/19 16:18:38  sev
+ *  Delete some bugs
+ *
+ * Revision 1.2  1993/03/14  17:23:04  sev
+ * Добавлено меню (не нагружено)
  *
  * Revision 1.1  1993/03/14  12:32:14  kas
  * Initial revision
@@ -14,11 +17,7 @@
  *
 */
 
-#define VCGET_DEFS
-#include <vcstdio.h>
-#include <vcdbms.h>
-#include <vced.h>
-#include "mtdefs.h"
+#include "mted.h"
 
 /**
 *
