@@ -1,16 +1,19 @@
 /*
- *  $Id: search.c,v 1.1 1993/03/04 09:51:10 sev Exp $
+ *  $Id: search.c,v 1.2 1993/03/05 17:04:23 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: search.c,v $
- * Revision 1.1  1993/03/04 09:51:10  sev
+ * Revision 1.2  1993/03/05 17:04:23  sev
+ * теперь перелистывание страниц по сегментам
+ *
+ * Revision 1.1  1993/03/04  09:51:10  sev
  * Initial revision
  *
  *
 */
 
-static char rcsid[]="$Id: search.c,v 1.1 1993/03/04 09:51:10 sev Exp $";
+static char rcsid[]="$Id: search.c,v 1.2 1993/03/05 17:04:23 sev Exp $";
 
 #include "hyp.h"
 
@@ -23,7 +26,6 @@ FILE *file;
   long old_position;
   int more = 1;
   int errorwind;
-  char *finded;
   char end[80];
 
   sprintf(end, "\033)%s", current_seg);
@@ -51,7 +53,7 @@ FILE *file;
         stop = 1;
         break;
       }
-      if((finded = find(buf_pg[i], old_pattern))!=(char *)NULL)
+      if(find(buf_pg[i], old_pattern))
       {
         stop = 1;
         break;
@@ -85,7 +87,6 @@ FILE *file;
   long old_position;
   int more = 1;
   int errorwind;
-  char *finded;
   char beg[80];
 
   sprintf(beg, "\033(%s", current_seg);
@@ -115,7 +116,7 @@ FILE *file;
         stop = 1;
         break;
       }
-      if((finded = find(buf_pg[i], old_pattern))!=(char *)NULL)
+      if(find(buf_pg[i], old_pattern))
       {
         stop = 1;
         break;
@@ -146,27 +147,27 @@ FILE *file;
   }
 }
 
-char *find(string, pattern)
-char *string;
+char *find(str, pattern)
+char *str;
 char *pattern;
 {
   char *p;
 
   p = pattern;
 
-  while(*p && *string && *string != '\033')
+  while(*p && *str && *str != '\033')
   {
-    if(*string++ != *p++)
+    if(*str++ != *p++)
       p = pattern;
   }
   if(!*p)
-    return string;
+    return str;
   else
     return 0;
 }
 
-void show_finded(row, more)
-int row;
+void show_finded(line, more)
+int line;
 int more;
 {
   int j;
@@ -176,7 +177,7 @@ int more;
   erase();
   print_pg(more, 0, 0, wdo1);
   xatsay(22, 40 - strlen(help_string)/2, help_string, ATTR_B);
-  for(j = row; j < more; j++)
+  for(j = line; j < more; j++)
   {
     finded = buf_pg[j];
     while((finded = find(finded, old_pattern))!=(char *)NULL)

@@ -1,16 +1,19 @@
 /*
- *  $Id: hyp.c,v 1.1 1993/03/04 09:50:50 sev Exp $
+ *  $Id: hyp.c,v 1.2 1993/03/05 17:04:23 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: hyp.c,v $
- * Revision 1.1  1993/03/04 09:50:50  sev
+ * Revision 1.2  1993/03/05 17:04:23  sev
+ * теперь перелистывание страниц по сегментам
+ *
+ * Revision 1.1  1993/03/04  09:50:50  sev
  * Initial revision
  *
  *
 */
 
-static char rcsid[]="$Id: hyp.c,v 1.1 1993/03/04 09:50:50 sev Exp $";
+static char rcsid[]="$Id: hyp.c,v 1.2 1993/03/05 17:04:23 sev Exp $";
 
 /*
 	Файл hyp.c
@@ -278,7 +281,6 @@ char *argv[];
           break;
         case HOME_FILE_KEY:
           find_begin_seg(infile);
-          _open = _close = level = 0;
           for(i = 0; i <= col_str; i++)
             strcpy(buf_pg[i], "\0");
           strcpy(path_file, current_file);
@@ -293,8 +295,6 @@ char *argv[];
           strcpy(path_file, current_file);
           more = 0;
           pg_up = 1;
-          _open = level = 1;
-          _close = 0;
           break;
         case FORWARD_SEARCH_KEY:	/* search forward */
           forward_search(infile);
