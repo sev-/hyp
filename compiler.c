@@ -1,10 +1,13 @@
 /*
- * $Id: compiler.c,v 1.13 1995/02/06 14:14:27 sev Exp $
+ * $Id: compiler.c,v 1.14 1995/03/02 14:16:45 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: compiler.c,v $
- * Revision 1.13  1995/02/06 14:14:27  sev
+ * Revision 1.14  1995/03/02 14:16:45  sev
+ * Added some changes to output message
+ *
+ * Revision 1.13  1995/02/06  14:14:27  sev
  * added verbose message
  *
  * Revision 1.12  1994/11/18  17:59:22  sev
@@ -404,6 +407,7 @@ char *name;
     gzip(name, tmpname);
     rename(tmpname, name);
   }
-  printf("Compiling file %s...%03.5g%% Done\n", name, 100.0*bytes_out/bytes_in);
+  printf("Compiling file %s...%dK %03.5g%% Done\n", name, (bytes_in+1023)/1024,
+						100.0*bytes_out/bytes_in);
   return 1;
 }
