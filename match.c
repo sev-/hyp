@@ -1,13 +1,18 @@
 /*
 **
-**  $Id: match.c,v 1.1 1993/03/11 08:59:58 kas Exp $
+**  $Id: match.c,v 1.2 1993/03/26 11:45:43 sev Exp $
 **
 **  --------------------------------------------------------------------------
 **
 **  $Log: match.c,v $
-**  Revision 1.1  1993/03/11 08:59:58  kas
-**  Initial revision
+**  Revision 1.2  1993/03/26 11:45:43  sev
+**  Убрал все лишнее
+**  \
+**  .
 **
+ * Revision 1.1  1993/03/11  08:59:58  kas
+ * Initial revision
+ *
 **
 **  --------------------------------------------------------------------------
 **
@@ -53,11 +58,7 @@
 
     /* What character marks an inverted character class? */
 #define NEGATE_CLASS		'^'
-    /* Is "*" a common pattern? */
-#define OPTIMIZE_JUST_STAR
-    /* Do tar(1) matching rules, which ignore a trailing slash? */
-#undef MATCH_TAR_PATTERN
-
+    /* "*" is a common pattern */
 
 /*
 **  Match text and p, return TRUE, FALSE, or ABORT.
@@ -68,8 +69,6 @@ DoMatch(text, p)
     register char	*text;
     register char	*p;
 {
-#ifndef INDEX_DAEMON
-
     register int	last;
     register int	matched;
     register int	reverse;
@@ -120,13 +119,7 @@ DoMatch(text, p)
 	}
     }
 
-#ifdef	MATCH_TAR_PATTERN
-    if (*text == '/')
-	return TRUE;
-#endif	/* MATCH_TAR_ATTERN */
     return *text == '\0';
-
-#endif	/* INDEX_DAEMON */
 }
 
 /*
@@ -137,9 +130,8 @@ wildmat(text, p)
     char	*text;
     char	*p;
 {
-#ifdef	OPTIMIZE_JUST_STAR
     if (p[0] == '*' && p[1] == '\0')
 	return TRUE;
-#endif	/* OPTIMIZE_JUST_STAR */
+
     return DoMatch(text, p) == TRUE;
 }
