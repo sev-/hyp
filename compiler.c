@@ -1,10 +1,13 @@
 /*
- *  $Id: compiler.c,v 1.3 1993/05/24 13:47:39 sev Exp $
+ *  $Id: compiler.c,v 1.4 1993/05/25 17:22:43 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: compiler.c,v $
- * Revision 1.3  1993/05/24 13:47:39  sev
+ * Revision 1.4  1993/05/25 17:22:43  sev
+ * Кой-чего тут подправил несущественное
+ *
+ * Revision 1.3  1993/05/24  13:47:39  sev
  * Убрал обидную ошибку в отчетк
  * 	ю
  *
@@ -17,7 +20,7 @@
  *
  */
 
-static char rcsid[]="$Id: compiler.c,v 1.3 1993/05/24 13:47:39 sev Exp $";
+static char rcsid[]="$Id: compiler.c,v 1.4 1993/05/25 17:22:43 sev Exp $";
 
 /*
 	Файл compiler.c
@@ -92,6 +95,7 @@ char **argv;
     }
 
     printf("Компилируется файл : %s",argv[2]);
+    fflush(stdout);
     fseek(current_file,0l,SEEK_SET);
     compile(&current_file);
     printf("\rОткомпилирован файл : %s\n",argv[2]);
@@ -257,13 +261,14 @@ char **argv;
     if(( (last_time_modify > last_time_modify_config)) ||( flag==1))
     {
       printf("Компилируется файл : %s",path_file);
+      fflush(stdout);
       fseek(current_file,0l,SEEK_SET);
       compile(&current_file);
       printf("\rОткомпилирован файл : %s\n",path_file);
     }
-    else
+/*    else
       printf("Файл %s был уже откомпилирован \n",path_file);
-
+*/
     fseek(in_file_table,main_pointer_in_file,SEEK_SET);
     yes_no_compile = 0;
     fprintf(in_file_table,"%d",yes_no_compile);
