@@ -1,10 +1,13 @@
 /*
- *  $Id: compiler.c,v 1.8 1994/06/18 15:16:15 sev Exp $
+ *  $Id: compiler.c,v 1.9 1994/06/18 16:36:48 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: compiler.c,v $
- * Revision 1.8  1994/06/18 15:16:15  sev
+ * Revision 1.9  1994/06/18 16:36:48  sev
+ * I was a stupid idiot, when didn't delete a trace message
+ *
+ * Revision 1.8  1994/06/18  15:16:15  sev
  * Added date control (to avoid unnecessary compilation)
  *
  * Revision 1.7  1994/04/26  11:17:22  sev
@@ -123,7 +126,6 @@ char *filename;
   }
   fclose(conf_file);
 
-  printf("Last mod = %ld\n", last_modify);
   begin_file = (char *)strrchr(path, '/');	/* выделние пути и имени */
   *(begin_file ++) = '\0';
 
