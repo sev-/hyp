@@ -1,10 +1,13 @@
 /*
- * $Id: lib_hyp.c,v 1.6 1995/03/30 13:52:39 sev Exp $
+ * $Id: lib_hyp.c,v 1.7 1995/06/13 14:18:40 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: lib_hyp.c,v $
- * Revision 1.6  1995/03/30 13:52:39  sev
+ * Revision 1.7  1995/06/13 14:18:40  sev
+ * All windows type changed to WPTR
+ *
+ * Revision 1.6  1995/03/30  13:52:39  sev
  * Added progress indicator
  *
  * Revision 1.5  1995/01/12  12:24:01  sev
@@ -23,7 +26,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: lib_hyp.c,v 1.6 1995/03/30 13:52:39 sev Exp $";
+static char rcsid[] = "$Id: lib_hyp.c,v 1.7 1995/06/13 14:18:40 sev Exp $";
 
 /*
  * Файл lib_hyp.c Запорожье 1992.
@@ -68,7 +71,7 @@ int ask_msg(msg, mode)
 TEXT *msg;
 int mode;
 {
-  int w;
+  WPTR w;
   int len_msg, width, row_u, key, more = 1, y_n = 0;
 
   len_msg = strlen(msg);
@@ -200,7 +203,7 @@ void init_help()		  /* установка помощи для каждого т�
 
 int help_msg()			  /* функция вызывается по F1 */
 {
-  int help_w;			  /* окно помощи			 */
+  WPTR help_w;			  /* окно помощи			 */
   int i;
 
   help_w = wxopen(10 - sizeof(help_sm_wind) / sizeof(char *) / 2,

@@ -1,10 +1,13 @@
 /*
- * $Id: edit_str.c,v 1.2 1994/11/12 19:20:53 sev Exp $
+ * $Id: edit_str.c,v 1.3 1995/06/13 14:18:40 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: edit_str.c,v $
- * Revision 1.2  1994/11/12 19:20:53  sev
+ * Revision 1.3  1995/06/13 14:18:40  sev
+ * All windows type changed to WPTR
+ *
+ * Revision 1.2  1994/11/12  19:20:53  sev
  * Indented and added gzip
  * Revision 1.1  1994/03/05  21:56:56  sev Initial revision
  * 
@@ -13,7 +16,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: edit_str.c,v 1.2 1994/11/12 19:20:53 sev Exp $";
+static char rcsid[] = "$Id: edit_str.c,v 1.3 1995/06/13 14:18:40 sev Exp $";
 
 #define VCKEY_DEFS
 #include<string.h>
@@ -82,7 +85,7 @@ char destattr;
   char *pos_beg;		  /* начало видимой части текста */
   char *cursorpos_s;		  /* указатель на позицию курсора в строке */
   int ret_status;		  /* возвращаемое значение */
-  int wdo;			  /* указатель на окно */
+  WPTR wdo;			  /* указатель на окно */
   int mode;			  /* текущий режим ( вставка, замена ) переключение ПТ */
 
   /* зарезервировать буфер для редактирования строки размера buffersize */
@@ -91,7 +94,7 @@ char destattr;
 
   /* открыть окно */
   if ((wdo = wxopen(row - 1, start_col - 1, row + 1, end_col + 1, title,
-	     BORDER + BD1 + ACTIVE + CURSOR + NOADJ + CURTAIN, 0, 0)) == -1)
+	     BORDER + BD1 + ACTIVE + CURSOR + NOADJ + CURTAIN, 0, 0)) == (WPTR)NULL)
     return 0;
 
   /* вычислить промежуточные значения */
@@ -558,7 +561,7 @@ void init_edit_string_help()	  /* установка помощи для каж�
 
 void edit_string_help_msg()	  /* функция вызывается по F1 */
 {
-  int edit_string_help_w;	  /* окно помощи			 */
+  WPTR edit_string_help_w;	  /* окно помощи			 */
   int i;
 
   edit_string_help_w = wxopen(10 - sizeof(edit_string_help_sm_wind) / sizeof(char *) / 2,

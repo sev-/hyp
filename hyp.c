@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.c,v 1.8 1995/03/30 13:52:39 sev Exp $
+ * $Id: hyp.c,v 1.9 1995/06/13 14:18:40 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.c,v $
- * Revision 1.8  1995/03/30 13:52:39  sev
+ * Revision 1.9  1995/06/13 14:18:40  sev
+ * All windows type changed to WPTR
+ *
+ * Revision 1.8  1995/03/30  13:52:39  sev
  * Added progress indicator
  *
  * Revision 1.7  1995/01/12  12:24:01  sev
@@ -31,7 +34,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: hyp.c,v 1.8 1995/03/30 13:52:39 sev Exp $";
+static char rcsid[] = "$Id: hyp.c,v 1.9 1995/06/13 14:18:40 sev Exp $";
 
 /*
  * Файл hyp.c Запорожье 1993-1995.
@@ -94,7 +97,7 @@ char *argv[];
 
   if (argc < 2)
   {
-    puts("Просмотрщик гипертекста. Версия 2.3\n\n\
+    puts("Просмотрщик гипертекста. Версия 2.4\n\n\
  Использование:\n\t\thyp file\n");
     exit(1);
   }
@@ -155,6 +158,7 @@ char *argv[];
   vcstart(CLRSCRN);
   vckeyrdy = 0;
   wdo1 = wxopen(0, 0, 23, 79, (char *) NULL, ACTIVE + CURSOR + COOKED + NOADJ, 0, 0);
+  wdoctrl->wbgdisplay = TRUE;
   init_help();
 
   /*-------------------------------------------------------------------------*/
@@ -404,3 +408,4 @@ char *argv[];
     }
   }
 }
+

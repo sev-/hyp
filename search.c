@@ -1,10 +1,13 @@
 /*
- * $Id: search.c,v 1.5 1994/11/12 19:20:53 sev Exp $
+ * $Id: search.c,v 1.6 1995/06/13 14:18:40 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: search.c,v $
- * Revision 1.5  1994/11/12 19:20:53  sev
+ * Revision 1.6  1995/06/13 14:18:40  sev
+ * All windows type changed to WPTR
+ *
+ * Revision 1.5  1994/11/12  19:20:53  sev
  * Indented and added gzip
  * Revision 1.4  1993/09/16  15:12:06  sev Убрал весьма крутой глюк
  * orward_serch (странно искал тексты, встре чающиеся больше одного раза)
@@ -19,7 +22,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: search.c,v 1.5 1994/11/12 19:20:53 sev Exp $";
+static char rcsid[] = "$Id: search.c,v 1.6 1995/06/13 14:18:40 sev Exp $";
 
 #include "hyp.h"
 
@@ -31,7 +34,7 @@ FILE *file;
   long position;
   long old_position;
   int more = 1;
-  int errorwind;
+  WPTR errorwind;
 
   old_position = end_super;
   end_super = atol(buf_pg[col_str] + 1);
@@ -88,7 +91,7 @@ FILE *file;
   long position;
   long old_position;
   int more = 1;
-  int errorwind;
+  WPTR errorwind;
   char beg[80];
 
   sprintf(beg, "\033(%s", current_seg);
