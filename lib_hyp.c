@@ -1,10 +1,13 @@
 /*
- * $Id: lib_hyp.c,v 1.5 1995/01/12 12:24:01 sev Exp $
+ * $Id: lib_hyp.c,v 1.6 1995/03/30 13:52:39 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: lib_hyp.c,v $
- * Revision 1.5  1995/01/12 12:24:01  sev
+ * Revision 1.6  1995/03/30 13:52:39  sev
+ * Added progress indicator
+ *
+ * Revision 1.5  1995/01/12  12:24:01  sev
  * changed help
  *
  * Revision 1.4  1994/12/16  11:01:07  sev
@@ -20,7 +23,7 @@
  * 
  */
 
-static char rcsid[] = "$Id: lib_hyp.c,v 1.5 1995/01/12 12:24:01 sev Exp $";
+static char rcsid[] = "$Id: lib_hyp.c,v 1.6 1995/03/30 13:52:39 sev Exp $";
 
 /*
  * Файл lib_hyp.c Запорожье 1992.
@@ -30,6 +33,8 @@ static char rcsid[] = "$Id: lib_hyp.c,v 1.5 1995/01/12 12:24:01 sev Exp $";
 #include <string.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <unistd.h>
+#include <signal.h>
 
 /*----------------------------------------------------------------------*/
 /* функция возвращает offset в файле начала сегмента                    */
@@ -214,10 +219,15 @@ int help_msg()			  /* функция вызывается по F1 */
 char template[] = "/tmp/hypXXXXXX";
 int temporaryfile;
 
+long loadfilesize;
+void printprogress (), nullfunc ();
+
 FILE *datfopen(fname, mode)
 char *fname, *mode;
 {
   FILE *in;
+  long fsize[4];
+  extern long bytes_out;
 
   if(template[10] == 'X')
     mktemp(&template);
@@ -226,8 +236,22 @@ char *fname, *mode;
     return (FILE *)NULL;
   if(fgetc(in) == 0x1f && fgetc(in) == 0x8b)	/* if gzipped */
   {
+    fseek (in, -4, SEEK_END);
+    fsize[0] = getc (in);
+    fsize[1] = getc (in);
+    fsize[2] = getc (in);
+    fsize[3] = getc (in);
+    loadfilesize = fsize[0] | (fsize[1] << 8) | (fsize[2] << 16) |
+			(fsize[3] << 24);
     fclose(in);
+    bytes_out = 0;
+    printprogress ();
     gunzip(fname, template);
+    woff ();
+    atsay(22, 0, "    ");
+    at (0, 0);
+    won ();
+    signal(SIGALRM, *nullfunc);
     temporaryfile = 1;
     return(fopen(template, mode));
   }
@@ -245,3 +269,24 @@ FILE *file;
   if(temporaryfile)
     remove(template);
 }
+
+void printprogress()
+{
+  extern long bytes_out;
+  static long old_bytes_out = 0;
+  char tmp[80];
+
+  if (bytes_out != old_bytes_out)
+  {
+    sprintf(tmp, "%.0f%%", 100.0*bytes_out/loadfilesize);
+    woff ();
+    atsay(22, 0, tmp);
+    at (0, 0);
+    won ();
+    old_bytes_out = bytes_out;
+  }
+  alarm(1);
+  signal(SIGALRM, *printprogress);
+}
+
+void nullfunc () {}

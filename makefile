@@ -1,10 +1,13 @@
 #
-#  $Id: makefile,v 1.11 1995/03/24 16:22:11 sev Exp $
+#  $Id: makefile,v 1.12 1995/03/30 13:52:39 sev Exp $
 #
 #
 #  $Log: makefile,v $
-#  Revision 1.11  1995/03/24 16:22:11  sev
-#  *** empty log message ***
+#  Revision 1.12  1995/03/30 13:52:39  sev
+#  Added progress indicator
+#
+# Revision 1.11  1995/03/24  16:22:11  sev
+# *** empty log message ***
 #
 # Revision 1.10  1995/03/24  16:17:06  sev
 # Fixed a little bug with rm
@@ -42,7 +45,7 @@ CC = gcc
 CFLAGS = -O
 
 CFILES = edit_str.c gunzip.c hyp.c lib_hyp.c print_seg.c print_pg.c search.c
-HFILES = hyp.h
+HFILES = hyp.h gunzip.h
 
 OFILES = edit_str.o gunzip.o hyp.o lib_hyp.o print_seg.o print_pg.o search.o
 

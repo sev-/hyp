@@ -32,6 +32,7 @@ unsigned insize;		  /* valid bytes in inbuf */
 unsigned inptr;			  /* index of next byte to be processed in
 				   * inbuf */
 unsigned outcnt;		  /* bytes in output buffer */
+ulg orig_len = 0;		  /* original uncompressed length */
 
 
 gunzip(ifile, ofile)
@@ -309,7 +310,7 @@ int in;				  /* input file descriptor */
  * advantageous) for a repeat code (16, 17, or 18) to go across the boundary
  * between the two sets of lengths.
  * 
- * "$Id: gunzip.c,v 1.1 1994/11/12 19:20:53 sev Exp $";
+ * "$Id: gunzip.c,v 1.2 1995/03/30 13:52:39 sev Exp $";
  */
 
 #define slide window
@@ -1208,7 +1209,7 @@ int inflate()
  * only the first entry is extracted, and it has to be either deflated or
  * stored.
  * 
- * "$Id: gunzip.c,v 1.1 1994/11/12 19:20:53 sev Exp $";
+ * "$Id: gunzip.c,v 1.2 1995/03/30 13:52:39 sev Exp $";
  */
 
 /* PKZIP header definitions */
@@ -1236,7 +1237,6 @@ void unzip(in, out)
 int in, out;			  /* input and output file descriptors */
 {
   ulg orig_crc = 0;		  /* original crc */
-  ulg orig_len = 0;		  /* original uncompressed length */
   int n;
   uch buf[EXTHDR];		  /* extended local header */
 
@@ -1354,7 +1354,7 @@ int in, out;			  /* input and output file descriptors */
  * util.c -- utility functions for gzip support Copyright (C) 1992-1993
  * Jean-loup Gailly This is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License, see the file
- * COPYING. "$Id: gunzip.c,v 1.1 1994/11/12 19:20:53 sev Exp $";
+ * COPYING. "$Id: gunzip.c,v 1.2 1995/03/30 13:52:39 sev Exp $";
  */
 
 extern ulg crc_32_tab[];	  /* crc table, defined below */

@@ -1,10 +1,13 @@
 /*
- * $Id: hyp.c,v 1.7 1995/01/12 12:24:01 sev Exp $
+ * $Id: hyp.c,v 1.8 1995/03/30 13:52:39 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: hyp.c,v $
- * Revision 1.7  1995/01/12 12:24:01  sev
+ * Revision 1.8  1995/03/30 13:52:39  sev
+ * Added progress indicator
+ *
+ * Revision 1.7  1995/01/12  12:24:01  sev
  * cd RCS
  * gzip -9 *&
  *
@@ -28,10 +31,10 @@
  * 
  */
 
-static char rcsid[] = "$Id: hyp.c,v 1.7 1995/01/12 12:24:01 sev Exp $";
+static char rcsid[] = "$Id: hyp.c,v 1.8 1995/03/30 13:52:39 sev Exp $";
 
 /*
- * Файл hyp.c Запорожье 1993.
+ * Файл hyp.c Запорожье 1993-1995.
  */
 
 #include "hyp.h"
@@ -91,7 +94,7 @@ char *argv[];
 
   if (argc < 2)
   {
-    puts("Просмотрщик гипертекста. Версия 2.2\n\n\
+    puts("Просмотрщик гипертекста. Версия 2.3\n\n\
  Использование:\n\t\thyp file\n");
     exit(1);
   }
