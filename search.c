@@ -1,10 +1,14 @@
 /*
- *  $Id: search.c,v 1.3 1993/03/05 17:29:01 sev Exp $
+ *  $Id: search.c,v 1.4 1993/09/16 15:12:06 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: search.c,v $
- * Revision 1.3  1993/03/05 17:29:01  sev
+ * Revision 1.4  1993/09/16 15:12:06  sev
+ * Убрал весьма крутой глюк в forward_serch (странно искал тексты, встре
+ * чающиеся больше одного раза)
+ *
+ * Revision 1.3  1993/03/05  17:29:01  sev
  * теперь и поиск работает по сегментам.
  *
  * Revision 1.2  1993/03/05  17:04:23  sev
@@ -16,7 +20,7 @@
  *
 */
 
-static char rcsid[]="$Id: search.c,v 1.3 1993/03/05 17:29:01 sev Exp $";
+static char rcsid[]="$Id: search.c,v 1.4 1993/09/16 15:12:06 sev Exp $";
 
 #include "hyp.h"
 
@@ -38,7 +42,8 @@ FILE *file;
   else
     old_position = end_super;
 
-  pg_open = pg_close = 0;
+  pg_open = (end_super == 0)? 0 : 1;
+  pg_close = 0;
 
   if(!edit_string(10, 10, 70, 256, old_pattern, " Поиск вперед ", ATTR_B, ATTR_F))
   	return;
@@ -49,7 +54,7 @@ FILE *file;
     if(!(more = read_screen(file, end_super)))
       continue;
     if(pg_open == pg_close)
-      stop = 1;
+      stop = 2;
 
     for(i = 0; i < more; i++)
       if(find(buf_pg[i], old_pattern))
@@ -60,7 +65,7 @@ FILE *file;
     if(!stop)
       position = end_super;
   }
-  if(!more)
+  if(stop == 2)
   {
     end_super = old_position;
     errorwind = wxopen(10, 30, 12, 50, (char *)NULL,ACTIVE+NOADJ+CURTAIN+BORDER+BD2, 0, 0);
