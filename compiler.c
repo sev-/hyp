@@ -1,10 +1,14 @@
 /*
- *  $Id: compiler.c,v 1.2 1993/05/24 13:40:10 sev Exp $
+ *  $Id: compiler.c,v 1.3 1993/05/24 13:47:39 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: compiler.c,v $
- * Revision 1.2  1993/05/24 13:40:10  sev
+ * Revision 1.3  1993/05/24 13:47:39  sev
+ * Убрал обидную ошибку в отчетк
+ * 	ю
+ *
+ * Revision 1.2  1993/05/24  13:40:10  sev
  * Добавлен новый ключ -f - компиляция только одного файла
  *
  * Revision 1.1  1993/03/01  16:00:44  sev
@@ -13,7 +17,7 @@
  *
  */
 
-static char rcsid[]="$Id: compiler.c,v 1.2 1993/05/24 13:40:10 sev Exp $";
+static char rcsid[]="$Id: compiler.c,v 1.3 1993/05/24 13:47:39 sev Exp $";
 
 /*
 	Файл compiler.c
@@ -87,10 +91,10 @@ char **argv;
       exit(1);
     }
 
-    printf("Компилируется файл : %s",path_file);
+    printf("Компилируется файл : %s",argv[2]);
     fseek(current_file,0l,SEEK_SET);
     compile(&current_file);
-    printf("\rОткомпилирован файл : %s\n",path_file);
+    printf("\rОткомпилирован файл : %s\n",argv[2]);
     fclose(current_file);
 
     exit(0);
