@@ -1,10 +1,13 @@
 /*
- *  $Id: edprtb.c,v 1.3 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edprtb.c,v 1.4 1993/09/27 13:02:11 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edprtb.c,v $
- * Revision 1.3  1993/04/20 16:04:12  sev
+ * Revision 1.4  1993/09/27 13:02:11  sev
+ * Исправлен способ выдачи конца страницы на экран
+ *
+ * Revision 1.3  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.4  1993/04/19  16:36:31  kas
@@ -65,7 +68,7 @@ VCED *vced;                         /* Pointer to edit structure            */
 		edsetfta(vced, crow, lptr,from,to,stat_);   /* Find settings            */
 		wat(wptr,row++,vced->edlmar);               /* Next row                 */
 		if(strstr(lptr->ltext,"\014")!=0)
-			watsay(wptr,row-1,0,"-----------------------------------------------------------------------------");
+			watsay(wptr,row-1,0,"--<EOP>----------------------------------------------------------------------");
 		else
 			eddisp(vced,wptr,lptr,vced->edoffset,from,to,stat_);
 		cdbdp = lptr->lnext;                        /* Assign current dbase ptr */

@@ -1,8 +1,11 @@
 #
-#  $Id: makefile,v 1.8 1993/08/18 11:44:08 sev Exp $
+#  $Id: makefile,v 1.9 1993/09/27 13:02:11 sev Exp $
 #
 # $Log: makefile,v $
-# Revision 1.8  1993/08/18 11:44:08  sev
+# Revision 1.9  1993/09/27 13:02:11  sev
+# Added clean
+#
+# Revision 1.8  1993/08/18  11:44:08  sev
 # Новый файл copy.c
 #
 # Revision 1.7  1993/06/08  12:10:31  sev
@@ -54,3 +57,7 @@ $(OBJS):	$(HFILES)
 .c.o:
 	     $(CC) -c $(CFLAGS) -I/usr/vcmu/include $<
 
+
+clean:
+	rm -f *.[ob] core
+	ci *.[ch] make*
