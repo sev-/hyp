@@ -1,11 +1,14 @@
 /*
- *  $Id: mted.c,v 1.2 1993/03/15 14:47:57 sev Exp $
+ *  $Id: mted.c,v 1.3 1993/03/15 14:58:47 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  *  $Log: mted.c,v $
- *  Revision 1.2  1993/03/15 14:47:57  sev
- *  Изменил структуру меню. По прежнему просто декорация.
+ *  Revision 1.3  1993/03/15 14:58:47  sev
+ *  Опущено окно на одну строку
+ *
+ * Revision 1.2  1993/03/15  14:47:57  sev
+ * Изменил структуру меню. По прежнему просто декорация.
  *
  * Revision 1.1  1993/03/14  12:32:14  kas
  * Initial revision
@@ -68,7 +71,7 @@ TEXT **argv;                            /* Command line arg.        */
 /* ---------------------------------------------------------------- */
 
     vcedfbuf = vcedload(vceddfil,NULLTEXT,VCEDFFIL);
-    vcedw    = vcedopen(0,0,20,78,vceddfil,-1,VCEDSTATUS,vcedfbuf,-1,-1,wptr);
+    vcedw    = vcedopen(1,0,20,78,vceddfil,-1,VCEDSTATUS,vcedfbuf,-1,-1,wptr);
     vcedit(vcedw);                      /*                          */
     vcedsave(vcedfbuf);
     vcend(CLOSE);                       /* Quit Vitamin C           */
