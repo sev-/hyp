@@ -1,20 +1,16 @@
 /*
- *  $Id: hyp.h,v 1.1 1993/03/04 09:50:53 sev Exp $
+ *  $Id: hyp.h,v 1.2 1993/03/04 10:52:15 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: hyp.h,v $
- * Revision 1.1  1993/03/04 09:50:53  sev
+ * Revision 1.2  1993/03/04 10:52:15  sev
+ * *** empty log message ***
+ *
+ * Revision 1.1  1993/03/04  09:50:53  sev
  * Initial revision
  *
  *
-*/
-
-static char rcsid[]="$Id: hyp.h,v 1.1 1993/03/04 09:50:53 sev Exp $";
-
-/*
-	Файл hyp.h
-	Запорожье 1992.
 */
 
 #define VCKEY_DEFS
