@@ -1,0 +1,41 @@
+#!/bin/ksh
+
+#   Программа завершения изменений в законах
+
+
+cd $HOMEZAKON
+
+if [[ ! -d diffs ]]
+then
+  echo error: diffs not exist
+  exit 1
+fi
+
+if [[ ! -r diffs/old_dir ]]
+then
+  echo error: startpatch didn\'t work here
+  exit 1
+fi
+
+# получаем имена новых файлов
+find zakon -name '*' -print|sort > diffs/new_dir
+
+# генерируем имена очередных patch'ей
+touch diffs/patch.000
+
+NEXTPATCH=`ls -r diffs/patch*|head -1|awk -F. '{printf "%s.%03s", $1, $2+1}'`
+NEXTNEW=`ls -r diffs/patch*|head -1|\
+		awk -F. '{printf "diffs/newfiles.%03s", $2+1}'`
+
+rm -f diffs/patch.*
+> $NEXTPATCH
+
+echo $NEXTNEW >&2
+
+# попутно обрезаем старые файлы      vvvvvvvvvvvvv
+comm -23 diffs/new_dir diffs/old_dir|grep "\.hyp$" > diffs/patch.000
+comm -23 diffs/new_dir diffs/old_dir|grep "\.vzk$" >> diffs/patch.000
+comm -23 diffs/new_dir diffs/old_dir|grep "\.[rpv]ps$" >> diffs/patch.000
+sort diffs/patch.000 > $NEXTNEW
+
+rm diffs/patch.000

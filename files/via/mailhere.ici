@@ -1,0 +1,360 @@
+#!/user/sev/bin/ici
+
+# mail parser
+
+auto names = [struct laws = "zakon", vr_p = "postvr", vr_d = "deklar",
+		km_p = "postkm", km_d = "dekret", km_r = "rozpkm",
+		pu_u = "ukprez", pu_r = "rozp", vr_pr_u = "ukprz",
+		vr_pr_p = "postpr", km_m = "norm", km_nbu = "bank",
+		misc = "add"];
+
+auto exist = [struct laws = 0, vr_p = 0, vr_d = 0, km_p = 0,
+		km_d = 0, km_r = 0, pu_u = 0, pu_r = 0,
+		vr_pr_u = 0, vr_pr_p = 0, km_m = 0, km_nbu = 0, misc = 0];
+
+auto dirfile = "glmenu.dir";
+auto mountdir = "/user/sev/hyp/patch/files/via/m/";
+
+auto article = array();
+auto numart = 0;
+
+auto infile;
+auto lines;
+
+auto i;
+
+auto groupname, tmpstr, s, c1;
+auto subject, number, date;
+
+if(argc < 2)
+  infile = stdin;
+else
+  infile = fopen(argv[1], "r");
+
+system("mnt /user/sev/hyp/patch/files/via/m");
+system("sleep 2");
+
+while(1)
+{
+  s = getline(infile);
+  if(s == NULL)
+    break;
+
+  if(interval(s, 0, 21) == "Newsgroups: zgik.law.")
+  {
+    groupname = interval(s, 21) ~~ $regexp("\\([a-z.]*\\)");
+    tmpstr = groupname[0];
+    for(i = 1; i < sizeof(groupname); i++)
+      if(groupname[i] == ".")
+        tmpstr += "_";
+      else
+        tmpstr += groupname[i];
+    groupname = tmpstr;
+    continue;
+  }
+  if(interval(s, 0, 16) == "Subject: [NEWS] ")
+  {
+    subject = interval(s, 16);
+
+    if(groupname != "km_nbu")
+    {
+      if((tmpstr = subject ~~ $regexp("\\(([N\x8c\xbcМ].*)\\)")) == NULL)
+      {
+        printf("\nBad format 1:\n%s\n", subject);
+        subject = "ppp (N 12 from 43.21.20)";
+        tmpstr = "ppp";
+      }
+
+      /* truncate subject */
+      i = sizeof(subject);
+      while(subject[i--] != "(");
+      subject = interval(subject, 0, i)+".";
+
+      /* truncate spaces */
+      c1 = tmpstr[0];
+      for(i = 1; i < sizeof(tmpstr); i++)
+        if(tmpstr[i] == " "||tmpstr[i] == "\t")
+          if(c1[sizeof(c1)-1] != " ")
+            c1 += " ";
+          else;
+        else
+          c1 += tmpstr[i];
+
+      i = 0;
+      while(c1[i] !~ $regexp("\\([0-9]\\)"))
+        i++;
+      number = interval(c1, i) ~~ $regexp("\\([абвгab0-9]*\\)");
+
+      i = sizeof(c1)-1;
+      while(c1[i] != " ")
+        i--;
+
+      if((tmpstr = interval(c1, i+1) ~~ $regexp("\\([0-9.]*\\)")) == NULL)
+        printf("\nBad format 2\n");
+
+    }
+    else	/* gropuname = "km_nbu" */
+      ;
+    i = 0;
+    date = tmpstr[i+1] == "." ? "0" : tmpstr[i++];
+    date += tmpstr[i++];	/* second number of day */
+    date += tmpstr[i++];	/* point */
+    date += tmpstr[i+1] == "." ? "0" : tmpstr[i++];
+    date += tmpstr[i++];	/* second number of month*/
+    date += tmpstr[i++];	/* point */
+    date += tmpstr[i++];	/* year */
+    date += tmpstr[i++];	/* year */
+    if(date[6]+date[7] == ""||sizeof(date) < 8)
+      printf("\nBad subject\n");
+  }	/* if Subject */
+  if(sizeof(s) == 0)	/* (there is empty line between title and law) */
+  {
+    article[numart] = struct
+    (
+      "num", number,
+      "date", date,
+      "year", int(date[6]+date[7]),
+      "subj", subject,
+      "fname", "f"+sprintf("%04d", int(number ~~ $regexp("\\([0-9]*\\)")))
+						+"_"+interval(date, 6),
+      "group", names[groupname],
+      "fullname", names[groupname]+"/"+"f"+
+		sprintf("%04d", int(number ~~ $regexp("\\([0-9]*\\)")))
+						+"_"+interval(date, 6),
+      "text", "",
+      "lines_in_text", 0,
+      "length", 0
+    );
+    printf("%s  \n", article[numart].fullname+".hyp");
+    flush(stdout);
+    exist[groupname]++;
+
+# write new file
+auto prevlen;
+auto outfile;
+    lines = 0;
+    while(((s = getline(infile)) != NULL) && (interval(s, 0, 5) != "From "))
+      article[numart].length++;
+    numart++;
+    if(s == NULL)
+      break;
+  }
+}
+
+/*
+          1         2         3         4         5         6         7
+0123456789012345678901234567890123456789012345678901234567890123456789012345678
+  1. |     98 | 01.08.90 | Про забезпечення ў обслуговування Голови Верховно∙ |
+
+   8         9         0         1
+90123456789012345678901234567890123456789
+[<06-13;t009800;postpr/t009800.hyp>
+*/
+
+# form texts
+
+auto firstline;
+auto col;
+auto j, k;
+auto word;
+
+printf("Generating titles...\r");
+flush(stdout);
+
+for(i = 0; i < numart; i++)
+{
+  article[i].text = sprintf("     |%8s| %s |", article[i].num ~~
+				$regexp("\\([^ ]*\\)"), article[i].date);
+  tmpstr = article[i].subj;
+
+  firstline = 1;
+  col = 27;
+
+  do
+  {
+    for(j = 0; tmpstr[j] == " "; j++);
+    for(; j < sizeof(tmpstr) && tmpstr[j] != " "; j++);
+
+    word = interval(tmpstr, 0, j);
+    tmpstr = interval(tmpstr, j+1);
+
+    if(col+sizeof(word) >= 78)
+    {
+      for(k = col; k < 79; k++)
+        article[i].text += " ";
+      article[i].text += "|";
+      if(firstline == 1)
+      {
+        firstline = 0;
+        article[i].text += sprintf("\033<06-13;%s1;%s>", article[i].fullname,
+			article[i].fullname+".hyp");
+      }
+      article[i].text += "\n     |        |          |";
+      article[i].lines_in_text++;
+      col = 27;
+    }
+    article[i].text += " "+word;
+    col += sizeof(word)+1;
+  } while(sizeof(tmpstr) != 0);
+
+  for(k = col; k < 79; k++)
+    article[i].text += " ";
+  article[i].text += "|";
+
+  if(firstline == 1)
+    article[i].text += sprintf("\033<06-13;%s1;%s>", article[i].fullname,
+		article[i].fullname+".hyp");
+
+  article[i].text += "\n";
+  article[i].lines_in_text++;
+}	/* i < numart */
+
+printf("Generating titles...Done\n");
+flush(stdout);
+
+# modifing list files
+
+auto key, value;
+auto listfile, tmpfile;
+auto curlines;
+auto lines_in_text;
+auto number_of_text;
+auto togroup;
+auto indextogroup, numtogroup;
+
+forall(value, key in exist)
+  if(value)
+  {
+    try
+      listfile = fopen(mountdir+names[key]+"/"+names[key]+".hyp", "r");
+    onerror
+      fail(sprintf("\nCan't open file %s/%s.hyp\n", names[key], names[key]));
+    try
+      tmpfile = fopen(names[key]+".hyp", "w");
+    onerror
+      fail(sprintf("\nCan't open temp file %s.hyp\n", names[key]));
+ 
+    printf("Processing file %s.hyp (insert %d file%s)...Sorting\r",
+					names[key], value, value==1?"":"s");
+    flush(stdout);
+    /* go to begin list */
+    curlines = 0;
+    number_of_text = 1;
+    do
+    {
+      s = getline(listfile);
+      fprintf(tmpfile, "%s\n", s);
+      curlines++;
+    } while(s[0] != "-");
+
+/* sorting articles */
+    togroup = array();
+    indextogroup = 0;
+    numtogroup = 0;
+
+    for(i = 0; i < numart; i++)
+      if(article[i].group == names[key])
+        togroup[numtogroup++] = struct
+        (
+          "num", int(article[i].num ~~ $regexp("\\([ 0-9]*\\)")),
+          "year", article[i].year,
+          "index", i
+        );
+
+    /* sorting (bubble) */
+    auto m, pocket;
+    for(i = 0; i < numtogroup; i++)
+    {
+      m = i;
+      for(j = i+1; j < numtogroup; j++)
+        if(togroup[j].year < togroup[m].year ||
+		(togroup[j].year == togroup[m].year &&
+			togroup[j].num < togroup[m].num))
+          m = j;
+      pocket = togroup[i]; togroup[i] = togroup[m]; togroup[m] = pocket;
+    }
+      
+    printf("Processing file %s.hyp (insert %d file%s)...Writing\r",
+				names[key], numtogroup, numtogroup==1?"":"s");
+    flush(stdout);
+    tmpstr = getline(listfile)+"\n";
+    do
+    {
+      lines_in_text = 1;
+      while(1)
+      {
+        s = getline(listfile)+"\n";
+        if(s[0] == "-")
+          break;
+        if(toint(s[0]) == 0x0c)
+          continue;
+        if(!(s[0] == s[1] && s[1] == s[2] && s[2] == s[3] && s[3] == s[4]))
+          break;	/* not continue string */
+        tmpstr += s;
+        lines_in_text++;
+      }
+
+      /* there is in tmpstr is text */
+      if(indextogroup < numtogroup)
+      {
+        while(indextogroup < numtogroup &&
+		(togroup[indextogroup].year < int(tmpstr[22]+tmpstr[23]) ||
+		(togroup[indextogroup].year == int(tmpstr[22]+tmpstr[23]) &&
+		togroup[indextogroup].num < int(interval(tmpstr, 6, 8) ~~
+					$regexp("\\([ 0-9]*\\)")))))
+        {
+          i = togroup[indextogroup].index;
+          if(curlines + article[i].lines_in_text > 19)
+          {
+            fprintf(tmpfile, "\014________\n");
+            curlines = 0;
+          }
+	  fprintf(tmpfile, "%4d.%s", number_of_text,
+			interval(article[i].text, 5));
+	  number_of_text++;
+	  curlines += article[i].lines_in_text;
+	  indextogroup++;
+	}
+        if(indextogroup < numtogroup &&
+		togroup[indextogroup].year == int(tmpstr[22]+tmpstr[23]) &&
+		togroup[indextogroup].num == int(interval(tmpstr, 6, 8) ~~
+					$regexp("\\([ 0-9]*\\)")))
+	  indextogroup++;
+      }
+      if(curlines + lines_in_text > 19)
+      {
+        fprintf(tmpfile, "\014________\n");
+        curlines = 0;
+      }
+      fprintf(tmpfile, "%4d.%s", number_of_text, interval(tmpstr, 5));
+      number_of_text++;
+      curlines += lines_in_text;
+      tmpstr = s;
+    } while(s[0] != "-"); /* till not end of list */
+
+    while(indextogroup < numtogroup)	/* add latest laws */
+    {
+      i = togroup[indextogroup].index;
+      if(curlines + article[i].lines_in_text > 19)
+      {
+        fprintf(tmpfile, "\014________\n");
+        curlines = 0;
+      }
+      fprintf(tmpfile, "%4d.%s", number_of_text, interval(article[i].text, 5));
+      number_of_text++;
+      curlines += article[i].lines_in_text;
+      indextogroup++;
+    }
+
+    s = interval(s, 0, sizeof(s)-1);
+    do		/* put rest of file */
+      fprintf(tmpfile, "%s\n", s);
+    while((s = getline(listfile)) != NULL);
+
+    flush(listfile);
+    close(listfile);
+    printf("Processing file %s.hyp (insert %d file%s)...Done       \n",
+					names[key], value, value==1?"":"s");
+    system("sleep 2");
+  }	/* if value */
+system("umnt /user/sev/hyp/patch/files/via/m");

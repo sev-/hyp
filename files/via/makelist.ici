@@ -1,0 +1,71 @@
+#!/user/sev/bin/ici
+
+# this programm process mailbox with list of usenet articles
+# it makes needs file
+
+auto infile, outfile;
+auto s;
+
+if(argc < 2)
+  infile = stdin;
+else
+  infile = fopen(argv[1], "r");
+
+auto i = 0;
+
+try
+  outfile = fopen("needs", "r");
+onerror
+{
+  outfile = fopen("needs", "w");
+  i = -1;
+}
+if(i == 0)
+  fail("File needs exist!");
+
+s = getline(infile);
+
+auto numfiles = 0;
+auto total = 0;
+
+while(1)
+{
+  s = getline(infile);
+  if(s == NULL)
+    break;
+  
+  if(interval(s, 0, 6) == "Date: ")
+  {
+    printf("%s...", interval(s, 6, 23));
+    flush(stdout);
+    continue;
+  }
+  if(interval(s, 0, 5) == "From ")
+  {
+    printf("%d file%s\n", numfiles, numfiles==1?"":"s");
+    numfiles = 0;
+  }
+  if(interval(s, 0, 6) == "GROUP ")
+  {
+    fprintf(outfile, "%s\n", s);
+    continue;
+  }
+  if(interval(s, 0, 5) == "-ART ")
+  {
+    do
+    {
+      fprintf(outfile, "%s\n", interval(s, 1));
+      numfiles++;
+      total++;
+      do
+      {
+ 	s = getline(infile);
+      } while(s[0] == ">");
+    } while(sizeof(s) != 0);	/* (there is empty line between groups) */
+  }
+}
+
+printf("%d file%s\n", numfiles, numfiles==1?"":"s");
+printf("%d file%s total\n", total, total==1?"":"s");
+close(infile);
+close(outfile);

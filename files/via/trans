@@ -1,0 +1,8 @@
+#!/bin/sh
+# `translate law files
+
+for i in $* 
+do
+  cat $i|tr "╢╕┤╖╣╡i╓╫╘├" "Ў°Їў∙їўў∙їЇ" >$i.
+  mv $i. $i
+done

@@ -1,0 +1,9 @@
+#!/bin/ksh
+
+#   Программа инициализации перед изменениями в законах
+
+cd $HOMEZAKON
+
+find zakon -name '*' -print|sort > diffs/old_dir
+
+rm -f diffs/new_dir 2>/dev/null

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd m
+for i in *
+do
+  l $i/$i.hyp ../../files/via/$i.hyp
+done 2>/dev/null
