@@ -1,10 +1,13 @@
 /*
- * $Id: compiler.c,v 1.15 1995/03/24 16:08:03 sev Exp $
+ * $Id: compiler.c,v 1.16 1995/03/30 13:29:58 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: compiler.c,v $
- * Revision 1.15  1995/03/24 16:08:03  sev
+ * Revision 1.16  1995/03/30 13:29:58  sev
+ * Added good feature in message (progress indicator)
+ *
+ * Revision 1.15  1995/03/24  16:08:03  sev
  * Added time checking (got from very old version)
  *
  * Revision 1.14  1995/03/02  14:16:45  sev
@@ -40,6 +43,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <signal.h>
 
 #define PATHLEN 256
 #define BUF	1024
@@ -55,6 +59,8 @@ typedef struct FILESTACK	  /* стэк файлов */
 FILESTACK *current;
 int fail = 0;
 time_t last_modify;
+char *compilefilename;
+long compilefilesize;
 
 void go_conf();
 void refer();
@@ -63,6 +69,8 @@ char *find();
 int newfile();
 int oldfile();
 void parser();
+void printprogress();
+void nullfunc ();
 
 main(argc, argv)
 int argc;
@@ -72,7 +80,7 @@ char **argv;
 
   if (argc < 2)
   {
-    puts("Компилятор гипертекста. Версия 2.3\n\n\
+    puts("Компилятор гипертекста. Версия 2.4\n\n\
  Использование:\n\t\tcompiler [-f] file\n");
     return 1;
   }
@@ -391,7 +399,7 @@ char *name;
   else
     rewind(in_file);
 
-  printf("Compiling file %s...\r", name);
+  printf("Compiling file %s...", name);
   fflush(stdout);
   while (fgets(string, BUF, in_file) != (char *) NULL)
   {
@@ -413,10 +421,33 @@ char *name;
   if(strcmp(name, "glmenu.hyp"))	/* glmenu is never compiled */
   {
     sprintf(tmpname, "%s..", name);
+    compilefilename = name;
+    compilefilesize = Statbuf.st_size;
+    bytes_out = 0;
+    printprogress ();
     gzip(name, tmpname);
+    signal(SIGALRM, *nullfunc);
     rename(tmpname, name);
   }
-  printf("Compiling file %s...%dK %03.5g%% Done\n", name, (bytes_in+1023)/1024,
+  printf("\rCompiling file %s...%dK %03.5g%% Done\n", name, (bytes_in+1023)/1024,
 						100.0*bytes_out/bytes_in);
   return 1;
 }
+
+void printprogress()
+{
+  extern long bytes_in;
+  static long old_bytes_in = 0;
+
+  if (bytes_in != old_bytes_in)
+  {
+    printf("\rCompiling file %s...%.0f%% Done", compilefilename,
+		99.0*bytes_in/compilefilesize);
+    fflush (stdout);
+    old_bytes_in = bytes_in;
+  }
+  alarm(1);
+  signal(SIGALRM, *printprogress);
+}
+
+void nullfunc () {}
