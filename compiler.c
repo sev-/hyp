@@ -1,10 +1,13 @@
 /*
- * $Id: compiler.c,v 1.14 1995/03/02 14:16:45 sev Exp $
+ * $Id: compiler.c,v 1.15 1995/03/24 16:08:03 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: compiler.c,v $
- * Revision 1.14  1995/03/02 14:16:45  sev
+ * Revision 1.15  1995/03/24 16:08:03  sev
+ * Added time checking (got from very old version)
+ *
+ * Revision 1.14  1995/03/02  14:16:45  sev
  * Added some changes to output message
  *
  * Revision 1.13  1995/02/06  14:14:27  sev
@@ -69,7 +72,7 @@ char **argv;
 
   if (argc < 2)
   {
-    puts("Компилятор гипертекста. Версия 2.2\n\n\
+    puts("Компилятор гипертекста. Версия 2.3\n\n\
  Использование:\n\t\tcompiler [-f] file\n");
     return 1;
   }
@@ -365,11 +368,17 @@ char *name;
   char tmpname[1024];
 
   extern long bytes_in, bytes_out;
+
+  struct stat Statbuf;
   
-  current_pg = 0;		  /* */
-  previous_pg = 0;		  /* Инициализация переменных        */
-  previous_work = 0;		  /* */
-  current_work = 0;		  /* */
+  current_pg = 0;
+  previous_pg = 0;
+  previous_work = 0;
+  current_work = 0;
+
+  stat (name, &Statbuf);
+  if (Statbuf.st_mtime < last_modify)
+    return 0;
 
   if ((in_file = fopen(name, "r+")) == (FILE *) NULL)
     return 0;
