@@ -1,10 +1,13 @@
 /*
- *  $Id: compiler.c,v 1.6 1994/04/26 11:12:08 sev Exp $
+ *  $Id: compiler.c,v 1.7 1994/04/26 11:17:22 sev Exp $
  *
  * ---------------------------------------------------------- 
  *
  * $Log: compiler.c,v $
- * Revision 1.6  1994/04/26 11:12:08  sev
+ * Revision 1.7  1994/04/26 11:17:22  sev
+ * Another bug...
+ *
+ * Revision 1.6  1994/04/26  11:12:08  sev
  * Added -f flag
  *
  * Revision 1.5  1993/06/08  12:09:42  sev
@@ -226,7 +229,7 @@ char	  *string, *path;
 
   if((tmpfil = fopen(curr_file, "r+")) == (FILE *)NULL)
   {
-    printf("Не могу открыть фалй %s.\n", curr_file);
+    printf("Не могу открыть файл %s.\n", curr_file);
     fail = 1;
     return 0;
   }
@@ -312,8 +315,6 @@ char *name;
   if((in_file = fopen(name, "r+")) == (FILE *)NULL)
     return 0;
 
-  printf("Компилируется файл %s", name);
-
   while( fgets(string,BUF,in_file) != (char *)NULL )
   {
 
@@ -331,6 +332,6 @@ char *name;
     fseek(in_file,current_work,SEEK_SET);
   }
   fclose(in_file);
-  printf("\rОткомпилирован файл %s\n", name);
+  printf("Откомпилирован файл %s\n", name);
   return 1;
 }
