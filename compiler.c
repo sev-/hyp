@@ -1,10 +1,13 @@
 /*
- * $Id: compiler.c,v 1.16 1995/03/30 13:29:58 sev Exp $
+ * $Id: compiler.c,v 1.17 1995/06/30 12:12:27 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: compiler.c,v $
- * Revision 1.16  1995/03/30 13:29:58  sev
+ * Revision 1.17  1995/06/30 12:12:27  sev
+ * Added -g key
+ *
+ * Revision 1.16  1995/03/30  13:29:58  sev
  * Added good feature in message (progress indicator)
  *
  * Revision 1.15  1995/03/24  16:08:03  sev
@@ -61,6 +64,7 @@ int fail = 0;
 time_t last_modify;
 char *compilefilename;
 long compilefilesize;
+int dont_gzip = 0;
 
 void go_conf();
 void refer();
@@ -80,8 +84,8 @@ char **argv;
 
   if (argc < 2)
   {
-    puts("Компилятор гипертекста. Версия 2.4\n\n\
- Использование:\n\t\tcompiler [-f] file\n");
+    puts("Компилятор гипертекста. Версия 2.5\n\n\
+ Использование:\n\t\tcompiler [-g] [-f] file\n");
     return 1;
   }
 
@@ -93,6 +97,13 @@ char **argv;
       while (++carg < argc)
 	compile(argv[carg]);
       return 0;
+    }
+
+    if (!strcmp(argv[carg], "-g"))
+    {
+      dont_gzip = 1;
+      carg++;
+      continue;
     }
 
     go_conf(argv[carg]);
@@ -418,7 +429,7 @@ char *name;
   }
   fclose(in_file);
 
-  if(strcmp(name, "glmenu.hyp"))	/* glmenu is never compiled */
+  if(strcmp(name, "glmenu.hyp") || !dont_gzip)	/* glmenu is never compiled */
   {
     sprintf(tmpname, "%s..", name);
     compilefilename = name;
