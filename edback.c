@@ -1,11 +1,14 @@
 /*
- *  $Id: edback.c,v 1.2 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edback.c,v 1.3 1993/05/24 15:12:43 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  *  $Log: edback.c,v $
- *  Revision 1.2  1993/04/20 16:04:12  sev
- *  *** empty log message ***
+ *  Revision 1.3  1993/05/24 15:12:43  sev
+ *  Добавлена запись файлов в директорию сохранения
+ *
+ * Revision 1.2  1993/04/20  16:04:12  sev
+ * *** empty log message ***
  *
  * Revision 1.3  1993/04/15  15:05:51  kas
  * *** empty log message ***
@@ -40,14 +43,32 @@
 #include <vcdbms.h>
 #include <vced.h>
 
+TEXT *genback();
+
 COUNT vcedback(edbuf)
 VCEDBUF *edbuf;             /* Edit buffer                          */
     {                       /* ------------------------------------ */
-    TEXT backname[60];      /* File backup name                     */
-    TEXT *eptr;             /* End of line pointer for return char  */
-    TEXT *vcgetenv();                   /* Get environment          */
+    TEXT *backname;
+
     if(vcfaccess(edbuf->bfname,0))      /* If file does not exist   */
         return(0);                      /* Exit                     */
+
+    backname = genback(edbuf);
+
+    if(!vcfaccess(backname,0))          /* If backup file exists    */
+        vcferase(backname);             /* Erase backup file        */
+
+    rename(edbuf->bfname,backname);     /* Make backup of file      */
+    return(0);                          /* Return no errors         */
+    }                                   /* ------------------------ */
+
+TEXT *genback(edbuf)
+VCEDBUF *edbuf;             /* Edit buffer                          */
+{
+    TEXT backname[128];      /* File backup name                     */
+    TEXT *eptr;             /* End of line pointer for return char  */
+    TEXT *vcgetenv();                   /* Get environment          */
+
     if((eptr = vcgetenv("VCBACKUP")) != NULLTEXT)   /* If backup dir*/
         {                               /*                          */
         strcpy(backname,eptr);          /* Move to backup name      */
@@ -61,9 +82,6 @@ VCEDBUF *edbuf;             /* Edit buffer                          */
       backname[strlen(backname)-2] = '\0'; /* Обрезаем два последних символа */
     strcat(backname, ".b");
 
-    if(!vcfaccess(backname,0))          /* If backup file exists    */
-        vcferase(backname);             /* Erase backup file        */
-    rename(edbuf->bfname,backname);     /* Make backup of file      */
-    return(0);                          /* Return no errors         */
-    }                                   /* ------------------------ */
+    return backname;
+}
 
