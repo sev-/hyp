@@ -1,10 +1,13 @@
 /*
- * $Id: compiler.c,v 1.17 1995/06/30 12:12:27 sev Exp $
+ * $Id: compiler.c,v 1.18 1995/12/12 07:55:51 sev Exp $
  * 
  * ----------------------------------------------------------
  * 
  * $Log: compiler.c,v $
- * Revision 1.17  1995/06/30 12:12:27  sev
+ * Revision 1.18  1995/12/12 07:55:51  sev
+ * Fixed bug with over 100% while compiling
+ *
+ * Revision 1.17  1995/06/30  12:12:27  sev
  * Added -g key
  *
  * Revision 1.16  1995/03/30  13:29:58  sev
@@ -84,8 +87,8 @@ char **argv;
 
   if (argc < 2)
   {
-    puts("Компилятор гипертекста. Версия 2.5\n\n\
- Использование:\n\t\tcompiler [-g] [-f] file\n");
+    puts("Hypertext compiler. Версия 2.6\n\n\
+ Use:\n\t\tcompiler [-g] [-f] file\n");
     return 1;
   }
 
@@ -435,6 +438,7 @@ char *name;
     compilefilename = name;
     compilefilesize = Statbuf.st_size;
     bytes_out = 0;
+    bytes_in = 0;
     printprogress ();
     gzip(name, tmpname);
     signal(SIGALRM, *nullfunc);
