@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#define INDLEN 30
+#define INDLEN 56
 #define SIZEBUF 65536
 
 filecopy(innam, outnam)
@@ -11,12 +11,12 @@ char *innam, *outnam;
   long filelen;
   struct stat tmpstat;
   FILE *in, *out;
-  long bytes;
+  long bytes = 0;
   int stepbytes;
   char *inbuf, *outbuf;
   WPTR win;
 
-  win = wxopen(5, 23, 11, 57, " Copy ", BORDER+ACTIVE+CURTAIN+NOADJ, BD2, 0,0);
+  win = wxopen(5, 10, 11, 70, " Copy ", BORDER+ACTIVE+NOADJ, BD2, 0,0);
 
   atsay(1, 1, outnam);
   if((in = fopen(innam, "r")) == (FILE *)NULL)
@@ -33,7 +33,8 @@ char *innam, *outnam;
 
   stat(innam, &tmpstat);
   filelen = tmpstat.st_size;
-  if((stepbytes = filelen/INDLEN) < 5120)
+  stepbytes = filelen/INDLEN;
+  if(stepbytes < 5120)
     stepbytes = 5120;
 
   while(!feof(in))
@@ -54,12 +55,15 @@ Indicator(len)
 int len;
 {
   int i, j;
+  char ind[INDLEN+5];
 
   j = len*INDLEN/100 + 1;
   for(i = 0; i < j; i ++)
-    atsay(3, i+1, "█");
+    ind[i] = '█';
   for(; i < INDLEN; i ++)
-    atsay(3, i+1, "░");
+    ind[i] =  '░';
+  ind[i] = 0;
+  atsay(3, 1, ind);
 }
 
 #ifdef TEST
