@@ -1,10 +1,13 @@
 /*
- *  $Id: edinsseg.c,v 1.2 1993/04/20 16:04:12 sev Exp $
+ *  $Id: edinsseg.c,v 1.3 1993/05/28 10:51:07 sev Exp $
  *
  * ---------------------------------------------------------------------------
  *
  * $Log: edinsseg.c,v $
- * Revision 1.2  1993/04/20 16:04:12  sev
+ * Revision 1.3  1993/05/28 10:51:07  sev
+ * убран здешний глюк
+ *
+ * Revision 1.2  1993/04/20  16:04:12  sev
  * a
  *
  * Revision 1.4  1993/04/15  15:05:51  kas
@@ -108,10 +111,10 @@ TEXT *name_seg;
 			strins(ch,ins);
 		else
 		{
-			vcedempty(ins,30);
 			sprintf(ins,"\033(%s",name_seg);
-			vcedempty(ins_tmp,30);
-			strncat(ins_tmp,SP_BAR,80-line->lused);
+			*ins_tmp = 0;
+			strncat(ins_tmp,SP_BAR,(80-line->lused < 0 ? 0
+						: 80-line->lused));
 			strcat(ins_tmp,ins);
 			strins(prom+line->lused,ins_tmp);
 		}
@@ -162,7 +165,7 @@ TEXT *name_seg;
 int strins(where,what)
 char *where,*what;
 {
-	char buf[512];
+	char buf[5120];
 
 	strcpy(buf,where);
 	strcpy(where,what);

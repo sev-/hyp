@@ -1,8 +1,11 @@
 #
-#  $Id: makefile,v 1.5 1993/05/24 15:14:24 sev Exp $
+#  $Id: makefile,v 1.6 1993/05/28 10:51:07 sev Exp $
 #
 # $Log: makefile,v $
-# Revision 1.5  1993/05/24 15:14:24  sev
+# Revision 1.6  1993/05/28 10:51:07  sev
+# *** empty log message ***
+#
+# Revision 1.5  1993/05/24  15:14:24  sev
 # Добавлен файл записи файлов в директорию сохранения
 #
 # Revision 1.4  1993/04/29  12:38:47  sev
@@ -20,7 +23,7 @@
 #
 #
 
-CFLAGS = -Ot
+CFLAGS = -Ox
 
 CC = rcc
 
